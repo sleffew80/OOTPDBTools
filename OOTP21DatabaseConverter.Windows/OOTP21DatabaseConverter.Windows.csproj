@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>OOTP21DatabaseConverter</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;_WINDOWS_</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CSVtoODB.Shared\CsvToOdb.cs" Link="CSVtoODB\CsvToOdb.cs" />
+    <Compile Include="..\CSVtoODB.Shared\HistoricalCsvConverter.cs" Link="CSVtoODB\HistoricalCsvConverter.cs" />
+    <Compile Include="..\ODBtoCSV.Shared\HistoricalDatabaseConverter.cs" Link="ODBtoCSV\HistoricalDatabaseConverter.cs" />
+    <Compile Include="..\ODBtoCSV.Shared\OdbToCsv.cs" Link="ODBtoCSV\OdbToCsv.cs" />
+    <Compile Include="..\ODBtoCSV.Shared\StatsConverter.cs" Link="ODBtoCSV\StatsConverter.cs" />
+    <Compile Include="..\OOTPCommon.Shared\FileNames.cs" Link="OOTPCommon\FileNames.cs" />
+    <Compile Include="..\Utilities.Shared\Utilities.cs" Link="Utilities\Utilities.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CSVtoODB\" />
+    <Folder Include="OOTPCommon\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="ODBtoCSV\" />
+  </ItemGroup>
+
+</Project>
