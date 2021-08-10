@@ -27,9 +27,15 @@
 #endregion
 
 using System;
+using System.IO;
+using System.Threading.Tasks;
 
 using AppKit;
 using Foundation;
+
+using ODBtoCSV;
+using CSVtoODB;
+using Utilities;
 
 namespace OOTP21DatabaseConverter
 {
@@ -37,6 +43,7 @@ namespace OOTP21DatabaseConverter
     {
         public ViewController(IntPtr handle) : base(handle)
         {
+
         }
 
         public override void ViewDidLoad()
@@ -44,6 +51,8 @@ namespace OOTP21DatabaseConverter
             base.ViewDidLoad();
 
             // Do any additional setup after loading the view.
+            OdbToCsvProgressBar.Hidden = true;
+            CsvToOdbProgressBar.Hidden = true;
         }
 
         public override NSObject RepresentedObject
@@ -58,5 +67,74 @@ namespace OOTP21DatabaseConverter
                 // Update the view, if already loaded.
             }
         }
+
+        partial void OdbToCsvConvertButton(Foundation.NSObject sender)
+        {
+            string homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string odbFileLocation = homeFolder + "/" + OdbFileLocationTextField.StringValue;
+            string csvFileDestination = homeFolder + "/" + CsvFileDestinationTextField.StringValue;
+
+            if (!Directory.Exists(odbFileLocation))
+            {
+                Utilities.Utilities.MessageAlert("Please enter a valid directory for ODB Files Location.", "Invalid Directory!");
+            }
+            else if (!Directory.Exists(csvFileDestination))
+            {
+                Utilities.Utilities.MessageAlert("Please enter a valid directory for CSV Files Destination.", "Invalid Directory!");
+            }
+            else
+            {
+                ConvertOdbToCsv(odbFileLocation, csvFileDestination);
+            }
+        }
+
+        partial void CsvToOdbConvertButton(Foundation.NSObject sender)
+        {
+            string homeFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string csvFileLocation = homeFolder + "/" + CsvFileLocationTextField.StringValue;
+            string odbFileDestination = homeFolder + "/" + OdbFileDestinationTextField.StringValue;
+
+            if (!Directory.Exists(csvFileLocation))
+            {
+                Utilities.Utilities.MessageAlert("Please enter a valid directory for ODB Files Location.", "Invalid Directory!");
+            }
+            else if (!Directory.Exists(odbFileDestination))
+            {
+                Utilities.Utilities.MessageAlert("Please enter a valid directory for CSV Files Destination.", "Invalid Directory!");
+            }
+            else
+            {
+                ConvertOdbToCsv(csvFileLocation, odbFileDestination);
+            }
+        }
+
+        async void ConvertOdbToCsv(string odbFileLocation, string csvFileDestination)
+        {
+            OdbToCsv converter = new OdbToCsv(odbFileLocation, csvFileDestination);
+            OdbToCsvProgressBar.Hidden = false;
+
+            var progress = new Progress<int>(v =>
+            {
+                OdbToCsvProgressBar.DoubleValue = (float)((float)v / (float)100);
+            });
+
+            await Task.Run(() => converter.Start(progress));
+            OdbToCsvProgressBar.Hidden = true;
+        }
+
+        async void ConvertCsvToOdb(string csvFileLocation, string odbFileDestination)
+        {
+            CsvToOdb converter = new CsvToOdb(csvFileLocation, odbFileDestination);
+            CsvToOdbProgressBar.Hidden = false;
+
+            var progress = new Progress<int>(v =>
+            {
+                CsvToOdbProgressBar.DoubleValue = (float)((float)v / (float)100);
+            });
+
+            await Task.Run(() => converter.Start(progress));
+            CsvToOdbProgressBar.Hidden = true;
+        }
+
     }
 }
