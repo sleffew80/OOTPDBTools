@@ -31,6 +31,8 @@ using System;
 using System.IO;
 #if _WINDOWS_
 using System.Windows.Forms;
+#elif __MACOS__
+using AppKit;
 #endif
 
 namespace Utilities
@@ -49,12 +51,18 @@ namespace Utilities
 #endif
         }
 
-        public static void MessageAlert(string messageText, string caption)
+        public static void MessageAlert(string messageInfoText, string messageCaptionText)
         {
 #if _WINDOWS_
-            MessageBox.Show(messageText, caption);
-#elif _MACOS_
-
+            MessageBox.Show(messageInfoText, messageCaptionText);
+#elif __MACOS__
+            var alert = new NSAlert()
+            {
+                AlertStyle = NSAlertStyle.Warning,
+                InformativeText = messageInfoText,
+                MessageText = messageCaptionText,
+            };
+            alert.RunModal();
 #endif
         }
     }
