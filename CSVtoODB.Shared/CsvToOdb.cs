@@ -126,7 +126,7 @@ namespace CSVtoODB
             }
             else
             {
-                Utilities.Utilities.MessageAlert(missingFileTextMessage, "Missing Files!");
+                throw new Exception(missingFileTextMessage + ".");
             }
         }
         #endregion

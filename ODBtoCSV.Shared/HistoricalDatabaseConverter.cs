@@ -87,55 +87,75 @@ namespace ODBtoCSV
             {
                 try
                 {
-                    //Create an object of Stream for output with 64MB buffer. Initialize to first table in the database.
+                    // Create a StreamWriter for output with a 64MB buffer. Initialize to first table in the database.
                     StreamWriter outputStream = new StreamWriter(csvFileDestination + csvFileName[odbTable], false, Encoding.ASCII, 65536);
-                    //Create an object of Stream for input.
+                    // Create a FileStream for database file to be read.
                     FileStream inputStream = new FileStream(odbFileLocation, FileMode.Open,
                     FileAccess.Read, FileShare.ReadWrite);
-                    //Create BinaryReader using Stream object to read input Stream.
+                    // Create BinaryReader using FileStream object to read input Stream.
                     using (BinaryReader reader = new BinaryReader(inputStream, Encoding.ASCII))
                     {
+                        // Get the database file size in bytes.
                         odbFileSize = (int)reader.BaseStream.Length;
 
+                        // Initialize local variables.
                         Byte currentTable = 0;
                         int stringLength = 0;
                         String databaseLine = null;
                         String formattedDatabaseLine = null;
 
+                        // Skip first four bytes (file header).
                         while (odbBytePosition < 5)
                         {
                             reader.ReadByte();
                             odbBytePosition++;
                         }
+
+                        // Read data until last byte is reached.
                         while (odbBytePosition < odbFileSize)
                         {
+                            // Set the current table.
                             currentTable = reader.ReadByte();
+
+                            // Check to see if we've reached a new table.
                             if (odbTable != currentTable)
                             {
+                                // Increment table identifier.
                                 odbTable = currentTable;
+                                // Close the current csv file stream and then initialize the next.
                                 outputStream.Close();
                                 outputStream = new StreamWriter(csvFileDestination + csvFileName[odbTable], false, Encoding.ASCII, 65536);
                             }
+
+                            // Get the length of the current database line in chars.
                             stringLength = reader.ReadByte() + (reader.ReadByte() * 256);
                             odbBytePosition += 3;
+
+                            // Read chars into "databaseLine" until last char is reached.
                             for (int i = 0; i < stringLength; i++)
                             {
-                                databaseLine = databaseLine + reader.ReadChar();
+                                databaseLine += reader.ReadChar();
                                 odbBytePosition++;
                             }
+
+                            // Replace "\t"(tabs) delimeters with ",".
                             formattedDatabaseLine = databaseLine.Replace("\t", ",");
                             
+                            // Write the line to the current csv file stream.
                             outputStream.WriteLine(formattedDatabaseLine);
+
+                            // Reset for the next line in the database.
                             databaseLine = null;
                             formattedDatabaseLine = null;
                         }
+                        // Close Streams.
                         inputStream.Close();
                         outputStream.Close();
                     }
                 }
                 catch (Exception ex)
                 {
-                    Utilities.Utilities.MessageAlert(ex.Message, "Error!");
+                    throw new Exception(ex.Message);                 
                 }
             }
         }

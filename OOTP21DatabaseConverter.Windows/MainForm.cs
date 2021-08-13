@@ -96,15 +96,14 @@ namespace OOTP21DatabaseConverter
         private async void odbToCsvConvertButton_Click(object sender, EventArgs e)
         {
             if ((odbFileLocation.Length < 1) || (!Directory.Exists(odbFileLocation)))
-                MessageBox.Show("Please enter a valid directory for ODB Files Location.", "Invalid Directory!");
+                MessageAlert("Could not find '" + odbFileLocation + "'. Please enter a valid directory for ODB Files Location.", false);
             else if ((csvFileDestination.Length < 1) || (!Directory.Exists(csvFileDestination)))
-                MessageBox.Show("Please enter a valid directory for CSV Files Destination.", "Invalid Directory!");
+                MessageAlert("Could not find '" + csvFileDestination + "'. Please enter a valid directory for CSV Files Destination.", false);
             else
             {
                 OdbToCsv converter = new OdbToCsv(odbFileLocation, csvFileDestination);
-                odbToCsvProgressBar.Visible = true;
-                odbToCsvProgressBar.Maximum = 100;
-                odbToCsvProgressBar.Step = 1;
+
+                InitializeProgressBar(odbToCsvProgressBar);
 
                 var progress = new Progress<int>(v =>
                 {
@@ -113,7 +112,14 @@ namespace OOTP21DatabaseConverter
                     odbToCsvProgressBar.Value = v;
                 });
 
-                await Task.Run(() => converter.Start(progress));
+                try
+                {
+                    await Task.Run(() => converter.Start(progress));
+                }
+                catch(Exception ex)
+                {
+                    MessageAlert(ex.Message, true);
+                }
 
                 odbToCsvProgressBar.Visible = false;
             }
@@ -122,15 +128,14 @@ namespace OOTP21DatabaseConverter
         private async void csvToOdbConvertButton_Click(object sender, EventArgs e)
         {
             if ((csvFileLocation.Length < 1) || (!Directory.Exists(csvFileLocation)))
-                MessageBox.Show("Please enter a valid directory for CSV Files Location.", "Invalid Directory!");
+                MessageAlert("Could not find '" + csvFileLocation + "'. Please enter a valid directory for CSV Files Location.", false);
             else if ((odbFileDestination.Length < 1) || (!Directory.Exists(odbFileDestination)))
-                MessageBox.Show("Please enter a valid directory for ODB Files Destination.", "Invalid Directory!");
+                MessageAlert("Could not find '" + odbFileDestination + "'. Please enter a valid directory for ODB Files Destination.", false);
             else
             {
                 CsvToOdb converter = new CsvToOdb(csvFileLocation, odbFileDestination);
-                csvToOdbProgressBar.Visible = true;
-                csvToOdbProgressBar.Maximum = 100;
-                csvToOdbProgressBar.Step = 1;
+
+                InitializeProgressBar(csvToOdbProgressBar);
 
                 var progress = new Progress<int>(v =>
                 {
@@ -139,7 +144,14 @@ namespace OOTP21DatabaseConverter
                     csvToOdbProgressBar.Value = v;
                 });
 
-                await Task.Run(() => converter.Start(progress));
+                try
+                {
+                    await Task.Run(() => converter.Start(progress));
+                }
+                catch(Exception ex)
+                {
+                    MessageAlert(ex.Message, true);
+                }
 
                 csvToOdbProgressBar.Visible = false;
             }
@@ -163,6 +175,31 @@ namespace OOTP21DatabaseConverter
         private void odbFileDestinationTextBox_TextChanged(object sender, EventArgs e)
         {
             odbFileDestination = odbFileDestinationTextBox.Text;
+        }
+
+        public static void MessageAlert(string text, bool isCriticalError)
+        {
+            if (isCriticalError)
+            {
+                MessageBox.Show(text,
+                    "Error!",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show(text,
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+        }
+
+        public static void InitializeProgressBar(ProgressBar progressBar)
+        {
+            progressBar.Visible = true;
+            progressBar.Maximum = 100;
+            progressBar.Step = 1;
         }
 
         public static string GetAssemblyFileVersion()

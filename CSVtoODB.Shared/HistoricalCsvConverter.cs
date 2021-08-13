@@ -53,6 +53,7 @@ namespace CSVtoODB
         private static string historicalLineupsDatabaseFileName = FileNames.HistoricalLineupsDatabaseFileName;
         private static string historicalTransactionsDatabaseFileName = FileNames.HistoricalTransactionsDatabaseFileName;
         private static string pathDelimiter = Utilities.Utilities.FilePathDelimeter();
+        private static int progressIncrement = 256;
         private static Byte zeroByte = 0;
 
         private String odbFolderDestination;
@@ -62,6 +63,9 @@ namespace CSVtoODB
         private int historicalMinorDatabaseLineCount;
         private int historicalLineupsDatabaseLineCount;
         private int historicalTransactionsDatabaseLineCount;
+        private int totalDatabaseLineCount;
+        private int currentDatabaseLineNumber;
+        private int nextProgressUpdate = progressIncrement;
         #endregion
 
         #region Helpers
@@ -84,7 +88,7 @@ namespace CSVtoODB
             }
             catch (Exception ex)
             {
-                Utilities.Utilities.MessageAlert(ex.Message, "Error!");
+                throw new Exception(ex.Message);
             }
             csvReader.Close();
             return csvLineCount;
@@ -121,6 +125,7 @@ namespace CSVtoODB
             historicalMinorDatabaseLineCount = GetCsvCombinedLineCount(historicalMinorDatabaseAllCsvFileNames);
             historicalLineupsDatabaseLineCount = GetCsvLineCount(historicalLineupsCsvFileName);
             historicalTransactionsDatabaseLineCount = GetCsvLineCount(historicalTransactionsCsvFileName);
+            totalDatabaseLineCount = historicalDatabaseLineCount + historicalMinorDatabaseLineCount + historicalLineupsDatabaseLineCount + historicalTransactionsDatabaseLineCount;
         }
 
         /// <summary>
@@ -130,36 +135,63 @@ namespace CSVtoODB
         /// <param name="csvFileName">Array of comma separated value(*.csv) file names to be converted.</param>
         /// <param name="odbFileName">Name of OOTP Database(*.odb) file to be created.</param>
         /// <param name="odbLineCount">Number of lines required for OOTP Database.</param>
-        private void ConvertToMultiTableOdb(String[] csvFileName, String odbFileName, int odbLineCount)
+        private void ConvertToMultiTableOdb(String[] csvFileName, String odbFileName, int odbLineCount, IProgress<int> progress)
         {
+            // Initialize local variables.
             int odbTable = 0;
             string csvLine;
 
             try
             {
+                // Create a StreamReader for reading a csv file.
                 StreamReader csvReader = new StreamReader(csvFolderLocation + csvFileName[odbTable]);
+                // Create a BinaryWriter to reconstruct an OOTP Database.
                 using (BinaryWriter writer = new BinaryWriter(File.Open(odbFolderDestination + odbFileName, FileMode.Create)))
                 {
+                    // First Byte in the database is always zero.
                     writer.Write(zeroByte);
+
+                    // Write the number of total lines the database will have in the file header as a 32 bit integer.
+                    // This number is the sum of all lines from all included csv files.
                     writer.Write((UInt32)odbLineCount);
+                    // Write data into database for every csv file included in the "csvFileName" array.
                     while (odbTable < csvFileName.Length)
                     {
+                        // Check for unused database table entries. Proceed only if we have an entry for the current table.
+                        // Read csv data and write to database until end of current csv file is reached.
                         if (csvFileName[odbTable] != null)
                         {
-                            int csvLineCount = 0;
-
+                            // Read a line from the current csv file stream and write it into the database.
+                            // Each database line starts with the current table number followed by the length 
+                            // of the current line in chars and finally the actual string of char data.
                             while ((csvLine = csvReader.ReadLine()) != null)
                             {
+                                // Write current table number.
                                 writer.Write((Byte)odbTable);
+                                // Write length of current database line string in chars.
                                 writer.Write((UInt16)csvLine.Length);
+                                // Write current database line string, replacing "," with "\t"(tab).
                                 writer.Write(csvLine.Replace(",", "\t").ToCharArray());
 
-                                csvLineCount++;
+                                // Update progress in increments set by "progressIncrement".
+                                if (currentDatabaseLineNumber == nextProgressUpdate)
+                                {
+                                    // Report current progress to the progress bar.
+                                    UpdateProgress(progress, currentDatabaseLineNumber, totalDatabaseLineCount);
+                                    nextProgressUpdate += progressIncrement;
+                                }
+                                // Increment for tracking progress and reporting to the progress bar.
+                                currentDatabaseLineNumber++;
                             }
                         }
+                        // Increment table identifier for the next csv file.
                         odbTable++;
+
+                        // Check to see if there are more tables to process or if all have been completed.
+                        // If there are more tables, close current csv file stream and initialize the next.
                         if (odbTable < csvFileName.Length)
                         {
+                            // If database entry is unused, do nothing. Otherwise, prepare for the next.
                             if (csvFileName[odbTable] != null)
                             {
                                 csvReader.Close();
@@ -167,13 +199,15 @@ namespace CSVtoODB
                             }
                         }
                     }
+                    // Close BinaryWriter stream.
                     writer.Close();
                 }
+                // Close csv StreamReader stream.
                 csvReader.Close();
             }
             catch (Exception ex)
             {
-                Utilities.Utilities.MessageAlert(ex.Message, "Error!");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -184,34 +218,55 @@ namespace CSVtoODB
         /// <param name="csvFileName">Comma separated value(*.csv) file name to be converted.</param>
         /// <param name="odbFileName">Name of OOTP Database(*.odb) file to be created.</param>
         /// <param name="odbLineCount">Number of lines required for OOTP Database.</param>
-        private void ConvertToSingleTableOdb(String csvFileName, String odbFileName, int odbLineCount)
+        private void ConvertToSingleTableOdb(String csvFileName, String odbFileName, int odbLineCount, IProgress<int> progress)
         {
             string csvLine;
 
             try
             {
+                // Create a StreamReader for reading a csv file.
                 StreamReader csvReader = new StreamReader(csvFolderLocation + csvFileName);
+                // Create a BinaryWriter to reconstruct an OOTP Database.
                 using (BinaryWriter writer = new BinaryWriter(File.Open(odbFolderDestination + odbFileName, FileMode.Create)))
                 {
-                    int csvLineCount = 0;
-
+                    // First Byte in the database is always zero.
                     writer.Write(zeroByte);
+
+                    // Write the number of total lines the database will have in the file header as a 32 bit integer.
+                    // This number is the total lines in the current csv file.
                     writer.Write((UInt32)odbLineCount);
+
+                    // Read a line from the current csv file stream and write it into the database.
+                    // Each database line starts with a zero since this database contains only one tabe.
+                    // Next is the length of the current line in chars and finally the actual string of char data.
                     while ((csvLine = csvReader.ReadLine()) != null)
                     {
+                        // Write current table number.
                         writer.Write(zeroByte);
+                        // Write length of current database line string in chars.
                         writer.Write((UInt16)csvLine.Length);
+                        // Write current database line string, replacing "," with "\t"(tab).
                         writer.Write(csvLine.Replace(",", "\t").ToCharArray());
 
-                        csvLineCount++;
+                        // Update progress in increments set by "progressIncrement".
+                        if (currentDatabaseLineNumber == nextProgressUpdate)
+                        {
+                            // Report current progress to the progress bar.
+                            UpdateProgress(progress, currentDatabaseLineNumber, totalDatabaseLineCount);
+                            nextProgressUpdate += progressIncrement;
+                        }
+                        // Increment for tracking progress and reporting to the progress bar.
+                        currentDatabaseLineNumber++;
                     }
+                    // Close the BinaryWriter stream.
                     writer.Close();
                 }
+                // Close csv StreamReader stream.
                 csvReader.Close();
             }
             catch (Exception ex)
             {
-                Utilities.Utilities.MessageAlert(ex.Message, "Error!");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -256,21 +311,10 @@ namespace CSVtoODB
             lock (this)
             {
                 SetOdbLineCounts();
-                int totalLineCount = historicalDatabaseLineCount + historicalMinorDatabaseLineCount + historicalLineupsDatabaseLineCount + historicalTransactionsDatabaseLineCount;
-                int currentLineCount = 1;
-                UpdateProgress(progress, currentLineCount, totalLineCount);
-                ConvertToMultiTableOdb(historicalDatabaseAllCsvFileNames, historicalDatabaseFileName, historicalDatabaseLineCount);
-                currentLineCount += historicalDatabaseLineCount;
-                UpdateProgress(progress, currentLineCount, totalLineCount);
-                ConvertToMultiTableOdb(historicalMinorDatabaseAllCsvFileNames, historicalMinorDatabaseFileName, historicalMinorDatabaseLineCount);
-                currentLineCount += historicalMinorDatabaseLineCount;
-                UpdateProgress(progress, currentLineCount, totalLineCount);
-                ConvertToSingleTableOdb(historicalLineupsCsvFileName, historicalLineupsDatabaseFileName, historicalLineupsDatabaseLineCount);
-                currentLineCount += historicalLineupsDatabaseLineCount;
-                UpdateProgress(progress, currentLineCount, totalLineCount);
-                ConvertToSingleTableOdb(historicalTransactionsCsvFileName, historicalTransactionsDatabaseFileName, historicalTransactionsDatabaseLineCount);
-                currentLineCount += historicalTransactionsDatabaseLineCount;
-                UpdateProgress(progress, currentLineCount, totalLineCount);
+                ConvertToMultiTableOdb(historicalDatabaseAllCsvFileNames, historicalDatabaseFileName, historicalDatabaseLineCount, progress);
+                ConvertToMultiTableOdb(historicalMinorDatabaseAllCsvFileNames, historicalMinorDatabaseFileName, historicalMinorDatabaseLineCount, progress);
+                ConvertToSingleTableOdb(historicalLineupsCsvFileName, historicalLineupsDatabaseFileName, historicalLineupsDatabaseLineCount, progress);
+                ConvertToSingleTableOdb(historicalTransactionsCsvFileName, historicalTransactionsDatabaseFileName, historicalTransactionsDatabaseLineCount, progress);
             }
         }
 
@@ -291,7 +335,7 @@ namespace CSVtoODB
             }
             catch (Exception ex)
             {
-                Utilities.Utilities.MessageAlert(ex.Message, "Error!");
+                throw new Exception(ex.Message);
             }
         }
         #endregion

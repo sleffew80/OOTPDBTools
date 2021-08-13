@@ -76,11 +76,11 @@ namespace OOTP21DatabaseConverter
 
             if (!Directory.Exists(odbFileLocation))
             {
-                Utilities.Utilities.MessageAlert("Please enter a valid directory for ODB Files Location.", "Invalid Directory!");
+                MessageAlert("Could not find '" + odbFileLocation + "'. Please enter a valid directory for ODB Files Location.", false);
             }
             else if (!Directory.Exists(csvFileDestination))
             {
-                Utilities.Utilities.MessageAlert("Please enter a valid directory for CSV Files Destination.", "Invalid Directory!");
+                MessageAlert("Could not find '" + csvFileDestination + "'. Please enter a valid directory for CSV Files Destination.", false);
             }
             else
             {
@@ -96,15 +96,15 @@ namespace OOTP21DatabaseConverter
 
             if (!Directory.Exists(csvFileLocation))
             {
-                Utilities.Utilities.MessageAlert("Please enter a valid directory for ODB Files Location.", "Invalid Directory!");
+                MessageAlert("Could not find '" + csvFileLocation + "'. Please enter a valid directory for CSV Files Location.", false);
             }
             else if (!Directory.Exists(odbFileDestination))
             {
-                Utilities.Utilities.MessageAlert("Please enter a valid directory for CSV Files Destination.", "Invalid Directory!");
+                MessageAlert("Could not find '" + odbFileDestination + "'. Please enter a valid directory for ODB Files Destination.", false);
             }
             else
             {
-                ConvertOdbToCsv(csvFileLocation, odbFileDestination);
+                ConvertCsvToOdb(csvFileLocation, odbFileDestination);
             }
         }
 
@@ -115,10 +115,18 @@ namespace OOTP21DatabaseConverter
 
             var progress = new Progress<int>(v =>
             {
-                OdbToCsvProgressBar.DoubleValue = (float)((float)v / (float)100);
+                OdbToCsvProgressBar.DoubleValue = (float)v;
             });
 
-            await Task.Run(() => converter.Start(progress));
+            try
+            {
+                await Task.Run(() => converter.Start(progress));
+            }
+            catch(Exception ex)
+            {
+                MessageAlert(ex.Message, true);
+            }
+
             OdbToCsvProgressBar.Hidden = true;
         }
 
@@ -129,11 +137,43 @@ namespace OOTP21DatabaseConverter
 
             var progress = new Progress<int>(v =>
             {
-                CsvToOdbProgressBar.DoubleValue = (float)((float)v / (float)100);
+                CsvToOdbProgressBar.DoubleValue = (float)v;
             });
 
-            await Task.Run(() => converter.Start(progress));
+            try
+            {
+                await Task.Run(() => converter.Start(progress));
+            }
+            catch(Exception ex)
+            {
+                MessageAlert(ex.Message, true);
+            }
+
             CsvToOdbProgressBar.Hidden = true;
+        }
+
+        public static void MessageAlert(string text, bool isCriticalError)
+        {
+            if (isCriticalError)
+            {
+                var alert = new NSAlert()
+                {
+                    AlertStyle = NSAlertStyle.Critical,
+                    InformativeText = text,
+                    MessageText = "Error!",
+                };
+                alert.RunModal();
+            }
+            else
+            {
+                var alert = new NSAlert()
+                {
+                    AlertStyle = NSAlertStyle.Warning,
+                    InformativeText = text,
+                    MessageText = "Warning",
+                };
+                alert.RunModal();
+            }
         }
 
     }

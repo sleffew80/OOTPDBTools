@@ -95,20 +95,6 @@ namespace OOTPCommon
         private static String[] externalAllCsvFileNames = { masterFileName, teamsFileName, milbMasterFileName, milbTeamsFileName,
                                                 milbLeaguesFileName, seriesPostSeasonFileName, uniformNumberFileName,
                                                 openingDayRostersFileName, endOfSeasonRostersFileName };
-        private static String[] allCsvFileNames = { masterFileName, battingFileName, battingNormalizedFileName,
-                                                pitchingFileName, pitchingNormalizedFileName, fieldingFileName,
-                                                fieldingNormalizedFileName, fieldingOutFieldFileName, fieldingOutFieldNormalizedFileName,
-                                                allstarFullFileName, awardsPlayersFileName, hallOfFameFileName,
-                                                teamsFileName, teamFranchisesFileName, seriesPostSeasonFileName,
-                                                uniformNumberFileName, managersFileName, awardsManagersFileName, battingPostSeasonFileName,
-                                                pitchingPostSeasonFileName, fieldingPostSeasonFileName, recordsSingleGameFileName,
-                                                battingSplitsFileName, openingDayRostersFileName, endOfSeasonRostersFileName,
-                                                milbMasterFileName, milbBattingFileName,
-                                                milbPitchingFileName, milbFieldingFileName,
-                                                milbTeamsFileName, milbLeaguesFileName,
-                                                masterFileName, teamsFileName, milbMasterFileName, milbTeamsFileName,
-                                                milbLeaguesFileName, seriesPostSeasonFileName, uniformNumberFileName,
-                                                openingDayRostersFileName, endOfSeasonRostersFileName, lineupsFileName, transactionsFileName };
 
         // OOTP Database(*.odb) file names
         private static string historicalDatabaseFileName = "historical_database.odb";
@@ -119,39 +105,8 @@ namespace OOTPCommon
         #endregion
 
         #region Accessors
-        public static string AllstarFullFileName => allstarFullFileName;
-        public static string AwardsManagersFileName => awardsManagersFileName;
-        public static string AwardsPlayersFileName => awardsPlayersFileName;
-        public static string BattingFileName => battingFileName;
-        public static string BattingNormalizedFileName => battingNormalizedFileName;
-        public static string BattingPostSeasonFileName => battingPostSeasonFileName;
-        public static string BattingSplitsFileName => battingSplitsFileName;
-        public static string EndOfSeasonRostersFileName => endOfSeasonRostersFileName;
-        public static string FieldingFileName => fieldingFileName;
-        public static string FieldingNormalizedFileName => fieldingNormalizedFileName;
-        public static string FieldingOutFieldFileName => fieldingOutFieldFileName;
-        public static string FieldingOutFieldNormalizedFileName => fieldingOutFieldNormalizedFileName;
-        public static string FieldingPostSeasonFileName => fieldingPostSeasonFileName;
-        public static string HallOfFameFileName => hallOfFameFileName;
         public static string LineupsFileName => lineupsFileName;
-        public static string ManagersFileName => managersFileName;
-        public static string MasterFileName => masterFileName;
-        public static string MilbBattingFileName => milbBattingFileName;
-        public static string MilbFieldingFileName => milbFieldingFileName;
-        public static string MilbLeaguesFileName => milbLeaguesFileName;
-        public static string MilbMasterFileName => milbMasterFileName;
-        public static string MilbPitchingFileName => milbPitchingFileName;
-        public static string MilbTeamsFileName => milbTeamsFileName;
-        public static string OpeningDayRostersFileName => openingDayRostersFileName;
-        public static string PitchingFileName => pitchingFileName;
-        public static string PitchingNormalizedFileName => pitchingNormalizedFileName;
-        public static string PitchingPostSeasonFileName => pitchingPostSeasonFileName;
-        public static string RecordsSingleGameFileName => recordsSingleGameFileName;
-        public static string SeriesPostSeasonFileName => seriesPostSeasonFileName;
-        public static string TeamFranchisesFileName => teamFranchisesFileName;
-        public static string TeamsFileName => teamsFileName;
         public static string TransactionsFileName => transactionsFileName;
-        public static string UniformNumberFileName => uniformNumberFileName;
         public static string HistoricalDatabaseFileName => historicalDatabaseFileName;
         public static string HistoricalMinorDatabaseFileName => historicalMinorDatabaseFileName;
         public static string HistoricalLineupsDatabaseFileName => historicalLineupsDatabaseFileName;
@@ -161,7 +116,7 @@ namespace OOTPCommon
         /// <summary>
         /// All comma separated value(*.csv) file names that exist outside of an OOTP database file.
         /// </summary>
-        /// <remarks>Some files may exist both in an OOTP database file and outside.</remarks>
+        /// <remarks>Some files may exist both in an OOTP database file and outside as an over-riding, editable comma separated file.</remarks>
         /// <returns>An array of all comma separated value(*.csv) file names that exist outside of an OOTP database file.</returns>
         public static String[] ExternalAllCsvFileNames => externalAllCsvFileNames;
 
@@ -215,7 +170,7 @@ namespace OOTPCommon
                 {
                     if (csvFileNamesWithUnknowns[i] == null)
                     {
-                        csvFileNamesWithUnknowns[i] = "_unknown" + (i + 1).ToString() + ".csv";
+                        csvFileNamesWithUnknowns[i] = "_unknownMinor" + (i + 1).ToString() + ".csv";
                     }
                 }
                 return csvFileNamesWithUnknowns;

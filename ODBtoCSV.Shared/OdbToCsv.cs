@@ -144,6 +144,7 @@ namespace ODBtoCSV
         /// <param name="progress">Interface for progress updates.</param>
         public void Start(IProgress<int> progress)
         {
+
             if (VerifyAllFiles() == true)
             {
                 int currentProgress = 1;
@@ -176,7 +177,7 @@ namespace ODBtoCSV
             }
             else
             {
-                Utilities.Utilities.MessageAlert(missingFileTextMessage, "Missing Files!");
+                throw new Exception(missingFileTextMessage + ".");
             }
         }
         #endregion

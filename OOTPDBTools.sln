@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOTP21DatabaseConverter.Mac
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OOTPCommon.Shared", "OOTPCommon.Shared\OOTPCommon.Shared.shproj", "{3603C0D2-C3E5-48DB-8C55-3D3DF2E1FD41}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OOTP21DatabaseConverter.Windows.Installer", "OOTP21DatabaseConverter.Windows.Installer\OOTP21DatabaseConverter.Windows.Installer.vdproj", "{98F3D1F7-990A-4EC8-B4DA-5C4CECB3320E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		OOTPCommon.Shared\OOTPCommon.projitems*{3603c0d2-c3e5-48db-8c55-3d3df2e1fd41}*SharedItemsImports = 13
@@ -43,6 +45,10 @@ Global
 		{25296910-C778-4888-843F-D037609D4BE1}.Release|Any CPU.ActiveCfg = Release|x86
 		{25296910-C778-4888-843F-D037609D4BE1}.Release|x86.ActiveCfg = Release|x86
 		{25296910-C778-4888-843F-D037609D4BE1}.Release|x86.Build.0 = Release|x86
+		{98F3D1F7-990A-4EC8-B4DA-5C4CECB3320E}.Debug|Any CPU.ActiveCfg = Debug
+		{98F3D1F7-990A-4EC8-B4DA-5C4CECB3320E}.Debug|x86.ActiveCfg = Debug
+		{98F3D1F7-990A-4EC8-B4DA-5C4CECB3320E}.Release|Any CPU.ActiveCfg = Release
+		{98F3D1F7-990A-4EC8-B4DA-5C4CECB3320E}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
