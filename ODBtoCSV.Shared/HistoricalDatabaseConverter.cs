@@ -43,14 +43,30 @@ namespace ODBtoCSV
     {
         #region Members
         // Private Member Variables
+        private static String pathDelimiter = Utilities.Utilities.FilePathDelimeter();
+        private static long progressIncrement = 131072;
+
         private String odbFileLocation;
         private String csvFileDestination;
         private int odbBytePosition;
         private int odbFileSize;
         private Byte odbTable;
         private String[] csvFileName;
+        private long nextProgressUpdate = progressIncrement;
+        #endregion
 
-        private static String pathDelimiter = Utilities.Utilities.FilePathDelimeter();
+        #region Helpers
+        /// <summary>
+        /// Update and report completion progress.
+        /// </summary>
+        /// <param name="progress">Interface for progress updates.</param>
+        /// <param name="currentProgress">Current progress (gets converted to a scale of 100).</param>
+        /// <param name="maxProgress">Maximum progress required for completion (gets converted to a scale of 100).</param>
+        private void UpdateProgress(IProgress<int> progress, long currentProgress, long maxProgress)
+        {
+            if (progress != null)
+                progress.Report((int)(currentProgress * 100 / maxProgress));
+        }
         #endregion
 
         #region Initialization
@@ -81,7 +97,7 @@ namespace ODBtoCSV
         /// <summary>
         /// Converts OOTP historical database files to comma separated value(*.csv) files.
         /// </summary>
-        public void ToCsv()
+        public void ToCsv(IProgress<int> progress, long currentOverallByte, long combinedDatabasesfileSize)
         {
             lock (this)
             {
@@ -136,6 +152,13 @@ namespace ODBtoCSV
                             {
                                 databaseLine += reader.ReadChar();
                                 odbBytePosition++;
+                            }
+
+                            // Update progress in increments set by "progressIncrement".
+                            if (odbBytePosition >= nextProgressUpdate)
+                            {
+                                UpdateProgress(progress, currentOverallByte + odbBytePosition, combinedDatabasesfileSize);
+                                nextProgressUpdate += progressIncrement;
                             }
 
                             // Replace "\t"(tabs) delimeters with ",".

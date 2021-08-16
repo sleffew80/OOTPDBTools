@@ -43,15 +43,16 @@ namespace CSVtoODB
     public class HistoricalCsvConverter
     {
         #region Members
-        private static String[] historicalDatabaseAllCsvFileNames = FileNames.HistoricalDatabaseAllCsvFileNames(false);
-        private static String[] historicalMinorDatabaseAllCsvFileNames = FileNames.HistoricalMinorDatabaseAllCsvFileNames(false);
-        private static String[] externalAllCsvFileNames = FileNames.ExternalAllCsvFileNames;
-        private static string historicalLineupsCsvFileName = FileNames.LineupsFileName;
-        private static string historicalTransactionsCsvFileName = FileNames.TransactionsFileName;
-        private static string historicalDatabaseFileName = FileNames.HistoricalDatabaseFileName;
-        private static string historicalMinorDatabaseFileName = FileNames.HistoricalMinorDatabaseFileName;
-        private static string historicalLineupsDatabaseFileName = FileNames.HistoricalLineupsDatabaseFileName;
-        private static string historicalTransactionsDatabaseFileName = FileNames.HistoricalTransactionsDatabaseFileName;
+        private static FileNames fileNames = new FileNames();
+        private static String[] historicalDatabaseAllCsvFileNames = fileNames.HistoricalDatabaseAllCsvFileNames(false);
+        private static String[] historicalMinorDatabaseAllCsvFileNames = fileNames.HistoricalMinorDatabaseAllCsvFileNames(false);
+        private static String[] externalAllCsvFileNames = fileNames.ExternalAllCsvFileNames;
+        private static string historicalLineupsCsvFileName = fileNames.LineupsFileName;
+        private static string historicalTransactionsCsvFileName = fileNames.TransactionsFileName;
+        private static string historicalDatabaseFileName = fileNames.HistoricalDatabaseFileName;
+        private static string historicalMinorDatabaseFileName = fileNames.HistoricalMinorDatabaseFileName;
+        private static string historicalLineupsDatabaseFileName = fileNames.HistoricalLineupsDatabaseFileName;
+        private static string historicalTransactionsDatabaseFileName = fileNames.HistoricalTransactionsDatabaseFileName;
         private static string pathDelimiter = Utilities.Utilities.FilePathDelimeter();
         private static int progressIncrement = 256;
         private static Byte zeroByte = 0;

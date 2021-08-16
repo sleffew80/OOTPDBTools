@@ -7,6 +7,13 @@
     <AssemblyName>OOTP21DatabaseConverter</AssemblyName>
     <RootNamespace>OOTP21DatabaseConverter</RootNamespace>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <FileVersion>1.0.1.1</FileVersion>
+    <Version>1.0.1</Version>
+    <Authors>Steven Leffew</Authors>
+    <Product>OOTP 21 Database Converter</Product>
+    <Description>Program for converting OOTP Database files to editable comma separated values files and vice versa.</Description>
+    <Copyright>2021</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

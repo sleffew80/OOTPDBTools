@@ -28,27 +28,22 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+
+using OOTPCommon;
 
 namespace ODBtoCSV
 {
     public class StatsConverter
     {
-#if WINDOWS
-        private const string slash = "\\";
-#else
-        private const string slash = "/";
-#endif
         // Private Member Variables
-        private String odbName;
         private String odbFileLocation;
-        private String outputFolderLocation;
+        private String csvFileDestination;
         private int odbBytePosition;
         private int odbFileSize;
         private Byte odbTable;
-        private String csvFileName;
+
+        private static String csvFileName = "stats.csv";
+        private static String pathDelimiter = Utilities.Utilities.FilePathDelimeter();
 
         // Public Member Variables and Accessors
         public String OdbFileLocation
@@ -56,10 +51,10 @@ namespace ODBtoCSV
             get { return odbFileLocation; }
             set { odbFileLocation = value; }
         }
-        public String OutputFolderLocation
+        public String CsvFileDestination
         {
-            get { return outputFolderLocation; }
-            set { outputFolderLocation = value; }
+            get { return csvFileDestination; }
+            set { csvFileDestination = value; }
         }
         public int LastBytePosition
         {
@@ -70,15 +65,13 @@ namespace ODBtoCSV
             get { return odbFileSize; }
         }
 
-        public StatsConverter(String odbFileLocation, String outputFolderLocation)
+        public StatsConverter(String odbFileLocation, String csvFileDestination)
         {
-            this.odbName = "Stats Database";
             this.odbFileLocation = odbFileLocation;
-            this.outputFolderLocation = outputFolderLocation + slash;
+            this.csvFileDestination = csvFileDestination + pathDelimiter;
             this.odbBytePosition = 0;
             this.odbFileSize = 0;
             this.odbTable = 0;
-            this.csvFileName = "Stats.csv";
         }
 
         public void ToCsv()
@@ -91,7 +84,7 @@ namespace ODBtoCSV
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    //TODO;
                 }
             }
         }

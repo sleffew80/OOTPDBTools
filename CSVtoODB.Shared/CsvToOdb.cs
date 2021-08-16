@@ -42,7 +42,8 @@ namespace CSVtoODB
     public class CsvToOdb
     {
         #region Members
-        private static String[] allCsvFileNames = FileNames.AllCsvFileNames;
+        private static FileNames fileNames = new FileNames();
+        private static String[] allCsvFileNames = fileNames.AllCsvFileNames;
         private static string pathDelimeter = Utilities.Utilities.FilePathDelimeter();
         private static string missingFileText = "Missing Files: ";
         private String missingFileTextMessage;

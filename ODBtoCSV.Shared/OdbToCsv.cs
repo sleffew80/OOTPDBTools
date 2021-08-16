@@ -42,15 +42,16 @@ namespace ODBtoCSV
     class OdbToCsv
     {
         #region Members
-        private static string historicalDatabaseFileName = FileNames.HistoricalDatabaseFileName;
-        private static string historicalLineupsFileName = FileNames.HistoricalLineupsDatabaseFileName;
-        private static string historicalTransactionsFileName = FileNames.HistoricalTransactionsDatabaseFileName;
-        private static string historicalMinorsDatabaseFileName = FileNames.HistoricalMinorDatabaseFileName;
-        private static string statsFileName = FileNames.StatsDatabaseFileName;
-        private static String[] historicalDatabaseAllCsvFileName = FileNames.HistoricalDatabaseAllCsvFileNames(true);
-        private static String[] historicalMinorDatabaseAllCsvFileName = FileNames.HistoricalMinorDatabaseAllCsvFileNames(true);
-        private static string historicalLineupsDatabaseCsvFileName = FileNames.LineupsFileName;
-        private static string historicalTransactionsDatabaseCsvFileName = FileNames.TransactionsFileName;
+        private static FileNames fileNames = new FileNames();
+        private static string historicalDatabaseFileName = fileNames.HistoricalDatabaseFileName;
+        private static string historicalLineupsFileName = fileNames.HistoricalLineupsDatabaseFileName;
+        private static string historicalTransactionsFileName = fileNames.HistoricalTransactionsDatabaseFileName;
+        private static string historicalMinorsDatabaseFileName = fileNames.HistoricalMinorDatabaseFileName;
+        private static string statsFileName = fileNames.StatsDatabaseFileName;
+        private static String[] historicalDatabaseAllCsvFileName = fileNames.HistoricalDatabaseAllCsvFileNames(true);
+        private static String[] historicalMinorDatabaseAllCsvFileName = fileNames.HistoricalMinorDatabaseAllCsvFileNames(true);
+        private static string historicalLineupsDatabaseCsvFileName = fileNames.LineupsFileName;
+        private static string historicalTransactionsDatabaseCsvFileName = fileNames.TransactionsFileName;
         private static string pathDelimeter = Utilities.Utilities.FilePathDelimeter();
         private static string missingFileText = "Missing Files: ";
 
@@ -106,17 +107,6 @@ namespace ODBtoCSV
                 return false;
             }
         }
-
-        /// <summary>
-        /// Update and report completion progress.
-        /// </summary>
-        /// <param name="progress">Interface for progress updates.</param>
-        /// <param name="currentProgress">Current progress (gets converted to a scale of 100).</param>
-        private void UpdateProgress(IProgress<int> progress, int currentProgress)
-        {
-            if (progress != null)
-                progress.Report(currentProgress);
-        }
         #endregion
 
         #region Initialization
@@ -147,31 +137,24 @@ namespace ODBtoCSV
 
             if (VerifyAllFiles() == true)
             {
-                int currentProgress = 1;
+                long currentDatabaseByte = 0;
+                long historicalDatabaseFileSize = new FileInfo(historicalDatabaseFileLocation).Length;
+                long historicalMinorDatabaseFileSize = new FileInfo(historicalMinorsDatabaseFileLocation).Length;
+                long historicalLineupsDatabaseFileSize = new FileInfo(historicalLineupsFileLocation).Length;
+                long historicalTransactionsDatabaseFileSize = new FileInfo(historicalTransactionsFileLocation).Length;
+                long combinedDatabaseFileSizes = historicalDatabaseFileSize + historicalMinorDatabaseFileSize +
+                    historicalLineupsDatabaseFileSize + historicalTransactionsDatabaseFileSize;
 
                 HistoricalDatabaseConverter historicalDatabaseConverter = new HistoricalDatabaseConverter(historicalDatabaseFileLocation, outputFolder, historicalDatabaseAllCsvFileName);
                 HistoricalDatabaseConverter historicalMinorDatabaseConverter = new HistoricalDatabaseConverter(historicalMinorsDatabaseFileLocation, outputFolder, historicalMinorDatabaseAllCsvFileName);
                 HistoricalDatabaseConverter historicalLineupsDatabaseConverter = new HistoricalDatabaseConverter(historicalLineupsFileLocation, outputFolder, new String[] { historicalLineupsDatabaseCsvFileName });
                 HistoricalDatabaseConverter historicalTransactionsDatabaseConverter = new HistoricalDatabaseConverter(historicalTransactionsFileLocation, outputFolder, new String[] { historicalTransactionsDatabaseCsvFileName });
                 //StatsConverter statsConverter = new StatsConverter(statsFileLocation, outputFolder);
-                currentProgress += 4;
-                UpdateProgress(progress, currentProgress);
 
-                historicalDatabaseConverter.ToCsv();
-                currentProgress += 25;
-                UpdateProgress(progress, currentProgress);
-
-                historicalMinorDatabaseConverter.ToCsv();
-                currentProgress += 50;
-                UpdateProgress(progress, currentProgress);
-
-                historicalLineupsDatabaseConverter.ToCsv();
-                currentProgress += 10;
-                UpdateProgress(progress, currentProgress);
-
-                historicalTransactionsDatabaseConverter.ToCsv();
-                currentProgress += 10;
-                UpdateProgress(progress, currentProgress);
+                historicalDatabaseConverter.ToCsv(progress, currentDatabaseByte, combinedDatabaseFileSizes);
+                historicalMinorDatabaseConverter.ToCsv(progress, currentDatabaseByte += historicalDatabaseFileSize, combinedDatabaseFileSizes);
+                historicalLineupsDatabaseConverter.ToCsv(progress, currentDatabaseByte += historicalMinorDatabaseFileSize, combinedDatabaseFileSizes);
+                historicalTransactionsDatabaseConverter.ToCsv(progress, currentDatabaseByte += historicalLineupsDatabaseFileSize, combinedDatabaseFileSizes);
 
                 //statsConverter.ToCsv();
             }
@@ -179,6 +162,11 @@ namespace ODBtoCSV
             {
                 throw new Exception(missingFileTextMessage + ".");
             }
+        }
+
+        public void Close()
+        {
+            
         }
         #endregion
     }
