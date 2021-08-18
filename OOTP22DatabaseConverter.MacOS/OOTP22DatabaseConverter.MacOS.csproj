@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -28,15 +28,19 @@
     <UseSGen>true</UseSGen>
     <UseRefCounting>true</UseRefCounting>
     <PlatformTarget>x86</PlatformTarget>
-    <HttpClientHandler></HttpClientHandler>
-    <LinkMode></LinkMode>
-    <XamMacArch></XamMacArch>
+    <HttpClientHandler>
+    </HttpClientHandler>
+    <LinkMode>
+    </LinkMode>
+    <XamMacArch>
+    </XamMacArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <EnableCodeSigning>false</EnableCodeSigning>
@@ -47,8 +51,10 @@
     <UseRefCounting>true</UseRefCounting>
     <LinkMode>SdkOnly</LinkMode>
     <PlatformTarget>x86</PlatformTarget>
-    <HttpClientHandler></HttpClientHandler>
-    <XamMacArch></XamMacArch>
+    <HttpClientHandler>
+    </HttpClientHandler>
+    <XamMacArch>
+    </XamMacArch>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -77,6 +83,27 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CSVtoODB.Shared\CsvToOdb.cs">
+      <Link>CSVtoODB\CsvToOdb.cs</Link>
+    </Compile>
+    <Compile Include="..\CSVtoODB.Shared\HistoricalCsvConverter.cs">
+      <Link>CSVtoODB\HistoricalCsvConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ODBtoCSV.Shared\HistoricalDatabaseConverter.cs">
+      <Link>ODBtoCSV\HistoricalDatabaseConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\ODBtoCSV.Shared\OdbToCsv.cs">
+      <Link>ODBtoCSV\OdbToCsv.cs</Link>
+    </Compile>
+    <Compile Include="..\ODBtoCSV.Shared\StatsConverter.cs">
+      <Link>ODBtoCSV\StatsConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\OOTPCommon.Shared\FileNames.cs">
+      <Link>OOTPCommon\FileNames.cs</Link>
+    </Compile>
+    <Compile Include="..\Utilities.Shared\Utilities.cs">
+      <Link>Utilities\Utilities.cs</Link>
+    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="ViewController.cs" />

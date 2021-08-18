@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OOTP22DatabaseConverter.Win
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OOTP22DatabaseConverter.Windows.Installer", "OOTP22DatabaseConverter.Windows.Installer\OOTP22DatabaseConverter.Windows.Installer.vdproj", "{7CBC12AC-11AC-40C5-8141-B27D42088F4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOTP22DatabaseConverter.MacOS", "OOTP22DatabaseConverter.MacOS\OOTP22DatabaseConverter.MacOS.csproj", "{E298C350-9084-43A0-9505-C3AFCAEF3936}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		OOTPCommon.Shared\OOTPCommon.projitems*{3603c0d2-c3e5-48db-8c55-3d3df2e1fd41}*SharedItemsImports = 13
@@ -65,6 +67,12 @@ Global
 		{7CBC12AC-11AC-40C5-8141-B27D42088F4A}.Debug|x86.ActiveCfg = Debug
 		{7CBC12AC-11AC-40C5-8141-B27D42088F4A}.Release|Any CPU.ActiveCfg = Release
 		{7CBC12AC-11AC-40C5-8141-B27D42088F4A}.Release|x86.ActiveCfg = Release
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Debug|x86.ActiveCfg = Debug|x86
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Debug|x86.Build.0 = Debug|x86
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Release|Any CPU.ActiveCfg = Release|x86
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Release|x86.ActiveCfg = Release|x86
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
