@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOTP21DatabaseConverter.MacOS", "OOTP21DatabaseConverter.MacOS\OOTP21DatabaseConverter.MacOS.csproj", "{25296910-C778-4888-843F-D037609D4BE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOTP22DatabaseConverter.MacOS", "OOTP22DatabaseConverter.MacOS\OOTP22DatabaseConverter.MacOS.csproj", "{E298C350-9084-43A0-9505-C3AFCAEF3936}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,5 +15,9 @@ Global
 		{25296910-C778-4888-843F-D037609D4BE1}.Debug|x86.Build.0 = Debug|x86
 		{25296910-C778-4888-843F-D037609D4BE1}.Release|x86.ActiveCfg = Release|x86
 		{25296910-C778-4888-843F-D037609D4BE1}.Release|x86.Build.0 = Release|x86
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Debug|x86.ActiveCfg = Debug|x86
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Debug|x86.Build.0 = Debug|x86
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Release|x86.ActiveCfg = Release|x86
+		{E298C350-9084-43A0-9505-C3AFCAEF3936}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 EndGlobal

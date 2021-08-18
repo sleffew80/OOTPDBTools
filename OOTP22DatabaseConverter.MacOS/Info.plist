@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>OOTP 21 Database Converter</string>
+	<string>OOTP 22 Database Converter</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.stevenleffew.OOTP-21-Database-Converter</string>
+	<string>com.stevenleffew.OOTP-22-Database-Converter</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.01</string>
+	<string>2.01</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.12</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -27,6 +27,6 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 </dict>
 </plist>
