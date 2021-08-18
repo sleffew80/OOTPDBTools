@@ -4,25 +4,25 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyName>OOTP21DatabaseConverter</AssemblyName>
-    <RootNamespace>OOTP21DatabaseConverter</RootNamespace>
+    <AssemblyName>OOTP22DatabaseConverter</AssemblyName>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <AssemblyVersion>1.0.1.1</AssemblyVersion>
-    <FileVersion>1.0.1.1</FileVersion>
-    <Version>1.0.1</Version>
+    <Version>2.0.1</Version>
+    <AssemblyVersion>2.0.1.2</AssemblyVersion>
+    <FileVersion>2.0.1.2</FileVersion>
     <Authors>Steven Leffew</Authors>
-    <Product>OOTP 21 Database Converter</Product>
-    <Description>Program for converting OOTP Database files to editable comma separated values files and vice versa.</Description>
-    <Copyright>2021</Copyright>
     <Company>OOTP Baseball Tools</Company>
+    <Product>OOTP 22 Database Converter</Product>
+    <Description>Program for converting OOTP 22 Database files to editable comma separated values files and vice versa.</Description>
+    <RootNamespace>OOTP22DatabaseConverter</RootNamespace>
+    <Copyright>2021</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;_WINDOWS_</DefineConstants>
+    <DefineConstants>TRACE;_WINDOWS_;_OOTP22_</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;_WINDOWS_</DefineConstants>
+    <DefineConstants>TRACE;_WINDOWS_;_OOTP22_</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,8 +37,8 @@
 
   <ItemGroup>
     <Folder Include="CSVtoODB\" />
-    <Folder Include="OOTPCommon\" />
     <Folder Include="Utilities\" />
+    <Folder Include="OOTPCommon\" />
     <Folder Include="ODBtoCSV\" />
   </ItemGroup>
 

@@ -77,6 +77,24 @@ namespace OOTPCommon
         private const string uniformNumberFileName = "UniNumbers.csv";
 
         // Comma separated value(*.csv) file name arrays for database files
+#if _OOTP22_
+        private String[] historicalDatabaseAllCsvFileNames = { masterFileName, battingFileName, battingNormalizedFileName,
+                                                pitchingFileName, pitchingNormalizedFileName, fieldingFileName,
+                                                fieldingOutFieldFileName, allstarFullFileName, awardsPlayersFileName,
+                                                hallOfFameFileName, teamsFileName, teamFranchisesFileName,
+                                                seriesPostSeasonFileName, uniformNumberFileName, managersFileName,
+                                                awardsManagersFileName, battingPostSeasonFileName, pitchingPostSeasonFileName, 
+                                                fieldingPostSeasonFileName, null, recordsSingleGameFileName, battingSplitsFileName, 
+                                                openingDayRostersFileName, endOfSeasonRostersFileName, null, null};
+        private String[] historicalMinorDatabaseAllCsvFileNames = { milbMasterFileName, milbBattingFileName, null,
+                                                milbPitchingFileName, null, milbFieldingFileName,
+                                                null, null, null,
+                                                null, milbTeamsFileName, null,
+                                                null, null, null,
+                                                null, null, null, null,
+                                                milbLeaguesFileName, null, null, null,
+                                                null, null, null};
+#else //OOTP 21
         private String[] historicalDatabaseAllCsvFileNames = { masterFileName, battingFileName, battingNormalizedFileName,
                                                 pitchingFileName, pitchingNormalizedFileName, fieldingFileName,
                                                 fieldingNormalizedFileName, fieldingOutFieldFileName, fieldingOutFieldNormalizedFileName,
@@ -92,6 +110,7 @@ namespace OOTPCommon
                                                 milbTeamsFileName, null, null,
                                                 null, null, null, null,
                                                 null, null, milbLeaguesFileName};
+#endif
         private String[] externalAllCsvFileNames = { masterFileName, teamsFileName, milbMasterFileName, milbTeamsFileName,
                                                 milbLeaguesFileName, seriesPostSeasonFileName, uniformNumberFileName,
                                                 openingDayRostersFileName, endOfSeasonRostersFileName };
@@ -102,9 +121,9 @@ namespace OOTPCommon
         private const string historicalLineupsDatabaseFileName = "historical_lineups.odb";
         private const string historicalTransactionsDatabaseFileName = "historical_transactions.odb";
         private const string statsDatabaseFileName = "stats.odb";
-        #endregion
+#endregion
 
-        #region Accessors
+#region Accessors
         public string LineupsFileName => lineupsFileName;
         public string TransactionsFileName => transactionsFileName;
         public string HistoricalDatabaseFileName => historicalDatabaseFileName;
@@ -128,12 +147,12 @@ namespace OOTPCommon
         {
             get { return HistoricalDatabaseAllCsvFileNames(false).Concat(HistoricalMinorDatabaseAllCsvFileNames(false)).ToArray().Concat(ExternalAllCsvFileNames).ToArray().Concat(new String[] { lineupsFileName, transactionsFileName }).ToArray(); }
         }
-        #endregion
+#endregion
 
         public FileNames()
         { }
 
-        #region Methods
+#region Methods
         /// <summary>
         /// All comma separated value(*.csv) file names required for OOTP's historical database.
         /// </summary>
@@ -183,6 +202,6 @@ namespace OOTPCommon
                 return historicalMinorDatabaseAllCsvFileNames;
             }
         }
-        #endregion
+#endregion
     }
 }

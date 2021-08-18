@@ -17,6 +17,10 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OOTPCommon.Shared", "OOTPCo
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OOTP21DatabaseConverter.Windows.Installer", "OOTP21DatabaseConverter.Windows.Installer\OOTP21DatabaseConverter.Windows.Installer.vdproj", "{98F3D1F7-990A-4EC8-B4DA-5C4CECB3320E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OOTP22DatabaseConverter.Windows", "OOTP22DatabaseConverter.Windows\OOTP22DatabaseConverter.Windows.csproj", "{A45618F3-4D19-4030-9F72-1A55F31085BF}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OOTP22DatabaseConverter.Windows.Installer", "OOTP22DatabaseConverter.Windows.Installer\OOTP22DatabaseConverter.Windows.Installer.vdproj", "{7CBC12AC-11AC-40C5-8141-B27D42088F4A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		OOTPCommon.Shared\OOTPCommon.projitems*{3603c0d2-c3e5-48db-8c55-3d3df2e1fd41}*SharedItemsImports = 13
@@ -49,6 +53,18 @@ Global
 		{98F3D1F7-990A-4EC8-B4DA-5C4CECB3320E}.Debug|x86.ActiveCfg = Debug
 		{98F3D1F7-990A-4EC8-B4DA-5C4CECB3320E}.Release|Any CPU.ActiveCfg = Release
 		{98F3D1F7-990A-4EC8-B4DA-5C4CECB3320E}.Release|x86.ActiveCfg = Release
+		{A45618F3-4D19-4030-9F72-1A55F31085BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A45618F3-4D19-4030-9F72-1A55F31085BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A45618F3-4D19-4030-9F72-1A55F31085BF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A45618F3-4D19-4030-9F72-1A55F31085BF}.Debug|x86.Build.0 = Debug|Any CPU
+		{A45618F3-4D19-4030-9F72-1A55F31085BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A45618F3-4D19-4030-9F72-1A55F31085BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A45618F3-4D19-4030-9F72-1A55F31085BF}.Release|x86.ActiveCfg = Release|Any CPU
+		{A45618F3-4D19-4030-9F72-1A55F31085BF}.Release|x86.Build.0 = Release|Any CPU
+		{7CBC12AC-11AC-40C5-8141-B27D42088F4A}.Debug|Any CPU.ActiveCfg = Debug
+		{7CBC12AC-11AC-40C5-8141-B27D42088F4A}.Debug|x86.ActiveCfg = Debug
+		{7CBC12AC-11AC-40C5-8141-B27D42088F4A}.Release|Any CPU.ActiveCfg = Release
+		{7CBC12AC-11AC-40C5-8141-B27D42088F4A}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
