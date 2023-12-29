@@ -57,258 +57,257 @@ namespace OOTPDatabaseConverter
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.odbToCsvGroupBox = new System.Windows.Forms.GroupBox();
-            this.odbFileLocationLabel = new System.Windows.Forms.Label();
-            this.odbFileLocationTextBox = new System.Windows.Forms.TextBox();
-            this.odbFileLocationButton = new System.Windows.Forms.Button();
-            this.csvFileDestinationLabel = new System.Windows.Forms.Label();
-            this.csvFileDestinationTextBox = new System.Windows.Forms.TextBox();
-            this.csvFileDestinationButton = new System.Windows.Forms.Button();
-            this.odbToCsvStatusLabel = new System.Windows.Forms.Label();
-            this.odbToCsvProgressBar = new System.Windows.Forms.ProgressBar();
-            this.odbToCsvConvertButton = new System.Windows.Forms.Button();
-            this.csvToOdbGroupBox = new System.Windows.Forms.GroupBox();
-            this.csvFileLocationLabel = new System.Windows.Forms.Label();
-            this.csvFileLocationTextBox = new System.Windows.Forms.TextBox();
-            this.csvFileLocationButton = new System.Windows.Forms.Button();
-            this.odbFileDestinationLabel = new System.Windows.Forms.Label();
-            this.odbFileDestinationTextBox = new System.Windows.Forms.TextBox();
-            this.odbFileDestinationButton = new System.Windows.Forms.Button();
-            this.csvToOdbStatusLabel = new System.Windows.Forms.Label();
-            this.csvToOdbProgressBar = new System.Windows.Forms.ProgressBar();
-            this.csvToOdbConvertButton = new System.Windows.Forms.Button();
-            this.versionLabel = new System.Windows.Forms.Label();
-            this.odbToCsvGroupBox.SuspendLayout();
-            this.csvToOdbGroupBox.SuspendLayout();
-            this.SuspendLayout();
+            odbToCsvGroupBox = new System.Windows.Forms.GroupBox();
+            odbFileLocationLabel = new System.Windows.Forms.Label();
+            odbFileLocationTextBox = new System.Windows.Forms.TextBox();
+            odbFileLocationButton = new System.Windows.Forms.Button();
+            csvFileDestinationLabel = new System.Windows.Forms.Label();
+            csvFileDestinationTextBox = new System.Windows.Forms.TextBox();
+            csvFileDestinationButton = new System.Windows.Forms.Button();
+            odbToCsvStatusLabel = new System.Windows.Forms.Label();
+            odbToCsvProgressBar = new System.Windows.Forms.ProgressBar();
+            odbToCsvConvertButton = new System.Windows.Forms.Button();
+            csvToOdbGroupBox = new System.Windows.Forms.GroupBox();
+            csvFileLocationLabel = new System.Windows.Forms.Label();
+            csvFileLocationTextBox = new System.Windows.Forms.TextBox();
+            csvFileLocationButton = new System.Windows.Forms.Button();
+            odbFileDestinationLabel = new System.Windows.Forms.Label();
+            odbFileDestinationTextBox = new System.Windows.Forms.TextBox();
+            odbFileDestinationButton = new System.Windows.Forms.Button();
+            csvToOdbStatusLabel = new System.Windows.Forms.Label();
+            csvToOdbProgressBar = new System.Windows.Forms.ProgressBar();
+            csvToOdbConvertButton = new System.Windows.Forms.Button();
+            versionLabel = new System.Windows.Forms.Label();
+            odbToCsvGroupBox.SuspendLayout();
+            csvToOdbGroupBox.SuspendLayout();
+            SuspendLayout();
             // 
             // odbToCsvGroupBox
             // 
-            this.odbToCsvGroupBox.Controls.Add(this.odbFileLocationLabel);
-            this.odbToCsvGroupBox.Controls.Add(this.odbFileLocationTextBox);
-            this.odbToCsvGroupBox.Controls.Add(this.odbFileLocationButton);
-            this.odbToCsvGroupBox.Controls.Add(this.csvFileDestinationLabel);
-            this.odbToCsvGroupBox.Controls.Add(this.csvFileDestinationTextBox);
-            this.odbToCsvGroupBox.Controls.Add(this.csvFileDestinationButton);
-            this.odbToCsvGroupBox.Controls.Add(this.odbToCsvStatusLabel);
-            this.odbToCsvGroupBox.Controls.Add(this.odbToCsvProgressBar);
-            this.odbToCsvGroupBox.Controls.Add(this.odbToCsvConvertButton);
-            this.odbToCsvGroupBox.Location = new System.Drawing.Point(12, 12);
-            this.odbToCsvGroupBox.Name = "odbToCsvGroupBox";
-            this.odbToCsvGroupBox.Size = new System.Drawing.Size(463, 169);
-            this.odbToCsvGroupBox.TabIndex = 0;
-            this.odbToCsvGroupBox.TabStop = false;
-            this.odbToCsvGroupBox.Text = "Convert ODB to CSV";
+            odbToCsvGroupBox.Controls.Add(odbFileLocationLabel);
+            odbToCsvGroupBox.Controls.Add(odbFileLocationTextBox);
+            odbToCsvGroupBox.Controls.Add(odbFileLocationButton);
+            odbToCsvGroupBox.Controls.Add(csvFileDestinationLabel);
+            odbToCsvGroupBox.Controls.Add(csvFileDestinationTextBox);
+            odbToCsvGroupBox.Controls.Add(csvFileDestinationButton);
+            odbToCsvGroupBox.Controls.Add(odbToCsvStatusLabel);
+            odbToCsvGroupBox.Controls.Add(odbToCsvProgressBar);
+            odbToCsvGroupBox.Controls.Add(odbToCsvConvertButton);
+            odbToCsvGroupBox.Location = new System.Drawing.Point(12, 12);
+            odbToCsvGroupBox.Name = "odbToCsvGroupBox";
+            odbToCsvGroupBox.Size = new System.Drawing.Size(463, 169);
+            odbToCsvGroupBox.TabIndex = 0;
+            odbToCsvGroupBox.TabStop = false;
+            odbToCsvGroupBox.Text = "Convert ODB to CSV";
             // 
             // odbFileLocationLabel
             // 
-            this.odbFileLocationLabel.AutoSize = true;
-            this.odbFileLocationLabel.Location = new System.Drawing.Point(7, 23);
-            this.odbFileLocationLabel.Name = "odbFileLocationLabel";
-            this.odbFileLocationLabel.Size = new System.Drawing.Size(106, 15);
-            this.odbFileLocationLabel.TabIndex = 0;
-            this.odbFileLocationLabel.Text = "ODB Files Location";
+            odbFileLocationLabel.AutoSize = true;
+            odbFileLocationLabel.Location = new System.Drawing.Point(7, 23);
+            odbFileLocationLabel.Name = "odbFileLocationLabel";
+            odbFileLocationLabel.Size = new System.Drawing.Size(106, 15);
+            odbFileLocationLabel.TabIndex = 0;
+            odbFileLocationLabel.Text = "ODB Files Location";
             // 
             // odbFileLocationTextBox
             // 
-            this.odbFileLocationTextBox.Location = new System.Drawing.Point(7, 41);
-            this.odbFileLocationTextBox.Name = "odbFileLocationTextBox";
-            this.odbFileLocationTextBox.Size = new System.Drawing.Size(365, 23);
-            this.odbFileLocationTextBox.TabIndex = 1;
-            this.odbFileLocationTextBox.TextChanged += new System.EventHandler(this.odbFileLocationTextBox_TextChanged);
+            odbFileLocationTextBox.Location = new System.Drawing.Point(7, 41);
+            odbFileLocationTextBox.Name = "odbFileLocationTextBox";
+            odbFileLocationTextBox.Size = new System.Drawing.Size(365, 23);
+            odbFileLocationTextBox.TabIndex = 1;
+            odbFileLocationTextBox.TextChanged += odbFileLocationTextBox_TextChanged;
             // 
             // odbFileLocationButton
             // 
-            this.odbFileLocationButton.Location = new System.Drawing.Point(378, 40);
-            this.odbFileLocationButton.Name = "odbFileLocationButton";
-            this.odbFileLocationButton.Size = new System.Drawing.Size(75, 23);
-            this.odbFileLocationButton.TabIndex = 4;
-            this.odbFileLocationButton.Text = "Browse";
-            this.odbFileLocationButton.UseVisualStyleBackColor = true;
-            this.odbFileLocationButton.Click += new System.EventHandler(this.odbFileLocationButton_Click);
+            odbFileLocationButton.Location = new System.Drawing.Point(378, 40);
+            odbFileLocationButton.Name = "odbFileLocationButton";
+            odbFileLocationButton.Size = new System.Drawing.Size(75, 23);
+            odbFileLocationButton.TabIndex = 4;
+            odbFileLocationButton.Text = "Browse";
+            odbFileLocationButton.UseVisualStyleBackColor = true;
+            odbFileLocationButton.Click += odbFileLocationButton_Click;
             // 
             // csvFileDestinationLabel
             // 
-            this.csvFileDestinationLabel.AutoSize = true;
-            this.csvFileDestinationLabel.Location = new System.Drawing.Point(7, 67);
-            this.csvFileDestinationLabel.Name = "csvFileDestinationLabel";
-            this.csvFileDestinationLabel.Size = new System.Drawing.Size(117, 15);
-            this.csvFileDestinationLabel.TabIndex = 2;
-            this.csvFileDestinationLabel.Text = "CSV Files Destination";
+            csvFileDestinationLabel.AutoSize = true;
+            csvFileDestinationLabel.Location = new System.Drawing.Point(7, 67);
+            csvFileDestinationLabel.Name = "csvFileDestinationLabel";
+            csvFileDestinationLabel.Size = new System.Drawing.Size(117, 15);
+            csvFileDestinationLabel.TabIndex = 2;
+            csvFileDestinationLabel.Text = "CSV Files Destination";
             // 
             // csvFileDestinationTextBox
             // 
-            this.csvFileDestinationTextBox.Location = new System.Drawing.Point(7, 86);
-            this.csvFileDestinationTextBox.Name = "csvFileDestinationTextBox";
-            this.csvFileDestinationTextBox.Size = new System.Drawing.Size(365, 23);
-            this.csvFileDestinationTextBox.TabIndex = 3;
-            this.csvFileDestinationTextBox.TextChanged += new System.EventHandler(this.csvFileDestinationTextBox_TextChanged);
+            csvFileDestinationTextBox.Location = new System.Drawing.Point(7, 86);
+            csvFileDestinationTextBox.Name = "csvFileDestinationTextBox";
+            csvFileDestinationTextBox.Size = new System.Drawing.Size(365, 23);
+            csvFileDestinationTextBox.TabIndex = 3;
+            csvFileDestinationTextBox.TextChanged += csvFileDestinationTextBox_TextChanged;
             // 
             // csvFileDestinationButton
             // 
-            this.csvFileDestinationButton.Location = new System.Drawing.Point(378, 85);
-            this.csvFileDestinationButton.Name = "csvFileDestinationButton";
-            this.csvFileDestinationButton.Size = new System.Drawing.Size(75, 23);
-            this.csvFileDestinationButton.TabIndex = 5;
-            this.csvFileDestinationButton.Text = "Browse";
-            this.csvFileDestinationButton.UseVisualStyleBackColor = true;
-            this.csvFileDestinationButton.Click += new System.EventHandler(this.csvFileDestinationButton_Click);
+            csvFileDestinationButton.Location = new System.Drawing.Point(378, 85);
+            csvFileDestinationButton.Name = "csvFileDestinationButton";
+            csvFileDestinationButton.Size = new System.Drawing.Size(75, 23);
+            csvFileDestinationButton.TabIndex = 5;
+            csvFileDestinationButton.Text = "Browse";
+            csvFileDestinationButton.UseVisualStyleBackColor = true;
+            csvFileDestinationButton.Click += csvFileDestinationButton_Click;
             // 
             // odbToCsvStatusLabel
             // 
-            this.odbToCsvStatusLabel.AutoSize = true;
-            this.odbToCsvStatusLabel.Location = new System.Drawing.Point(7, 114);
-            this.odbToCsvStatusLabel.Name = "odbToCsvStatusLabel";
-            this.odbToCsvStatusLabel.Size = new System.Drawing.Size(38, 15);
-            this.odbToCsvStatusLabel.TabIndex = 8;
-            this.odbToCsvStatusLabel.Text = "label1";
-            this.odbToCsvStatusLabel.Visible = false;
+            odbToCsvStatusLabel.AutoSize = true;
+            odbToCsvStatusLabel.Location = new System.Drawing.Point(7, 114);
+            odbToCsvStatusLabel.Name = "odbToCsvStatusLabel";
+            odbToCsvStatusLabel.Size = new System.Drawing.Size(38, 15);
+            odbToCsvStatusLabel.TabIndex = 8;
+            odbToCsvStatusLabel.Text = "label1";
+            odbToCsvStatusLabel.Visible = false;
             // 
             // odbToCsvProgressBar
             // 
-            this.odbToCsvProgressBar.Location = new System.Drawing.Point(7, 135);
-            this.odbToCsvProgressBar.Name = "odbToCsvProgressBar";
-            this.odbToCsvProgressBar.Size = new System.Drawing.Size(365, 23);
-            this.odbToCsvProgressBar.TabIndex = 7;
-            this.odbToCsvProgressBar.Visible = false;
+            odbToCsvProgressBar.Location = new System.Drawing.Point(7, 135);
+            odbToCsvProgressBar.Name = "odbToCsvProgressBar";
+            odbToCsvProgressBar.Size = new System.Drawing.Size(365, 23);
+            odbToCsvProgressBar.TabIndex = 7;
+            odbToCsvProgressBar.Visible = false;
             // 
             // odbToCsvConvertButton
             // 
-            this.odbToCsvConvertButton.Location = new System.Drawing.Point(378, 135);
-            this.odbToCsvConvertButton.Name = "odbToCsvConvertButton";
-            this.odbToCsvConvertButton.Size = new System.Drawing.Size(75, 23);
-            this.odbToCsvConvertButton.TabIndex = 6;
-            this.odbToCsvConvertButton.Text = "Convert";
-            this.odbToCsvConvertButton.UseVisualStyleBackColor = true;
-            this.odbToCsvConvertButton.Click += new System.EventHandler(this.odbToCsvConvertButton_Click);
+            odbToCsvConvertButton.Location = new System.Drawing.Point(378, 135);
+            odbToCsvConvertButton.Name = "odbToCsvConvertButton";
+            odbToCsvConvertButton.Size = new System.Drawing.Size(75, 23);
+            odbToCsvConvertButton.TabIndex = 6;
+            odbToCsvConvertButton.Text = "Convert";
+            odbToCsvConvertButton.UseVisualStyleBackColor = true;
+            odbToCsvConvertButton.Click += odbToCsvConvertButton_Click;
             // 
             // csvToOdbGroupBox
             // 
-            this.csvToOdbGroupBox.Controls.Add(this.csvFileLocationLabel);
-            this.csvToOdbGroupBox.Controls.Add(this.csvFileLocationTextBox);
-            this.csvToOdbGroupBox.Controls.Add(this.csvFileLocationButton);
-            this.csvToOdbGroupBox.Controls.Add(this.odbFileDestinationLabel);
-            this.csvToOdbGroupBox.Controls.Add(this.odbFileDestinationTextBox);
-            this.csvToOdbGroupBox.Controls.Add(this.odbFileDestinationButton);
-            this.csvToOdbGroupBox.Controls.Add(this.csvToOdbStatusLabel);
-            this.csvToOdbGroupBox.Controls.Add(this.csvToOdbProgressBar);
-            this.csvToOdbGroupBox.Controls.Add(this.csvToOdbConvertButton);
-            this.csvToOdbGroupBox.Location = new System.Drawing.Point(12, 187);
-            this.csvToOdbGroupBox.Name = "csvToOdbGroupBox";
-            this.csvToOdbGroupBox.Size = new System.Drawing.Size(463, 169);
-            this.csvToOdbGroupBox.TabIndex = 1;
-            this.csvToOdbGroupBox.TabStop = false;
-            this.csvToOdbGroupBox.Text = "Convert CSV to ODB";
+            csvToOdbGroupBox.Controls.Add(csvFileLocationLabel);
+            csvToOdbGroupBox.Controls.Add(csvFileLocationTextBox);
+            csvToOdbGroupBox.Controls.Add(csvFileLocationButton);
+            csvToOdbGroupBox.Controls.Add(odbFileDestinationLabel);
+            csvToOdbGroupBox.Controls.Add(odbFileDestinationTextBox);
+            csvToOdbGroupBox.Controls.Add(odbFileDestinationButton);
+            csvToOdbGroupBox.Controls.Add(csvToOdbStatusLabel);
+            csvToOdbGroupBox.Controls.Add(csvToOdbProgressBar);
+            csvToOdbGroupBox.Controls.Add(csvToOdbConvertButton);
+            csvToOdbGroupBox.Location = new System.Drawing.Point(12, 187);
+            csvToOdbGroupBox.Name = "csvToOdbGroupBox";
+            csvToOdbGroupBox.Size = new System.Drawing.Size(463, 169);
+            csvToOdbGroupBox.TabIndex = 1;
+            csvToOdbGroupBox.TabStop = false;
+            csvToOdbGroupBox.Text = "Convert CSV to ODB";
             // 
             // csvFileLocationLabel
             // 
-            this.csvFileLocationLabel.AutoSize = true;
-            this.csvFileLocationLabel.Location = new System.Drawing.Point(7, 23);
-            this.csvFileLocationLabel.Name = "csvFileLocationLabel";
-            this.csvFileLocationLabel.Size = new System.Drawing.Size(103, 15);
-            this.csvFileLocationLabel.TabIndex = 0;
-            this.csvFileLocationLabel.Text = "CSV Files Location";
+            csvFileLocationLabel.AutoSize = true;
+            csvFileLocationLabel.Location = new System.Drawing.Point(7, 23);
+            csvFileLocationLabel.Name = "csvFileLocationLabel";
+            csvFileLocationLabel.Size = new System.Drawing.Size(103, 15);
+            csvFileLocationLabel.TabIndex = 0;
+            csvFileLocationLabel.Text = "CSV Files Location";
             // 
             // csvFileLocationTextBox
             // 
-            this.csvFileLocationTextBox.Location = new System.Drawing.Point(7, 41);
-            this.csvFileLocationTextBox.Name = "csvFileLocationTextBox";
-            this.csvFileLocationTextBox.Size = new System.Drawing.Size(365, 23);
-            this.csvFileLocationTextBox.TabIndex = 1;
-            this.csvFileLocationTextBox.TextChanged += new System.EventHandler(this.csvFileLocationTextBox_TextChanged);
+            csvFileLocationTextBox.Location = new System.Drawing.Point(7, 41);
+            csvFileLocationTextBox.Name = "csvFileLocationTextBox";
+            csvFileLocationTextBox.Size = new System.Drawing.Size(365, 23);
+            csvFileLocationTextBox.TabIndex = 1;
+            csvFileLocationTextBox.TextChanged += csvFileLocationTextBox_TextChanged;
             // 
             // csvFileLocationButton
             // 
-            this.csvFileLocationButton.Location = new System.Drawing.Point(378, 41);
-            this.csvFileLocationButton.Name = "csvFileLocationButton";
-            this.csvFileLocationButton.Size = new System.Drawing.Size(75, 23);
-            this.csvFileLocationButton.TabIndex = 4;
-            this.csvFileLocationButton.Text = "Browse";
-            this.csvFileLocationButton.UseVisualStyleBackColor = true;
-            this.csvFileLocationButton.Click += new System.EventHandler(this.csvFileLocationButton_Click);
+            csvFileLocationButton.Location = new System.Drawing.Point(378, 41);
+            csvFileLocationButton.Name = "csvFileLocationButton";
+            csvFileLocationButton.Size = new System.Drawing.Size(75, 23);
+            csvFileLocationButton.TabIndex = 4;
+            csvFileLocationButton.Text = "Browse";
+            csvFileLocationButton.UseVisualStyleBackColor = true;
+            csvFileLocationButton.Click += csvFileLocationButton_Click;
             // 
             // odbFileDestinationLabel
             // 
-            this.odbFileDestinationLabel.AutoSize = true;
-            this.odbFileDestinationLabel.Location = new System.Drawing.Point(7, 67);
-            this.odbFileDestinationLabel.Name = "odbFileDestinationLabel";
-            this.odbFileDestinationLabel.Size = new System.Drawing.Size(120, 15);
-            this.odbFileDestinationLabel.TabIndex = 2;
-            this.odbFileDestinationLabel.Text = "ODB Files Destination";
+            odbFileDestinationLabel.AutoSize = true;
+            odbFileDestinationLabel.Location = new System.Drawing.Point(7, 67);
+            odbFileDestinationLabel.Name = "odbFileDestinationLabel";
+            odbFileDestinationLabel.Size = new System.Drawing.Size(120, 15);
+            odbFileDestinationLabel.TabIndex = 2;
+            odbFileDestinationLabel.Text = "ODB Files Destination";
             // 
             // odbFileDestinationTextBox
             // 
-            this.odbFileDestinationTextBox.Location = new System.Drawing.Point(7, 86);
-            this.odbFileDestinationTextBox.Name = "odbFileDestinationTextBox";
-            this.odbFileDestinationTextBox.Size = new System.Drawing.Size(365, 23);
-            this.odbFileDestinationTextBox.TabIndex = 3;
-            this.odbFileDestinationTextBox.TextChanged += new System.EventHandler(this.odbFileDestinationTextBox_TextChanged);
+            odbFileDestinationTextBox.Location = new System.Drawing.Point(7, 86);
+            odbFileDestinationTextBox.Name = "odbFileDestinationTextBox";
+            odbFileDestinationTextBox.Size = new System.Drawing.Size(365, 23);
+            odbFileDestinationTextBox.TabIndex = 3;
+            odbFileDestinationTextBox.TextChanged += odbFileDestinationTextBox_TextChanged;
             // 
             // odbFileDestinationButton
             // 
-            this.odbFileDestinationButton.Location = new System.Drawing.Point(378, 85);
-            this.odbFileDestinationButton.Name = "odbFileDestinationButton";
-            this.odbFileDestinationButton.Size = new System.Drawing.Size(75, 23);
-            this.odbFileDestinationButton.TabIndex = 5;
-            this.odbFileDestinationButton.Text = "Browse";
-            this.odbFileDestinationButton.UseVisualStyleBackColor = true;
-            this.odbFileDestinationButton.Click += new System.EventHandler(this.odbFileDestinationButton_Click);
+            odbFileDestinationButton.Location = new System.Drawing.Point(378, 85);
+            odbFileDestinationButton.Name = "odbFileDestinationButton";
+            odbFileDestinationButton.Size = new System.Drawing.Size(75, 23);
+            odbFileDestinationButton.TabIndex = 5;
+            odbFileDestinationButton.Text = "Browse";
+            odbFileDestinationButton.UseVisualStyleBackColor = true;
+            odbFileDestinationButton.Click += odbFileDestinationButton_Click;
             // 
             // csvToOdbStatusLabel
             // 
-            this.csvToOdbStatusLabel.AutoSize = true;
-            this.csvToOdbStatusLabel.Location = new System.Drawing.Point(7, 116);
-            this.csvToOdbStatusLabel.Name = "csvToOdbStatusLabel";
-            this.csvToOdbStatusLabel.Size = new System.Drawing.Size(38, 15);
-            this.csvToOdbStatusLabel.TabIndex = 8;
-            this.csvToOdbStatusLabel.Text = "label1";
-            this.csvToOdbStatusLabel.Visible = false;
+            csvToOdbStatusLabel.AutoSize = true;
+            csvToOdbStatusLabel.Location = new System.Drawing.Point(7, 116);
+            csvToOdbStatusLabel.Name = "csvToOdbStatusLabel";
+            csvToOdbStatusLabel.Size = new System.Drawing.Size(38, 15);
+            csvToOdbStatusLabel.TabIndex = 8;
+            csvToOdbStatusLabel.Text = "label1";
+            csvToOdbStatusLabel.Visible = false;
             // 
             // csvToOdbProgressBar
             // 
-            this.csvToOdbProgressBar.Location = new System.Drawing.Point(7, 135);
-            this.csvToOdbProgressBar.Name = "csvToOdbProgressBar";
-            this.csvToOdbProgressBar.Size = new System.Drawing.Size(365, 23);
-            this.csvToOdbProgressBar.TabIndex = 7;
-            this.csvToOdbProgressBar.Visible = false;
+            csvToOdbProgressBar.Location = new System.Drawing.Point(7, 135);
+            csvToOdbProgressBar.Name = "csvToOdbProgressBar";
+            csvToOdbProgressBar.Size = new System.Drawing.Size(365, 23);
+            csvToOdbProgressBar.TabIndex = 7;
+            csvToOdbProgressBar.Visible = false;
             // 
             // csvToOdbConvertButton
             // 
-            this.csvToOdbConvertButton.Location = new System.Drawing.Point(378, 135);
-            this.csvToOdbConvertButton.Name = "csvToOdbConvertButton";
-            this.csvToOdbConvertButton.Size = new System.Drawing.Size(75, 23);
-            this.csvToOdbConvertButton.TabIndex = 6;
-            this.csvToOdbConvertButton.Text = "Convert";
-            this.csvToOdbConvertButton.UseVisualStyleBackColor = true;
-            this.csvToOdbConvertButton.Click += new System.EventHandler(this.csvToOdbConvertButton_Click);
+            csvToOdbConvertButton.Location = new System.Drawing.Point(378, 135);
+            csvToOdbConvertButton.Name = "csvToOdbConvertButton";
+            csvToOdbConvertButton.Size = new System.Drawing.Size(75, 23);
+            csvToOdbConvertButton.TabIndex = 6;
+            csvToOdbConvertButton.Text = "Convert";
+            csvToOdbConvertButton.UseVisualStyleBackColor = true;
+            csvToOdbConvertButton.Click += csvToOdbConvertButton_Click;
             // 
             // versionLabel
             // 
-            this.versionLabel.AutoSize = true;
-            this.versionLabel.Location = new System.Drawing.Point(381, 363);
-            this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(84, 15);
-            this.versionLabel.TabIndex = 2;
-            this.versionLabel.Text = "Version: 4.0.0.1";
+            versionLabel.AutoSize = true;
+            versionLabel.Location = new System.Drawing.Point(381, 363);
+            versionLabel.Name = "versionLabel";
+            versionLabel.Size = new System.Drawing.Size(84, 15);
+            versionLabel.TabIndex = 2;
+            versionLabel.Text = "Version: 4.0.0.1";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(489, 387);
-            this.Controls.Add(this.versionLabel);
-            this.Controls.Add(this.csvToOdbGroupBox);
-            this.Controls.Add(this.odbToCsvGroupBox);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MainForm";
-            this.Text = "OOTP Database Converter";
-            this.odbToCsvGroupBox.ResumeLayout(false);
-            this.odbToCsvGroupBox.PerformLayout();
-            this.csvToOdbGroupBox.ResumeLayout(false);
-            this.csvToOdbGroupBox.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(489, 387);
+            Controls.Add(versionLabel);
+            Controls.Add(csvToOdbGroupBox);
+            Controls.Add(odbToCsvGroupBox);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Name = "MainForm";
+            Text = "OOTP Database Converter";
+            odbToCsvGroupBox.ResumeLayout(false);
+            odbToCsvGroupBox.PerformLayout();
+            csvToOdbGroupBox.ResumeLayout(false);
+            csvToOdbGroupBox.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
