@@ -3,7 +3,7 @@
 //
 // File: OdbToCsv.cs
 // Author: Steven Leffew
-// Copyright: (C) 2021
+// Copyright: (C) 2021-2024
 // Description: OOTP Database(*.odb) to Comma Separated Value(*.csv)
 //              File Converter.
 //
@@ -30,7 +30,7 @@
 #region Using Statements
 using System;
 using System.IO;
-
+using System.Text;
 using OOTPCommon;
 #endregion
 
@@ -42,27 +42,24 @@ namespace ODBtoCSV
     class OdbToCsv
     {
         #region Members
-        private static FileNames fileNames = new FileNames();
-        private static string historicalDatabaseFileName = fileNames.HistoricalDatabaseFileName;
-        private static string historicalLineupsFileName = fileNames.HistoricalLineupsDatabaseFileName;
-        private static string historicalTransactionsFileName = fileNames.HistoricalTransactionsDatabaseFileName;
-        private static string historicalMinorsDatabaseFileName = fileNames.HistoricalMinorDatabaseFileName;
-        private static string statsFileName = fileNames.StatsDatabaseFileName;
-        private static String[] historicalDatabaseAllCsvFileName = fileNames.HistoricalDatabaseAllCsvFileNames(true);
-        private static String[] historicalMinorDatabaseAllCsvFileName = fileNames.HistoricalMinorDatabaseAllCsvFileNames(true);
-        private static string historicalLineupsDatabaseCsvFileName = fileNames.LineupsFileName;
-        private static string historicalTransactionsDatabaseCsvFileName = fileNames.TransactionsFileName;
         private static string pathDelimeter = Utilities.Utilities.FilePathDelimeter();
         private static string missingFileText = "Missing Files: ";
 
+        private FileNames fileNames;
+
         private String inputFolder;
         private String outputFolder;
+        private String configFileDestination;
         private String historicalDatabaseFileLocation;
         private String historicalLineupsFileLocation;
         private String historicalTransactionsFileLocation;
         private String historicalMinorsDatabaseFileLocation;
         private String statsFileLocation;
         private String missingFileTextMessage;
+
+        private OdbVersion odbVersion;
+        private int odbTableCount;
+        private int odbMinorTableCount;
         #endregion
 
         #region Helpers
@@ -92,11 +89,11 @@ namespace ODBtoCSV
         private bool VerifyAllFiles()
         {
             missingFileTextMessage = missingFileText;
-            VerifyOdbFile(historicalDatabaseFileLocation, historicalDatabaseFileName);
-            VerifyOdbFile(historicalMinorsDatabaseFileLocation, historicalMinorsDatabaseFileName);
-            VerifyOdbFile(historicalLineupsFileLocation, historicalLineupsFileName);
-            VerifyOdbFile(historicalTransactionsFileLocation, historicalTransactionsFileName);
-            //VerifyOdbFile(statsFileLocation, statsFileName);
+            VerifyOdbFile(historicalDatabaseFileLocation, fileNames.HistoricalDatabaseFileName);
+            VerifyOdbFile(historicalMinorsDatabaseFileLocation, fileNames.HistoricalMinorDatabaseFileName);
+            VerifyOdbFile(historicalLineupsFileLocation, fileNames.HistoricalLineupsDatabaseFileName);
+            VerifyOdbFile(historicalTransactionsFileLocation, fileNames.HistoricalTransactionsDatabaseFileName);
+            //VerifyOdbFile(statsFileLocation, fileNames.StatsFileName);
 
             if (missingFileTextMessage == missingFileText)
             {
@@ -105,6 +102,158 @@ namespace ODBtoCSV
             else
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Quick and dirty way of determining the .odb file layout. 
+        /// </summary>
+        /// <param name="odbFileLocation">Folder location of OOTP Database(*.odb) file.</param>
+        private OdbVersion GetDatabaseVersion(String odbFileLocation)
+        {
+            OdbVersion odbVersionNumber = OdbVersion.ODB_Err;
+            int odbBytePosition = 0;
+            int odbFileSize = 0;
+            Byte odbTable = 0;
+            Boolean valueChecked = false;
+
+            lock (this)
+            {
+                try
+                {
+                    // Create a FileStream for database file to be read.
+                    FileStream inputStream = new FileStream(odbFileLocation, FileMode.Open,
+                    FileAccess.Read, FileShare.Read);
+                    // Create BinaryReader using FileStream object to read input Stream.
+                    using (BinaryReader reader = new BinaryReader(inputStream, Encoding.ASCII))
+                    {
+                        // Get the database file size in bytes.
+                        odbFileSize = (int)reader.BaseStream.Length;
+
+                        // Initialize local variables.
+                        Byte currentTable = 0;
+                        int stringLength = 0;
+                        String databaseLine = null;
+                        String checkValue = null;
+
+                        // Skip first four bytes (file header).
+                        while (odbBytePosition < 5)
+                        {
+                            reader.ReadByte();
+                            odbBytePosition++;
+                        }
+
+                        // Read data until last byte is reached.
+                        while (odbBytePosition < odbFileSize)
+                        {
+                            // Set the current table.
+                            currentTable = reader.ReadByte();
+
+                            // Check to see if we've reached a new table.
+                            if (odbTable != currentTable)
+                            {
+                                // Increment table identifier.
+                                odbTable = currentTable;
+                            }
+
+                            // Get the length of the current database line in chars.
+                            stringLength = reader.ReadByte() + (reader.ReadByte() * 256);
+                            odbBytePosition += 3;
+
+                            if ((odbTable == 6) && (!valueChecked))
+                            {
+                                // Read chars into "databaseLine" until last char is reached.
+                                for (int i = 0; i < stringLength; i++)
+                                {
+                                    databaseLine += reader.ReadChar();
+                                    odbBytePosition++;
+                                }
+
+                                // Get the column header at index 3.
+                                checkValue = databaseLine.Split('\t')[3];
+
+                                // Prior to OOTP 22, Table[6] contained "Fielding2" and this value would be "teamID".
+                                // From OOTP 22 on, Table[6] contains "FieldingOF" and this value should then be "Glf".
+                                if (checkValue.Equals("Glf", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    odbVersionNumber = OdbVersion.ODB_22;
+                                }
+                                else if (checkValue.Equals("teamID", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    // Assume version 17 unless there are more than 21 tables indexed.
+                                    odbVersionNumber = OdbVersion.ODB_17;
+                                }
+                                else
+                                {
+                                    odbVersionNumber = OdbVersion.ODB_Err;
+                                }
+
+                                valueChecked = true;
+                            }
+
+                            // OOTP 17 and 18 have 22 tables stored in the historical odb. OOTP 19, 20, and 21 have more (25 total).
+                            if ((odbTable == 22) && (odbVersionNumber != OdbVersion.ODB_22))
+                            {
+                                odbVersionNumber = OdbVersion.ODB_19;
+                            }
+
+                            else
+                            {
+                                // Iterate through chars of current line.
+                                for (int i = 0; i < stringLength; i++)
+                                {
+                                    reader.ReadChar();
+                                    odbBytePosition++;
+                                }
+                            }
+                        }
+
+                        odbTableCount = odbTable+1;
+                        odbMinorTableCount = odbTable+1;
+                        // Close Streams.
+                        inputStream.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return odbVersionNumber;
+        }
+
+        /// <summary>
+        /// Creates a configuration file which serves a recipe for reconstructing OOTP Database(*.odb) files from resulting
+        /// comma separated value(*.csv) files.
+        /// </summary>
+        /// <param name="fileName">Name of and where to create configuration file.</param>
+        private void WriteConfig(string fileName)
+        {
+            try 
+            { 
+                StreamWriter writer = File.CreateText(fileName);
+                for (int i = 0; i < odbTableCount; i++)
+                {
+                    if (!String.IsNullOrEmpty(fileNames.HistoricalDatabaseAllCsvFileNames[i]))
+                    {
+                        writer.WriteLine("Table_" + i.ToString() + "=" + fileNames.HistoricalDatabaseAllCsvFileNames[i]);
+                    }    
+                }
+
+                writer.WriteLine();
+
+                for (int i = 0; i < odbMinorTableCount; i++)
+                {
+                    if (!String.IsNullOrEmpty(fileNames.HistoricalMinorDatabaseAllCsvFileNames[i]))
+                    {
+                        writer.WriteLine("MiLBTable_" + i.ToString() + "=" + fileNames.HistoricalMinorDatabaseAllCsvFileNames[i]);
+                    }
+                }
+                writer.Close();
+            }
+            catch
+            {
+                throw new Exception("Error writing config file.");
             }
         }
         #endregion
@@ -120,10 +269,16 @@ namespace ODBtoCSV
         {
             this.inputFolder = inputFolder;
             this.outputFolder = outputFolder;
-            this.historicalDatabaseFileLocation = inputFolder + pathDelimeter + historicalDatabaseFileName;
-            this.historicalMinorsDatabaseFileLocation = inputFolder + pathDelimeter + historicalMinorsDatabaseFileName;
-            this.historicalLineupsFileLocation = inputFolder + pathDelimeter + historicalLineupsFileName;
-            this.historicalTransactionsFileLocation = inputFolder + pathDelimeter + historicalTransactionsFileName;
+
+            odbVersion = GetDatabaseVersion(inputFolder + pathDelimeter + "historical_database.odb");
+
+            fileNames = new FileNames(odbVersion);
+
+            this.configFileDestination = outputFolder + pathDelimeter + "DatabaseConfig.txt";
+            this.historicalDatabaseFileLocation = inputFolder + pathDelimeter + fileNames.HistoricalDatabaseFileName;
+            this.historicalMinorsDatabaseFileLocation = inputFolder + pathDelimeter + fileNames.HistoricalMinorDatabaseFileName;
+            this.historicalLineupsFileLocation = inputFolder + pathDelimeter + fileNames.HistoricalLineupsDatabaseFileName;
+            this.historicalTransactionsFileLocation = inputFolder + pathDelimeter + fileNames.HistoricalTransactionsDatabaseFileName;
         }
         #endregion
 
@@ -134,7 +289,6 @@ namespace ODBtoCSV
         /// <param name="progress">Interface for progress updates.</param>
         public void Start(IProgress<int> progress)
         {
-
             if (VerifyAllFiles() == true)
             {
                 long currentDatabaseByte = 0;
@@ -145,10 +299,12 @@ namespace ODBtoCSV
                 long combinedDatabaseFileSizes = historicalDatabaseFileSize + historicalMinorDatabaseFileSize +
                     historicalLineupsDatabaseFileSize + historicalTransactionsDatabaseFileSize;
 
-                HistoricalDatabaseConverter historicalDatabaseConverter = new HistoricalDatabaseConverter(historicalDatabaseFileLocation, outputFolder, historicalDatabaseAllCsvFileName);
-                HistoricalDatabaseConverter historicalMinorDatabaseConverter = new HistoricalDatabaseConverter(historicalMinorsDatabaseFileLocation, outputFolder, historicalMinorDatabaseAllCsvFileName);
-                HistoricalDatabaseConverter historicalLineupsDatabaseConverter = new HistoricalDatabaseConverter(historicalLineupsFileLocation, outputFolder, new String[] { historicalLineupsDatabaseCsvFileName });
-                HistoricalDatabaseConverter historicalTransactionsDatabaseConverter = new HistoricalDatabaseConverter(historicalTransactionsFileLocation, outputFolder, new String[] { historicalTransactionsDatabaseCsvFileName });
+                WriteConfig(configFileDestination);
+
+                HistoricalDatabaseConverter historicalDatabaseConverter = new HistoricalDatabaseConverter(historicalDatabaseFileLocation, outputFolder, fileNames.HistoricalDatabaseAllCsvFileNames);
+                HistoricalDatabaseConverter historicalMinorDatabaseConverter = new HistoricalDatabaseConverter(historicalMinorsDatabaseFileLocation, outputFolder, fileNames.HistoricalMinorDatabaseAllCsvFileNames);
+                HistoricalDatabaseConverter historicalLineupsDatabaseConverter = new HistoricalDatabaseConverter(historicalLineupsFileLocation, outputFolder, new String[] { fileNames.LineupsFileName });
+                HistoricalDatabaseConverter historicalTransactionsDatabaseConverter = new HistoricalDatabaseConverter(historicalTransactionsFileLocation, outputFolder, new String[] { fileNames.TransactionsFileName });
                 //StatsConverter statsConverter = new StatsConverter(statsFileLocation, outputFolder);
 
                 historicalDatabaseConverter.ToCsv(progress, currentDatabaseByte, combinedDatabaseFileSizes);

@@ -1,11 +1,10 @@
 ﻿#region File Description
 //---------------------------------------------------------------------------
 //
-// File: Utilities.cs
+// File: Main.cs
 // Author: Steven Leffew
 // Copyright: (C) 2021-2024
-// Description: A collection of cross platform methods.  
-// Note: All code requiring platform "#define" statements should go here.
+// Description: Application entry point for MacOS OOTP Database Converter.
 //
 //---------------------------------------------------------------------------
 #endregion
@@ -27,20 +26,16 @@
 //---------------------------------------------------------------------------
 #endregion
 
-namespace Utilities
+using AppKit;
+
+namespace OOTPDatabaseConverter
 {
-    /// <summary>
-    /// Class containing simple platform agnostic methods.
-    /// </summary>
-    public static class Utilities
+    static class MainClass
     {
-        public static string FilePathDelimeter()
+        static void Main(string[] args)
         {
-#if _WINDOWS_
-            return "\\";
-#else
-            return "/";
-#endif
+            NSApplication.Init();
+            NSApplication.Main(args);
         }
     }
 }

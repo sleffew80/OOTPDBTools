@@ -3,7 +3,7 @@
 //
 // File: HistoricalDatabaseConverter.cs
 // Author: Steven Leffew
-// Copyright: (C) 2021
+// Copyright: (C) 2021-2024
 // Description: OOTP Database(*.odb) to Comma Separated Value(*.csv)
 //              File Converter for OOTP's "historical_X.odb files.
 //
@@ -29,6 +29,7 @@
 
 #region Using Statements
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 #endregion
@@ -46,6 +47,7 @@ namespace ODBtoCSV
         private static String pathDelimiter = Utilities.Utilities.FilePathDelimeter();
         private static long progressIncrement = 131072;
 
+        private int odbVersion;
         private String odbFileLocation;
         private String csvFileDestination;
         private int odbBytePosition;

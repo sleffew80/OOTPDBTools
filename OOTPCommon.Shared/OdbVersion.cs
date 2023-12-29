@@ -1,11 +1,10 @@
-﻿#region File Description
+#region File Description
 //---------------------------------------------------------------------------
 //
-// File: Utilities.cs
+// File: OdbVersion.cs
 // Author: Steven Leffew
 // Copyright: (C) 2021-2024
-// Description: A collection of cross platform methods.  
-// Note: All code requiring platform "#define" statements should go here.
+// Description: OOTP Database version info.
 //
 //---------------------------------------------------------------------------
 #endregion
@@ -27,20 +26,15 @@
 //---------------------------------------------------------------------------
 #endregion
 
-namespace Utilities
+namespace OOTPCommon
 {
-    /// <summary>
-    /// Class containing simple platform agnostic methods.
-    /// </summary>
-    public static class Utilities
+    public enum OdbVersion
     {
-        public static string FilePathDelimeter()
-        {
-#if _WINDOWS_
-            return "\\";
-#else
-            return "/";
-#endif
-        }
+        ODB_Err,
+        ODB_17,
+        ODB_19,
+        ODB_22,
+        ODB_Unk
     }
 }
+

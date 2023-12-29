@@ -3,7 +3,7 @@
 //
 // File: CsvToOdb.cs
 // Author: Steven Leffew
-// Copyright: (C) 2021
+// Copyright: (C) 2021-2024
 // Description: Comma Separated Value(*.csv) to OOTP Database(*.odb) 
 //              File Converter.
 //
@@ -42,16 +42,68 @@ namespace CSVtoODB
     public class CsvToOdb
     {
         #region Members
-        private static FileNames fileNames = new FileNames();
-        private static String[] allCsvFileNames = fileNames.AllCsvFileNames;
         private static string pathDelimeter = Utilities.Utilities.FilePathDelimeter();
         private static string missingFileText = "Missing Files: ";
+        private FileNames fileNames;
+        private String[] allCsvFileNames;
+        private String configFileLocation;
         private String missingFileTextMessage;
         private String inputFolder;
         private String outputFolder;
         #endregion
 
         #region Helpers
+        /// <summary>
+        /// Reads a config file and initializes file names.
+        /// </summary>
+        /// <param name="fileName">Config file name.</param>
+        private void ReadConfig(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                StreamReader reader = File.OpenText(fileName);
+                string[] csvFileNames = new string[32];
+                string[] csvMinorFileNames = new string[32];
+
+                string line;
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.IndexOf("=", StringComparison.CurrentCultureIgnoreCase) != -1)
+                    {
+                        string[] data = line.Split('=');
+                        if (data.Length > 1)
+                        {
+                            string[] table = data[0].Split('_');
+                            if (table.Length > 1)
+                            {
+                                if (table[0].Equals("Table"))
+                                {
+                                    if (Int32.TryParse(table[1], out int index))
+                                    {
+                                        csvFileNames[index] = data[1].Trim();
+                                    }
+                                }
+                                if (table[0].Equals("MiLBTable"))
+                                {
+                                    if (Int32.TryParse(table[1], out int index))
+                                    {
+                                        csvMinorFileNames[index] = data[1].Trim();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                reader.Close();
+                fileNames = new FileNames(csvFileNames, csvMinorFileNames);
+            }
+            else
+            {
+                throw new Exception(fileName + " does not exist!");
+            }
+        }
+
         /// <summary>
         /// Verifies the existence of a comma separated value(*.csv) file.
         /// </summary>
@@ -109,6 +161,11 @@ namespace CSVtoODB
         {
             this.inputFolder = inputFolder;
             this.outputFolder = outputFolder;
+            this.configFileLocation = inputFolder + pathDelimeter + "DatabaseConfig.txt";
+
+            ReadConfig(configFileLocation);
+
+            allCsvFileNames = fileNames.AllCsvFileNames;
         }
         #endregion
 
@@ -121,7 +178,7 @@ namespace CSVtoODB
         {
             if (VerifyAllFiles() == true)
             {
-                HistoricalCsvConverter converter = new HistoricalCsvConverter(inputFolder, outputFolder);
+                HistoricalCsvConverter converter = new HistoricalCsvConverter(fileNames, inputFolder, outputFolder);
                 converter.ToOdb(progress);
                 converter.CopyRequiredFiles();
             }

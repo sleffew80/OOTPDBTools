@@ -1,11 +1,10 @@
 ﻿#region File Description
 //---------------------------------------------------------------------------
 //
-// File: Utilities.cs
+// File: AppDelegate.cs
 // Author: Steven Leffew
 // Copyright: (C) 2021-2024
-// Description: A collection of cross platform methods.  
-// Note: All code requiring platform "#define" statements should go here.
+// Description: MacOS App Delegates for OOTP Database Converter GUI.
 //
 //---------------------------------------------------------------------------
 #endregion
@@ -27,20 +26,26 @@
 //---------------------------------------------------------------------------
 #endregion
 
-namespace Utilities
+using AppKit;
+using Foundation;
+
+namespace OOTPDatabaseConverter
 {
-    /// <summary>
-    /// Class containing simple platform agnostic methods.
-    /// </summary>
-    public static class Utilities
+    [Register("AppDelegate")]
+    public class AppDelegate : NSApplicationDelegate
     {
-        public static string FilePathDelimeter()
+        public AppDelegate()
         {
-#if _WINDOWS_
-            return "\\";
-#else
-            return "/";
-#endif
+        }
+
+        public override void DidFinishLaunching(NSNotification notification)
+        {
+            // Insert code here to initialize your application
+        }
+
+        public override void WillTerminate(NSNotification notification)
+        {
+            // Insert code here to tear down your application
         }
     }
 }

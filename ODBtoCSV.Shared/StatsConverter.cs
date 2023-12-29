@@ -3,7 +3,7 @@
 //
 // File: StatsConverter.cs
 // Author: Steven Leffew
-// Copyright: (C) 2021
+// Copyright: (C) 2021-2024
 // Description: OOTP Database(*.odb) to Comma Separated Value(*.csv)
 //              File Converter for OOTP's "stats.odb" file.
 //

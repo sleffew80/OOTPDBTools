@@ -3,7 +3,7 @@
 //
 // File: HistoricalCsvConverter.cs
 // Author: Steven Leffew
-// Copyright: (C) 2021
+// Copyright: (C) 2021-2024
 // Description: Comma Separated Value(*.csv) to OOTP Database(*.odb) 
 //              File Converter for OOTP's "historical_X.odb files.
 //
@@ -43,20 +43,11 @@ namespace CSVtoODB
     public class HistoricalCsvConverter
     {
         #region Members
-        private static FileNames fileNames = new FileNames();
-        private static String[] historicalDatabaseAllCsvFileNames = fileNames.HistoricalDatabaseAllCsvFileNames(false);
-        private static String[] historicalMinorDatabaseAllCsvFileNames = fileNames.HistoricalMinorDatabaseAllCsvFileNames(false);
-        private static String[] externalAllCsvFileNames = fileNames.ExternalAllCsvFileNames;
-        private static string historicalLineupsCsvFileName = fileNames.LineupsFileName;
-        private static string historicalTransactionsCsvFileName = fileNames.TransactionsFileName;
-        private static string historicalDatabaseFileName = fileNames.HistoricalDatabaseFileName;
-        private static string historicalMinorDatabaseFileName = fileNames.HistoricalMinorDatabaseFileName;
-        private static string historicalLineupsDatabaseFileName = fileNames.HistoricalLineupsDatabaseFileName;
-        private static string historicalTransactionsDatabaseFileName = fileNames.HistoricalTransactionsDatabaseFileName;
         private static string pathDelimiter = Utilities.Utilities.FilePathDelimeter();
         private static int progressIncrement = 256;
         private static Byte zeroByte = 0;
 
+        private FileNames fileNames;
         private String odbFolderDestination;
         private String csvFolderLocation;
 
@@ -122,10 +113,10 @@ namespace CSVtoODB
         /// </summary>
         private void SetOdbLineCounts()
         {
-            historicalDatabaseLineCount = GetCsvCombinedLineCount(historicalDatabaseAllCsvFileNames);
-            historicalMinorDatabaseLineCount = GetCsvCombinedLineCount(historicalMinorDatabaseAllCsvFileNames);
-            historicalLineupsDatabaseLineCount = GetCsvLineCount(historicalLineupsCsvFileName);
-            historicalTransactionsDatabaseLineCount = GetCsvLineCount(historicalTransactionsCsvFileName);
+            historicalDatabaseLineCount = GetCsvCombinedLineCount(fileNames.HistoricalDatabaseAllCsvFileNames);
+            historicalMinorDatabaseLineCount = GetCsvCombinedLineCount(fileNames.HistoricalMinorDatabaseAllCsvFileNames);
+            historicalLineupsDatabaseLineCount = GetCsvLineCount(fileNames.LineupsFileName);
+            historicalTransactionsDatabaseLineCount = GetCsvLineCount(fileNames.TransactionsFileName);
             totalDatabaseLineCount = historicalDatabaseLineCount + historicalMinorDatabaseLineCount + historicalLineupsDatabaseLineCount + historicalTransactionsDatabaseLineCount;
         }
 
@@ -238,7 +229,7 @@ namespace CSVtoODB
                     writer.Write((UInt32)odbLineCount);
 
                     // Read a line from the current csv file stream and write it into the database.
-                    // Each database line starts with a zero since this database contains only one tabe.
+                    // Each database line starts with a zero since this database contains only one tabel.
                     // Next is the length of the current line in chars and finally the actual string of char data.
                     while ((csvLine = csvReader.ReadLine()) != null)
                     {
@@ -295,10 +286,12 @@ namespace CSVtoODB
         /// </remarks>
         /// <param name="csvFolderLocation">Source folder for comma separated value(*.csv) files to be converted.</param>
         /// <param name="odbFolderDestination">Destination folder for new OOTP Database(*.odb) files to be saved.</param>
-        public HistoricalCsvConverter(String csvFolderLocation, String odbFolderDestination)
+        public HistoricalCsvConverter(FileNames fileNames, String csvFolderLocation, String odbFolderDestination)
         {
             this.odbFolderDestination = odbFolderDestination + pathDelimiter;
             this.csvFolderLocation = csvFolderLocation + pathDelimiter;
+
+            this.fileNames = fileNames;
         }
         #endregion
 
@@ -312,10 +305,10 @@ namespace CSVtoODB
             lock (this)
             {
                 SetOdbLineCounts();
-                ConvertToMultiTableOdb(historicalDatabaseAllCsvFileNames, historicalDatabaseFileName, historicalDatabaseLineCount, progress);
-                ConvertToMultiTableOdb(historicalMinorDatabaseAllCsvFileNames, historicalMinorDatabaseFileName, historicalMinorDatabaseLineCount, progress);
-                ConvertToSingleTableOdb(historicalLineupsCsvFileName, historicalLineupsDatabaseFileName, historicalLineupsDatabaseLineCount, progress);
-                ConvertToSingleTableOdb(historicalTransactionsCsvFileName, historicalTransactionsDatabaseFileName, historicalTransactionsDatabaseLineCount, progress);
+                ConvertToMultiTableOdb(fileNames.HistoricalDatabaseAllCsvFileNames, fileNames.HistoricalDatabaseFileName, historicalDatabaseLineCount, progress);
+                ConvertToMultiTableOdb(fileNames.HistoricalMinorDatabaseAllCsvFileNames, fileNames.HistoricalMinorDatabaseFileName, historicalMinorDatabaseLineCount, progress);
+                ConvertToSingleTableOdb(fileNames.LineupsFileName, fileNames.HistoricalLineupsDatabaseFileName, historicalLineupsDatabaseLineCount, progress);
+                ConvertToSingleTableOdb(fileNames.TransactionsFileName, fileNames.HistoricalTransactionsDatabaseFileName, historicalTransactionsDatabaseLineCount, progress);
             }
         }
 
@@ -328,9 +321,9 @@ namespace CSVtoODB
             int currentCsvFile = 0;
             try
             {
-                while (currentCsvFile < externalAllCsvFileNames.Length)
+                while (currentCsvFile < fileNames.ExternalAllCsvFileNames.Length)
                 {
-                    File.Copy(csvFolderLocation + externalAllCsvFileNames[currentCsvFile], odbFolderDestination + externalAllCsvFileNames[currentCsvFile]);
+                    File.Copy(csvFolderLocation + fileNames.ExternalAllCsvFileNames[currentCsvFile], odbFolderDestination + fileNames.ExternalAllCsvFileNames[currentCsvFile]);
                     currentCsvFile++;
                 }
             }

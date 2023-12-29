@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>OOTPDatabaseConverter</AssemblyName>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <Version>4.0.0</Version>
+    <AssemblyVersion>4.0.0.1</AssemblyVersion>
+    <FileVersion>4.0.0.1</FileVersion>
+    <Authors>Steven Leffew</Authors>
+    <Company>OOTP Baseball Tools</Company>
+    <Product>OOTP Database Converter</Product>
+    <Description>Program for converting OOTP Database files to editable comma separated values files and vice versa.</Description>
+    <RootNamespace>OOTPDatabaseConverter</RootNamespace>
+    <Copyright>2024</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;_WINDOWS_</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;_WINDOWS_</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CSVtoODB.Shared\CsvToOdb.cs" Link="CSVtoODB\CsvToOdb.cs" />
+    <Compile Include="..\CSVtoODB.Shared\HistoricalCsvConverter.cs" Link="CSVtoODB\HistoricalCsvConverter.cs" />
+    <Compile Include="..\ODBtoCSV.Shared\HistoricalDatabaseConverter.cs" Link="ODBtoCSV\HistoricalDatabaseConverter.cs" />
+    <Compile Include="..\ODBtoCSV.Shared\OdbToCsv.cs" Link="ODBtoCSV\OdbToCsv.cs" />
+    <Compile Include="..\ODBtoCSV.Shared\StatsConverter.cs" Link="ODBtoCSV\StatsConverter.cs" />
+    <Compile Include="..\OOTPCommon.Shared\FileNames.cs" Link="OOTPCommon\FileNames.cs" />
+    <Compile Include="..\OOTPCommon.Shared\OdbVersion.cs" Link="OOTPCommon\OdbVersion.cs" />
+    <Compile Include="..\Utilities.Shared\Utilities.cs" Link="Utilities\Utilities.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CSVtoODB\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="OOTPCommon\" />
+    <Folder Include="ODBtoCSV\" />
+  </ItemGroup>
+
+</Project>

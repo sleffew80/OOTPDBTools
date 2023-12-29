@@ -10,5 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)FileNames.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OdbVersion.cs" />
   </ItemGroup>
 </Project>

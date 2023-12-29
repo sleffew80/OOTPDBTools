@@ -3,7 +3,7 @@
 //
 // File: FileNames.cs
 // Author: Steven Leffew
-// Copyright: (C) 2021
+// Copyright: (C) 2021-2024
 // Description: OOTP Database related file names.
 //
 //---------------------------------------------------------------------------
@@ -46,14 +46,14 @@ namespace OOTPCommon
         private const string awardsManagersFileName = "AwardsManagers.csv";
         private const string awardsPlayersFileName = "AwardsPlayers.csv";
         private const string battingFileName = "Batting.csv";
-        private const string battingNormalizedFileName = "Batting-Normalized.csv";
+        private const string battingNormalizedFileName = "Batting2.csv";
         private const string battingPostSeasonFileName = "BattingPost.csv";
         private const string battingSplitsFileName = "BattingSplits.csv";
         private const string endOfSeasonRostersFileName = "EOSRosters.csv";
         private const string fieldingFileName = "Fielding.csv";
-        private const string fieldingNormalizedFileName = "Fielding-Normalized.csv";
+        private const string fieldingNormalizedFileName = "Fielding2.csv";
         private const string fieldingOutFieldFileName = "FieldingOF.csv";
-        private const string fieldingOutFieldNormalizedFileName = "FieldingOF-Normalized.csv";
+        private const string fieldingOutFieldNormalizedFileName = "FieldingOF2.csv";
         private const string fieldingPostSeasonFileName = "FieldingPost.csv";
         private const string hallOfFameFileName = "HallOfFame.csv";
         private const string lineupsFileName = "Lineups.csv";
@@ -67,7 +67,7 @@ namespace OOTPCommon
         private const string milbTeamsFileName = "MiLBTeams.csv";
         private const string openingDayRostersFileName = "ODRosters.csv";
         private const string pitchingFileName = "Pitching.csv";
-        private const string pitchingNormalizedFileName = "Pitching-Normalized.csv";
+        private const string pitchingNormalizedFileName = "Pitching2.csv";
         private const string pitchingPostSeasonFileName = "PitchingPost.csv";
         private const string recordsSingleGameFileName = "RecordsSingleGame.csv";
         private const string seriesPostSeasonFileName = "SeriesPost.csv";
@@ -75,10 +75,13 @@ namespace OOTPCommon
         private const string teamsFileName = "Teams.csv";
         private const string transactionsFileName = "Transactions.csv";
         private const string uniformNumberFileName = "UniNumbers.csv";
+        private const string worldSeriesRostersFileName = "WSRosters.csv";
+
+        private String[] historicalDatabaseAllCsvFileNames;
+        private String[] historicalMinorDatabaseAllCsvFileNames;
 
         // Comma separated value(*.csv) file name arrays for database files
-#if _OOTP22_
-        private String[] historicalDatabaseAllCsvFileNames = { masterFileName, battingFileName, battingNormalizedFileName,
+        private String[] historicalDatabaseAllCsvFileNamesV22 = { masterFileName, battingFileName, battingNormalizedFileName,
                                                 pitchingFileName, pitchingNormalizedFileName, fieldingFileName,
                                                 fieldingOutFieldFileName, allstarFullFileName, awardsPlayersFileName,
                                                 hallOfFameFileName, teamsFileName, teamFranchisesFileName,
@@ -86,7 +89,8 @@ namespace OOTPCommon
                                                 awardsManagersFileName, battingPostSeasonFileName, pitchingPostSeasonFileName, 
                                                 fieldingPostSeasonFileName, null, recordsSingleGameFileName, battingSplitsFileName, 
                                                 openingDayRostersFileName, endOfSeasonRostersFileName, null, null};
-        private String[] historicalMinorDatabaseAllCsvFileNames = { milbMasterFileName, milbBattingFileName, null,
+
+        private String[] historicalMinorDatabaseAllCsvFileNamesV22 = { milbMasterFileName, milbBattingFileName, null,
                                                 milbPitchingFileName, null, milbFieldingFileName,
                                                 null, null, null,
                                                 null, milbTeamsFileName, null,
@@ -94,8 +98,8 @@ namespace OOTPCommon
                                                 null, null, null, null,
                                                 milbLeaguesFileName, null, null, null,
                                                 null, null, null};
-#else //OOTP 21
-        private String[] historicalDatabaseAllCsvFileNames = { masterFileName, battingFileName, battingNormalizedFileName,
+
+        private String[] historicalDatabaseAllCsvFileNamesV19 = { masterFileName, battingFileName, battingNormalizedFileName,
                                                 pitchingFileName, pitchingNormalizedFileName, fieldingFileName,
                                                 fieldingNormalizedFileName, fieldingOutFieldFileName, fieldingOutFieldNormalizedFileName,
                                                 allstarFullFileName, awardsPlayersFileName, hallOfFameFileName,
@@ -103,14 +107,31 @@ namespace OOTPCommon
                                                 uniformNumberFileName, managersFileName, awardsManagersFileName, battingPostSeasonFileName,
                                                 pitchingPostSeasonFileName, fieldingPostSeasonFileName, null, recordsSingleGameFileName,
                                                 battingSplitsFileName, openingDayRostersFileName, endOfSeasonRostersFileName};
-        private String[] historicalMinorDatabaseAllCsvFileNames = { milbMasterFileName, milbBattingFileName, null,
+
+        private String[] historicalMinorDatabaseAllCsvFileNamesV19 = { milbMasterFileName, milbBattingFileName, null,
                                                 milbPitchingFileName, null, milbFieldingFileName,
                                                 null, null, null,
                                                 null, null, null,
                                                 milbTeamsFileName, null, null,
                                                 null, null, null, null,
                                                 null, null, milbLeaguesFileName};
-#endif
+
+        private String[] historicalDatabaseAllCsvFileNamesV17 = { masterFileName, battingFileName, battingNormalizedFileName,
+                                                pitchingFileName, pitchingNormalizedFileName, fieldingFileName,
+                                                fieldingNormalizedFileName, fieldingOutFieldFileName, fieldingOutFieldNormalizedFileName,
+                                                allstarFullFileName, awardsPlayersFileName, hallOfFameFileName,
+                                                teamsFileName, teamFranchisesFileName, seriesPostSeasonFileName,
+                                                uniformNumberFileName, managersFileName, awardsManagersFileName, battingPostSeasonFileName,
+                                                pitchingPostSeasonFileName, worldSeriesRostersFileName};
+
+        private String[] historicalMinorDatabaseAllCsvFileNamesV17 = { milbMasterFileName, milbBattingFileName, null,
+                                                milbPitchingFileName, null, milbFieldingFileName,
+                                                null, null, null,
+                                                null, null, null,
+                                                milbTeamsFileName, null, null,
+                                                null, null, null, null,
+                                                null, null, milbLeaguesFileName};
+
         private String[] externalAllCsvFileNames = { masterFileName, teamsFileName, milbMasterFileName, milbTeamsFileName,
                                                 milbLeaguesFileName, seriesPostSeasonFileName, uniformNumberFileName,
                                                 openingDayRostersFileName, endOfSeasonRostersFileName };
@@ -121,9 +142,27 @@ namespace OOTPCommon
         private const string historicalLineupsDatabaseFileName = "historical_lineups.odb";
         private const string historicalTransactionsDatabaseFileName = "historical_transactions.odb";
         private const string statsDatabaseFileName = "stats.odb";
-#endregion
+        #endregion
 
-#region Accessors
+        #region Helpers
+        private void InitializeUnknownDatabaseCsvFileNames(String[] databaseCsvFileNames)
+        {
+            if (databaseCsvFileNames.Length > 0)
+            {
+                for (int i = 0; i < databaseCsvFileNames.Length; i++)
+                {
+                    if (databaseCsvFileNames[i] == null)
+                    {
+                        databaseCsvFileNames[i] = "Unknown_" + (i + 1).ToString() + ".csv";
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Accessors
+        public string[] HistoricalDatabaseAllCsvFileNames => historicalDatabaseAllCsvFileNames;
+        public string[] HistoricalMinorDatabaseAllCsvFileNames => historicalMinorDatabaseAllCsvFileNames;
         public string LineupsFileName => lineupsFileName;
         public string TransactionsFileName => transactionsFileName;
         public string HistoricalDatabaseFileName => historicalDatabaseFileName;
@@ -145,63 +184,44 @@ namespace OOTPCommon
         /// <returns>An array of all comma separated value(*.csv) file names used in OOTP Baseball.</returns>
         public String[] AllCsvFileNames
         {
-            get { return HistoricalDatabaseAllCsvFileNames(false).Concat(HistoricalMinorDatabaseAllCsvFileNames(false)).ToArray().Concat(ExternalAllCsvFileNames).ToArray().Concat(new String[] { lineupsFileName, transactionsFileName }).ToArray(); }
+            get { return HistoricalDatabaseAllCsvFileNames.Concat(HistoricalMinorDatabaseAllCsvFileNames).ToArray().Concat(ExternalAllCsvFileNames).ToArray().Concat(new String[] { lineupsFileName, transactionsFileName }).ToArray(); }
         }
-#endregion
+        #endregion
 
-        public FileNames()
-        { }
-
-#region Methods
-        /// <summary>
-        /// All comma separated value(*.csv) file names required for OOTP's historical database.
-        /// </summary>
-        /// <param name="includeUnknownFileNames">Include file names in the format of "_unknown[#]" for unused sections of the database.</param>
-        /// <returns>An array of all comma separated value(*.csv) file names required for the OOTP historical database.</returns>
-        public String[] HistoricalDatabaseAllCsvFileNames(bool includeUnknownFileNames)
+        #region Initialization
+        public FileNames(int historicTables, int historicMinorTables)
         {
-            if (includeUnknownFileNames == true)
-            {
-                String[] csvFileNamesWithUnknowns = historicalDatabaseAllCsvFileNames;
-                for (int i = 0; i < csvFileNamesWithUnknowns.Length; i++)
-                {
-                    if (csvFileNamesWithUnknowns[i] == null)
-                    {
-                        csvFileNamesWithUnknowns[i] = "_unknown" + (i + 1).ToString() + ".csv";
-                    }
-                }
-                return csvFileNamesWithUnknowns;
-            }
-            else
-            {
-                return historicalDatabaseAllCsvFileNames;
-            }
+            historicalDatabaseAllCsvFileNames = new String[historicTables];
+            historicalMinorDatabaseAllCsvFileNames = new String[historicMinorTables];
+
+            InitializeUnknownDatabaseCsvFileNames(historicalDatabaseAllCsvFileNames);
+            InitializeUnknownDatabaseCsvFileNames(historicalMinorDatabaseAllCsvFileNames);
         }
 
-        /// <summary>
-        /// All comma separated value(*.csv) file names required for OOTP's historical minor database.
-        /// </summary>
-        /// <param name="includeUnknownFileNames">Include file names in the format of "_unknown[#]" for unused sections of the database.</param>
-        /// <returns>An array of all comma separated value(*.csv) file names required for the OOTP historical minor database.</returns>
-        public String[] HistoricalMinorDatabaseAllCsvFileNames(bool includeUnknownFileNames)
+        public FileNames(OdbVersion odbVersion)
         {
-            if (includeUnknownFileNames == true)
+            switch(odbVersion)
             {
-                String[] csvFileNamesWithUnknowns = historicalMinorDatabaseAllCsvFileNames;
-                for (int i = 0; i < csvFileNamesWithUnknowns.Length; i++)
-                {
-                    if (csvFileNamesWithUnknowns[i] == null)
-                    {
-                        csvFileNamesWithUnknowns[i] = "_unknownMinor" + (i + 1).ToString() + ".csv";
-                    }
-                }
-                return csvFileNamesWithUnknowns;
-            }
-            else
-            {
-                return historicalMinorDatabaseAllCsvFileNames;
-            }
+                case OdbVersion.ODB_17:
+                    historicalDatabaseAllCsvFileNames = historicalDatabaseAllCsvFileNamesV17;
+                    historicalMinorDatabaseAllCsvFileNames = historicalMinorDatabaseAllCsvFileNamesV17;
+                    break;
+                case OdbVersion.ODB_19:
+                    historicalDatabaseAllCsvFileNames = historicalDatabaseAllCsvFileNamesV19;
+                    historicalMinorDatabaseAllCsvFileNames = historicalMinorDatabaseAllCsvFileNamesV19;
+                    break;
+                case OdbVersion.ODB_22:
+                    historicalDatabaseAllCsvFileNames = historicalDatabaseAllCsvFileNamesV22;
+                    historicalMinorDatabaseAllCsvFileNames = historicalMinorDatabaseAllCsvFileNamesV22;
+                    break;
+            }       
         }
-#endregion
+
+        public FileNames(String[] historicCsvFileNames, String[] historicMinorCsvFileNames)
+        {
+            historicalDatabaseAllCsvFileNames = historicCsvFileNames;
+            historicalMinorDatabaseAllCsvFileNames = historicMinorCsvFileNames;
+        }
+        #endregion
     }
 }
