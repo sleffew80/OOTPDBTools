@@ -105,11 +105,81 @@ namespace ODBtoCSV
             }
         }
 
+        private int GetTableCount(String odbFileLocation)
+        {
+            int odbBytePosition = 0;
+            int odbFileSize = 0;
+            Byte odbTable = 0;
+            Boolean valueChecked = false;
+
+            lock (this)
+            {
+                try
+                {
+                    // Create a FileStream for database file to be read.
+                    FileStream inputStream = new FileStream(odbFileLocation, FileMode.Open,
+                    FileAccess.Read, FileShare.Read);
+                    // Create BinaryReader using FileStream object to read input Stream.
+                    using (BinaryReader reader = new BinaryReader(inputStream, Encoding.ASCII))
+                    {
+                        // Get the database file size in bytes.
+                        odbFileSize = (int)reader.BaseStream.Length;
+
+                        // Initialize local variables.
+                        Byte currentTable = 0;
+                        int stringLength = 0;
+                        String databaseLine = null;
+                        String checkValue = null;
+
+                        // Skip first four bytes (file header).
+                        while (odbBytePosition < 5)
+                        {
+                            reader.ReadByte();
+                            odbBytePosition++;
+                        }
+
+                        // Read data until last byte is reached.
+                        while (odbBytePosition < odbFileSize)
+                        {
+                            // Set the current table.
+                            currentTable = reader.ReadByte();
+
+                            // Check to see if we've reached a new table.
+                            if (odbTable != currentTable)
+                            {
+                                // Increment table identifier.
+                                odbTable = currentTable;
+                            }
+
+                            // Get the length of the current database line in chars.
+                            stringLength = reader.ReadByte() + (reader.ReadByte() * 256);
+                            odbBytePosition += 3;
+
+                            // Iterate through chars of current line.
+                            for (int i = 0; i < stringLength; i++)
+                            {
+                                reader.ReadChar();
+                                odbBytePosition++;
+                            }
+                        }
+
+                        // Close Streams.
+                        inputStream.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+            return odbTable+1;
+        }
+
         /// <summary>
         /// Quick and dirty way of determining the .odb file layout. 
         /// </summary>
         /// <param name="odbFileLocation">Folder location of OOTP Database(*.odb) file.</param>
-        private OdbVersion GetDatabaseVersion(String odbFileLocation)
+        private OdbVersion GetDatabaseVersion(String odbFileLocation, String odbMinorFileLocation)
         {
             OdbVersion odbVersionNumber = OdbVersion.ODB_Err;
             int odbBytePosition = 0;
@@ -208,8 +278,29 @@ namespace ODBtoCSV
                             }
                         }
 
-                        odbTableCount = odbTable+1;
-                        odbMinorTableCount = odbTable+1;
+                        // Assign Table sizes.
+                        if (odbVersionNumber == OdbVersion.ODB_17)
+                        {
+                            odbTableCount = odbTable + 1;
+                            odbMinorTableCount = 22;
+                        }
+                        else if (odbVersionNumber == OdbVersion.ODB_19)
+                        {
+                            odbTableCount = odbTable + 1;
+                            odbMinorTableCount = 22;
+                        }
+                        else if (odbVersionNumber == OdbVersion.ODB_22)
+                        {
+                            odbTableCount = odbTable + 1;
+                            odbMinorTableCount = 26;
+                        }
+                        else
+                        {
+                            odbTableCount = odbTable + 1;
+                            // If version unknown, manually count minor league table indexes.
+                            odbMinorTableCount = GetTableCount(odbMinorFileLocation);
+                        }
+
                         // Close Streams.
                         inputStream.Close();
                     }
@@ -267,10 +358,19 @@ namespace ODBtoCSV
         /// <param name="outputFolder">Destination folder for new comma separated value(*.csv) files to be saved.</param>
         public OdbToCsv(String inputFolder, String outputFolder)
         {
+            String historicalFileName = "historical_database.odb";
+            String historicalMinorFileName = "historical_minor_database.odb";
+
             this.inputFolder = inputFolder;
             this.outputFolder = outputFolder;
 
-            odbVersion = GetDatabaseVersion(inputFolder + pathDelimeter + "historical_database.odb");
+            this.historicalDatabaseFileLocation = inputFolder + pathDelimeter + historicalFileName;
+            this.historicalMinorsDatabaseFileLocation = inputFolder + pathDelimeter + historicalMinorFileName;
+
+            VerifyOdbFile(historicalDatabaseFileLocation, historicalFileName);
+            VerifyOdbFile(historicalMinorsDatabaseFileLocation, historicalMinorFileName);
+
+            odbVersion = GetDatabaseVersion(historicalDatabaseFileLocation, historicalMinorsDatabaseFileLocation);
 
             fileNames = new FileNames(odbVersion);
 

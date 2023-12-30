@@ -289,7 +289,7 @@ namespace OOTPDatabaseConverter
             versionLabel.Name = "versionLabel";
             versionLabel.Size = new System.Drawing.Size(84, 15);
             versionLabel.TabIndex = 2;
-            versionLabel.Text = "Version: 4.0.0.1";
+            versionLabel.Text = "Version: 4.0.1.2";
             // 
             // MainForm
             // 
