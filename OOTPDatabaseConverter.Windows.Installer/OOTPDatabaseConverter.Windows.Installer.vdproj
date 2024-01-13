@@ -235,15 +235,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:OOTP Database Converter"
-        "ProductCode" = "8:{ACA92BD2-28DC-4B35-9067-0F514D43BCC2}"
-        "PackageCode" = "8:{5A26D2D5-906E-49E4-8300-A59EB27FC522}"
+        "ProductCode" = "8:{C0A20333-74F8-4C82-9BEC-8A63477BB278}"
+        "PackageCode" = "8:{12E0FE1B-53EC-487D-973A-E8CCB95716A8}"
         "UpgradeCode" = "8:{74813093-1E24-4DAF-8857-E91A6B28DABB}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:4.0.1"
         "Manufacturer" = "8:OOTP Baseball Tools"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -795,7 +795,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FE6FCC0C957F4DD1B52C646F93F6BB0A"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\OOTPDatabaseConverter.Windows\\obj\\Debug\\net7.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F41D0FBE5F09421A955E6CCA13EC21B9"
@@ -819,6 +819,7 @@
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
+                "ExcludeFilter" = "8:*.pdb"
                 }
             }
         }
