@@ -101,6 +101,9 @@
     <Compile Include="..\OOTPCommon.Shared\FileNames.cs">
       <Link>OOTPCommon\FileNames.cs</Link>
     </Compile>
+    <Compile Include="..\OOTPCommon.Shared\FileNames.cs">
+      <Link>OOTPCommon\OdbVersion.cs</Link>
+    </Compile>
     <Compile Include="..\Utilities.Shared\Utilities.cs">
       <Link>Utilities\Utilities.cs</Link>
     </Compile>
