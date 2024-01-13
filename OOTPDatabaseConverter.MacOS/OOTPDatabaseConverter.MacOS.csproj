@@ -20,7 +20,7 @@
     <DefineConstants>__UNIFIED__;__MACOS__;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <EnableCodeSigning>false</EnableCodeSigning>
+    <EnableCodeSigning>False</EnableCodeSigning>
     <CodeSigningKey>Mac Developer</CodeSigningKey>
     <CreatePackage>false</CreatePackage>
     <EnablePackageSigning>false</EnablePackageSigning>
@@ -30,8 +30,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <HttpClientHandler>
     </HttpClientHandler>
-    <LinkMode>
-    </LinkMode>
+    <LinkMode>None</LinkMode>
     <XamMacArch>
     </XamMacArch>
     <AOTMode>None</AOTMode>
@@ -42,7 +41,7 @@
     <DefineConstants>__UNIFIED__;__MACOS__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <EnableCodeSigning>false</EnableCodeSigning>
+    <EnableCodeSigning>False</EnableCodeSigning>
     <CreatePackage>true</CreatePackage>
     <EnablePackageSigning>false</EnablePackageSigning>
     <IncludeMonoRuntime>true</IncludeMonoRuntime>
@@ -98,12 +97,6 @@
     <Compile Include="..\ODBtoCSV.Shared\StatsConverter.cs">
       <Link>ODBtoCSV\StatsConverter.cs</Link>
     </Compile>
-    <Compile Include="..\OOTPCommon.Shared\FileNames.cs">
-      <Link>OOTPCommon\FileNames.cs</Link>
-    </Compile>
-    <Compile Include="..\OOTPCommon.Shared\FileNames.cs">
-      <Link>OOTPCommon\OdbVersion.cs</Link>
-    </Compile>
     <Compile Include="..\Utilities.Shared\Utilities.cs">
       <Link>Utilities\Utilities.cs</Link>
     </Compile>
@@ -112,6 +105,12 @@
     <Compile Include="ViewController.cs" />
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\OOTPCommon.Shared\FileNames.cs">
+      <Link>OOTPCommon.Shared\FileNames.cs</Link>
+    </Compile>
+    <Compile Include="..\OOTPCommon.Shared\OdbVersion.cs">
+      <Link>OOTPCommon.Shared\OdbVersion.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
