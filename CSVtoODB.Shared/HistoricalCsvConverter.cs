@@ -30,6 +30,7 @@
 #region Using Statements
 using System;
 using System.IO;
+using System.Text;
 
 using OOTPCommon;
 #endregion
@@ -136,9 +137,17 @@ namespace CSVtoODB
             try
             {
                 // Create a StreamReader for reading a csv file.
+#if _WINDOWS_
+                StreamReader csvReader = new StreamReader(csvFolderLocation + csvFileName[odbTable], Encoding.Latin1);
+#else
                 StreamReader csvReader = new StreamReader(csvFolderLocation + csvFileName[odbTable]);
+#endif
                 // Create a BinaryWriter to reconstruct an OOTP Database.
+#if _WINDOWS_
+                using (BinaryWriter writer = new BinaryWriter(File.Open(odbFolderDestination + odbFileName, FileMode.Create), Encoding.Latin1))
+#else
                 using (BinaryWriter writer = new BinaryWriter(File.Open(odbFolderDestination + odbFileName, FileMode.Create)))
+#endif
                 {
                     // First Byte in the database is always zero.
                     writer.Write(zeroByte);
@@ -217,9 +226,17 @@ namespace CSVtoODB
             try
             {
                 // Create a StreamReader for reading a csv file.
+#if _WINDOWS_
+                StreamReader csvReader = new StreamReader(csvFolderLocation + csvFileName, Encoding.Latin1);
+#else
                 StreamReader csvReader = new StreamReader(csvFolderLocation + csvFileName);
+#endif
                 // Create a BinaryWriter to reconstruct an OOTP Database.
+#if _WINDOWS_
+                using (BinaryWriter writer = new BinaryWriter(File.Open(odbFolderDestination + odbFileName, FileMode.Create), System.Text.Encoding.Latin1))
+#else
                 using (BinaryWriter writer = new BinaryWriter(File.Open(odbFolderDestination + odbFileName, FileMode.Create)))
+#endif
                 {
                     // First Byte in the database is always zero.
                     writer.Write(zeroByte);
@@ -273,7 +290,7 @@ namespace CSVtoODB
             if (progress != null)
                 progress.Report(currentProgress * 100 / maxProgress);
         }
-        #endregion
+#endregion
 
         #region Initialization
         /// <summary>
