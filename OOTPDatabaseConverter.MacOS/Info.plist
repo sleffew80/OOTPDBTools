@@ -6,8 +6,6 @@
 	<string>OOTP Database Converter</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.stevenleffew.OOTP-Database-Converter</string>
-	<key>CFBundleShortVersionString</key>
-	<string>4.01</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.12</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -28,5 +26,7 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleVersion</key>
 	<string>2</string>
+	<key>CFBundleShortVersionString</key>
+	<string>4.02</string>
 </dict>
 </plist>

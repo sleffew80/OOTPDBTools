@@ -106,12 +106,12 @@ namespace ODBtoCSV
                 try
                 {
                     // Create a StreamWriter for output with a 64MB buffer. Initialize to first table in the database.
-                    StreamWriter outputStream = new StreamWriter(csvFileDestination + csvFileName[odbTable], false, Encoding.ASCII, 65536);
+                    StreamWriter outputStream = new StreamWriter(csvFileDestination + csvFileName[odbTable], false, Encoding.Latin1);
                     // Create a FileStream for database file to be read.
                     FileStream inputStream = new FileStream(odbFileLocation, FileMode.Open,
                     FileAccess.Read, FileShare.ReadWrite);
                     // Create BinaryReader using FileStream object to read input Stream.
-                    using (BinaryReader reader = new BinaryReader(inputStream, Encoding.ASCII))
+                    using (BinaryReader reader = new BinaryReader(inputStream, Encoding.Latin1))
                     {
                         // Get the database file size in bytes.
                         odbFileSize = (int)reader.BaseStream.Length;
@@ -142,7 +142,7 @@ namespace ODBtoCSV
                                 odbTable = currentTable;
                                 // Close the current csv file stream and then initialize the next.
                                 outputStream.Close();
-                                outputStream = new StreamWriter(csvFileDestination + csvFileName[odbTable], false, Encoding.ASCII, 65536);
+                                outputStream = new StreamWriter(csvFileDestination + csvFileName[odbTable], false, Encoding.Latin1);
                             }
 
                             // Get the length of the current database line in chars.

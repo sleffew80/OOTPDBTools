@@ -120,7 +120,7 @@ namespace ODBtoCSV
                     FileStream inputStream = new FileStream(odbFileLocation, FileMode.Open,
                     FileAccess.Read, FileShare.Read);
                     // Create BinaryReader using FileStream object to read input Stream.
-                    using (BinaryReader reader = new BinaryReader(inputStream, Encoding.ASCII))
+                    using (BinaryReader reader = new BinaryReader(inputStream, Encoding.Latin1))
                     {
                         // Get the database file size in bytes.
                         odbFileSize = (int)reader.BaseStream.Length;
@@ -195,7 +195,7 @@ namespace ODBtoCSV
                     FileStream inputStream = new FileStream(odbFileLocation, FileMode.Open,
                     FileAccess.Read, FileShare.Read);
                     // Create BinaryReader using FileStream object to read input Stream.
-                    using (BinaryReader reader = new BinaryReader(inputStream, Encoding.ASCII))
+                    using (BinaryReader reader = new BinaryReader(inputStream, Encoding.Latin1))
                     {
                         // Get the database file size in bytes.
                         odbFileSize = (int)reader.BaseStream.Length;
