@@ -77,10 +77,32 @@ namespace OOTPCommon
         private const string uniformNumberFileName = "UniNumbers.csv";
         private const string worldSeriesRostersFileName = "WSRosters.csv";
 
+        private const string pitchingSplitsFileName = "PitchingSplits.csv";
+        private const string fieldingRatingsFileName = "FieldingRatings.csv";
+        private const string pitchingRatingsFileName = "PitchingRatings.csv";
+
         private String[] historicalDatabaseAllCsvFileNames;
         private String[] historicalMinorDatabaseAllCsvFileNames;
 
         // Comma separated value(*.csv) file name arrays for database files
+        private String[] historicalDatabaseAllCsvFileNamesV25 = { masterFileName, battingFileName, battingNormalizedFileName,
+                                                pitchingFileName, pitchingNormalizedFileName, fieldingFileName,
+                                                fieldingOutFieldFileName, allstarFullFileName, awardsPlayersFileName,
+                                                hallOfFameFileName, teamsFileName, teamFranchisesFileName,
+                                                seriesPostSeasonFileName, uniformNumberFileName, managersFileName,
+                                                awardsManagersFileName, battingPostSeasonFileName, pitchingPostSeasonFileName,
+                                                fieldingPostSeasonFileName, null, recordsSingleGameFileName, battingSplitsFileName,
+                                                openingDayRostersFileName, endOfSeasonRostersFileName, pitchingSplitsFileName, 
+                                                fieldingRatingsFileName, pitchingRatingsFileName};
+
+        private String[] historicalMinorDatabaseAllCsvFileNamesV25 = { milbMasterFileName, milbBattingFileName, null,
+                                                milbPitchingFileName, null, milbFieldingFileName,
+                                                null, null, null,
+                                                null, milbTeamsFileName, null,
+                                                null, null, null,
+                                                null, null, null, null,
+                                                milbLeaguesFileName};
+
         private String[] historicalDatabaseAllCsvFileNamesV22 = { masterFileName, battingFileName, battingNormalizedFileName,
                                                 pitchingFileName, pitchingNormalizedFileName, fieldingFileName,
                                                 fieldingOutFieldFileName, allstarFullFileName, awardsPlayersFileName,
@@ -145,7 +167,7 @@ namespace OOTPCommon
         #endregion
 
         #region Helpers
-        private void InitializeUnknownDatabaseCsvFileNames(String[] databaseCsvFileNames)
+        private void InitializeUnknownDatabaseCsvFileNames(String[] databaseCsvFileNames, bool isMinorDB)
         {
             if (databaseCsvFileNames.Length > 0)
             {
@@ -153,7 +175,10 @@ namespace OOTPCommon
                 {
                     if (databaseCsvFileNames[i] == null)
                     {
-                        databaseCsvFileNames[i] = "Unknown_" + (i + 1).ToString() + ".csv";
+                        if (isMinorDB)
+                            databaseCsvFileNames[i] = "MiLB_Unknown_" + (i + 1).ToString() + ".csv";
+                        else
+                            databaseCsvFileNames[i] = "Unknown_" + (i + 1).ToString() + ".csv";
                     }
                 }
             }
@@ -194,8 +219,8 @@ namespace OOTPCommon
             historicalDatabaseAllCsvFileNames = new String[historicTables];
             historicalMinorDatabaseAllCsvFileNames = new String[historicMinorTables];
 
-            InitializeUnknownDatabaseCsvFileNames(historicalDatabaseAllCsvFileNames);
-            InitializeUnknownDatabaseCsvFileNames(historicalMinorDatabaseAllCsvFileNames);
+            InitializeUnknownDatabaseCsvFileNames(historicalDatabaseAllCsvFileNames, false);
+            InitializeUnknownDatabaseCsvFileNames(historicalMinorDatabaseAllCsvFileNames, true);
         }
 
         public FileNames(OdbVersion odbVersion)
@@ -213,6 +238,10 @@ namespace OOTPCommon
                 case OdbVersion.ODB_22:
                     historicalDatabaseAllCsvFileNames = historicalDatabaseAllCsvFileNamesV22;
                     historicalMinorDatabaseAllCsvFileNames = historicalMinorDatabaseAllCsvFileNamesV22;
+                    break;
+                case OdbVersion ODB_25:
+                    historicalDatabaseAllCsvFileNames = historicalDatabaseAllCsvFileNamesV25;
+                    historicalMinorDatabaseAllCsvFileNames = historicalMinorDatabaseAllCsvFileNamesV25;
                     break;
             }       
         }

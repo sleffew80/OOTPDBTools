@@ -34,6 +34,7 @@ namespace OOTPCommon
         ODB_17,
         ODB_19,
         ODB_22,
+        ODB_25,
         ODB_Unk
     }
 }

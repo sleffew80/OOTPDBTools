@@ -278,6 +278,16 @@ namespace ODBtoCSV
                             }
                         }
 
+                        // OOTP 25 has additional tables.
+                        if (odbTable > 25)
+                        {
+                            if (odbTable == 26)
+                                odbVersionNumber = OdbVersion.ODB_25;
+                            // If even more table indexes get added in the future, mark as unknown and attempt to process anyway.
+                            else
+                                odbVersionNumber = OdbVersion.ODB_Unk;
+                        }
+
                         // Assign Table sizes.
                         if (odbVersionNumber == OdbVersion.ODB_17)
                         {
@@ -293,6 +303,11 @@ namespace ODBtoCSV
                         {
                             odbTableCount = odbTable + 1;
                             odbMinorTableCount = 26;
+                        }
+                        else if (odbVersionNumber == OdbVersion.ODB_25)
+                        {
+                            odbTableCount = odbTable + 1;
+                            odbMinorTableCount = 20;
                         }
                         else
                         {
@@ -372,7 +387,10 @@ namespace ODBtoCSV
 
             odbVersion = GetDatabaseVersion(historicalDatabaseFileLocation, historicalMinorsDatabaseFileLocation);
 
-            fileNames = new FileNames(odbVersion);
+            if ((odbVersion > OdbVersion.ODB_Err) && (odbVersion < OdbVersion.ODB_Unk))
+                fileNames = new FileNames(odbVersion);
+            else
+                fileNames = new FileNames(odbTableCount, odbMinorTableCount);
 
             this.configFileDestination = outputFolder + pathDelimeter + "DatabaseConfig.txt";
             this.historicalDatabaseFileLocation = inputFolder + pathDelimeter + fileNames.HistoricalDatabaseFileName;
