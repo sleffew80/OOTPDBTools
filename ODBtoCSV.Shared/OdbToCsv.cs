@@ -278,11 +278,13 @@ namespace ODBtoCSV
                             }
                         }
 
-                        // OOTP 25 has additional tables.
+                        // OOTP 25 and 26 have additional tables.
                         if (odbTable > 25)
                         {
                             if (odbTable == 26)
                                 odbVersionNumber = OdbVersion.ODB_25;
+                            else if (odbTable == 29)
+                                odbVersionNumber = OdbVersion.ODB_26;
                             // If even more table indexes get added in the future, mark as unknown and attempt to process anyway.
                             else
                                 odbVersionNumber = OdbVersion.ODB_Unk;
@@ -305,6 +307,11 @@ namespace ODBtoCSV
                             odbMinorTableCount = 26;
                         }
                         else if (odbVersionNumber == OdbVersion.ODB_25)
+                        {
+                            odbTableCount = odbTable + 1;
+                            odbMinorTableCount = 20;
+                        }
+                        else if (odbVersionNumber == OdbVersion.ODB_26)
                         {
                             odbTableCount = odbTable + 1;
                             odbMinorTableCount = 20;
