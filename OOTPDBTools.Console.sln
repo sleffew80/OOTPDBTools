@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
@@ -11,40 +10,18 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Utilities.Shared", "Utiliti
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OOTPCommon.Shared", "OOTPCommon.Shared\OOTPCommon.Shared.shproj", "{3603C0D2-C3E5-48DB-8C55-3D3DF2E1FD41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OOTPDatabaseConverter.Windows", "OOTPDatabaseConverter.Windows\OOTPDatabaseConverter.Windows.csproj", "{C72B9544-5FC2-45F4-B4BA-58319A852C66}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OOTPDatabaseConverter.Windows.Installer", "OOTPDatabaseConverter.Windows.Installer\OOTPDatabaseConverter.Windows.Installer.vdproj", "{F3975683-BDBF-4691-9C09-5F7164990BD6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OOTPDatabaseConverter.Console", "OOTPDatabaseConverter.Console\OOTPDatabaseConverter.Console.csproj", "{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C72B9544-5FC2-45F4-B4BA-58319A852C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C72B9544-5FC2-45F4-B4BA-58319A852C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C72B9544-5FC2-45F4-B4BA-58319A852C66}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C72B9544-5FC2-45F4-B4BA-58319A852C66}.Debug|x86.Build.0 = Debug|Any CPU
-		{C72B9544-5FC2-45F4-B4BA-58319A852C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C72B9544-5FC2-45F4-B4BA-58319A852C66}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C72B9544-5FC2-45F4-B4BA-58319A852C66}.Release|x86.ActiveCfg = Release|Any CPU
-		{C72B9544-5FC2-45F4-B4BA-58319A852C66}.Release|x86.Build.0 = Release|Any CPU
-		{F3975683-BDBF-4691-9C09-5F7164990BD6}.Debug|Any CPU.ActiveCfg = Debug
-		{F3975683-BDBF-4691-9C09-5F7164990BD6}.Debug|x86.ActiveCfg = Debug
-		{F3975683-BDBF-4691-9C09-5F7164990BD6}.Release|Any CPU.ActiveCfg = Release
-		{F3975683-BDBF-4691-9C09-5F7164990BD6}.Release|x86.ActiveCfg = Release
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Debug|x86.Build.0 = Debug|Any CPU
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|x86.ActiveCfg = Release|Any CPU
-		{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,4 +35,4 @@ Global
 		ODBtoCSV.Shared\ODBtoCSV.Shared.projitems*{c8a517c4-939d-4284-820d-a34470b46b7f}*SharedItemsImports = 13
 		Utilities.Shared\Utilities.Shared.projitems*{cc51b694-119e-4f1a-998b-92df9a95cc08}*SharedItemsImports = 13
 	EndGlobalSection
-EndGlobal
+EndGlobal 

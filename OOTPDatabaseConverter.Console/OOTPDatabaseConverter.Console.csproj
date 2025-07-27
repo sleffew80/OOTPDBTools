@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>OOTPDatabaseConverter</AssemblyName>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
     <Version>4.0.5</Version>
     <AssemblyVersion>4.0.5.6</AssemblyVersion>
     <FileVersion>4.0.5.6</FileVersion>
@@ -15,14 +13,6 @@
     <Description>Program for converting OOTP Database files to editable comma separated values files and vice versa.</Description>
     <RootNamespace>OOTPDatabaseConverter</RootNamespace>
     <Copyright>2024</Copyright>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;_WINDOWS_</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;_WINDOWS_</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
