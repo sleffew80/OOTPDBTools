@@ -67,8 +67,9 @@ namespace OOTPDatabaseConverter
                 Console.WriteLine("Select operation:");
                 Console.WriteLine("1. Convert ODB to CSV");
                 Console.WriteLine("2. Convert CSV to ODB");
-                Console.WriteLine("3. Exit");
-                Console.Write("Enter choice (1-3): ");
+                Console.WriteLine("3. Copy OOTP Data (from Steam)");
+                Console.WriteLine("4. Exit");
+                Console.Write("Enter choice (1-4): ");
 
                 string choice = Console.ReadLine()?.Trim();
 
@@ -81,6 +82,9 @@ namespace OOTPDatabaseConverter
                         ConvertCsvToOdbInteractive();
                         break;
                     case "3":
+                        CopyOotpData();
+                        break;
+                    case "4":
                         Console.WriteLine("Goodbye!");
                         return;
                     default:
@@ -146,7 +150,8 @@ namespace OOTPDatabaseConverter
                 }
 
                 var converter = new OdbToCsv(inputPath, outputDir);
-                converter.Start(new Progress<int>(percent => Console.WriteLine($"Progress: {percent}%")));
+                converter.Start(new Progress<OOTPDatabaseConverter.Core.Utilities.ProgressInfo>(info => 
+                    Console.WriteLine($"Progress: {info.Percentage}% - {info.CurrentFile}")));
                 
                 Console.WriteLine($"Successfully converted '{inputPath}' to CSV files in '{outputDir}'");
             }
@@ -176,13 +181,83 @@ namespace OOTPDatabaseConverter
                 }
 
                 var converter = new CsvToOdb(inputPath, outputDir);
-                converter.Start(new Progress<int>(percent => Console.WriteLine($"Progress: {percent}%")));
+                converter.Start(new Progress<OOTPDatabaseConverter.Core.Utilities.ProgressInfo>(info => 
+                    Console.WriteLine($"Progress: {info.Percentage}% - {info.CurrentFile}")));
                 
                 Console.WriteLine($"Successfully converted '{inputPath}' to ODB file in '{outputDir}'");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error converting CSV to ODB: {ex.Message}");
+            }
+        }
+
+        static void CopyOotpData()
+        {
+            Console.WriteLine("Copying OOTP data from Steam installation...");
+            
+            try
+            {
+                // Determine the script to run based on OS
+                string scriptName = OperatingSystem.IsWindows() ? "copy-ootp-data.bat" : "copy-ootp-data.sh";
+                string scriptPath = Path.Combine(AppContext.BaseDirectory, scriptName);
+
+                // If script not found in base directory, look in parent directory
+                if (!File.Exists(scriptPath))
+                {
+                    scriptPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory)?.FullName ?? "", scriptName);
+                }
+
+                if (!File.Exists(scriptPath))
+                {
+                    Console.WriteLine("Error: Could not find copy-ootp-data script");
+                    return;
+                }
+
+                // Create process to run the script
+                var process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = OperatingSystem.IsWindows() ? "cmd.exe" : "/bin/bash";
+                process.StartInfo.Arguments = OperatingSystem.IsWindows() ? $"/c \"{scriptPath}\"" : scriptPath;
+                process.StartInfo.WorkingDirectory = AppContext.BaseDirectory;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+
+                process.OutputDataReceived += (sender, e) => {
+                    if (e.Data != null)
+                    {
+                        Console.WriteLine(e.Data);
+                    }
+                };
+
+                process.ErrorDataReceived += (sender, e) => {
+                    if (e.Data != null)
+                    {
+                        Console.WriteLine($"Error: {e.Data}");
+                    }
+                };
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                process.WaitForExit();
+
+                if (process.ExitCode == 0)
+                {
+                    Console.WriteLine("OOTP data copied successfully!");
+                    Console.WriteLine($"ODB files are now available in: {Path.Combine(AppContext.BaseDirectory, "test-data")}");
+                    Console.WriteLine($"Suggested CSV output directory: {Path.Combine(AppContext.BaseDirectory, "test-csv-output")}");
+                }
+                else
+                {
+                    Console.WriteLine("Error copying OOTP data. Please check if OOTP 26 is installed via Steam.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 

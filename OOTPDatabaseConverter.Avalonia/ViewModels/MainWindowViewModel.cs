@@ -79,6 +79,11 @@ namespace OOTPDatabaseConverter.Avalonia.ViewModels
         [ObservableProperty]
         private string _version = "";
 
+        [ObservableProperty]
+        private string _copyOotpDataStatus = "";
+
+        [ObservableProperty]
+        private bool _isCopyingOotpData = false;
 
 
         public MainWindowViewModel()
@@ -261,6 +266,93 @@ namespace OOTPDatabaseConverter.Avalonia.ViewModels
             finally
             {
                 IsCsvToOdbConverting = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task CopyOotpData()
+        {
+            IsCopyingOotpData = true;
+            CopyOotpDataStatus = "Copying OOTP data files...";
+
+            try
+            {
+                // Determine the script to run based on OS
+                string scriptName = OperatingSystem.IsWindows() ? "copy-ootp-data.bat" : "copy-ootp-data.sh";
+                string scriptPath = Path.Combine(AppContext.BaseDirectory, scriptName);
+
+                // If script not found in base directory, look in parent directory
+                if (!File.Exists(scriptPath))
+                {
+                    scriptPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory)?.FullName ?? "", scriptName);
+                }
+
+                if (!File.Exists(scriptPath))
+                {
+                    CopyOotpDataStatus = "Error: Could not find copy-ootp-data script";
+                    return;
+                }
+
+                // Create process to run the script
+                var process = new Process();
+                process.StartInfo.FileName = OperatingSystem.IsWindows() ? "cmd.exe" : "/bin/bash";
+                process.StartInfo.Arguments = OperatingSystem.IsWindows() ? $"/c \"{scriptPath}\"" : scriptPath;
+                process.StartInfo.WorkingDirectory = AppContext.BaseDirectory;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+
+                var output = new System.Text.StringBuilder();
+                var error = new System.Text.StringBuilder();
+
+                process.OutputDataReceived += (sender, e) => {
+                    if (e.Data != null)
+                    {
+                        output.AppendLine(e.Data);
+                        CopyOotpDataStatus = e.Data;
+                    }
+                };
+
+                process.ErrorDataReceived += (sender, e) => {
+                    if (e.Data != null)
+                    {
+                        error.AppendLine(e.Data);
+                    }
+                };
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                await process.WaitForExitAsync();
+
+                if (process.ExitCode == 0)
+                {
+                    CopyOotpDataStatus = "OOTP data copied successfully!";
+                    
+                    // Pre-fill the ODB to CSV fields
+                    OdbFileLocation = Path.Combine(AppContext.BaseDirectory, "test-data");
+                    CsvFileDestination = Path.Combine(AppContext.BaseDirectory, "test-csv-output");
+                    
+                    // Create output directory if it doesn't exist
+                    if (!Directory.Exists(CsvFileDestination))
+                    {
+                        Directory.CreateDirectory(CsvFileDestination);
+                    }
+                }
+                else
+                {
+                    CopyOotpDataStatus = $"Error copying OOTP data: {error.ToString()}";
+                }
+            }
+            catch (Exception ex)
+            {
+                CopyOotpDataStatus = $"Error: {ex.Message}";
+            }
+            finally
+            {
+                IsCopyingOotpData = false;
             }
         }
 

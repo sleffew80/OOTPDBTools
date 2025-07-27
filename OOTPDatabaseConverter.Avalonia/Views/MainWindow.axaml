@@ -41,9 +41,26 @@
                         CornerRadius="4" 
                         Padding="12">
                     <StackPanel Spacing="8">
-                        <TextBlock Text="Convert ODB to CSV" 
-                                   FontWeight="Bold" 
-                                   FontSize="14"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" 
+                                       Text="Convert ODB to CSV" 
+                                       FontWeight="Bold" 
+                                       FontSize="14"/>
+                            <Button Grid.Column="1" 
+                                    Content="Copy OOTP Data" 
+                                    Command="{Binding CopyOotpDataCommand}"
+                                    IsEnabled="{Binding IsCopyingOotpData, Converter={x:Static BoolConverters.Not}}"
+                                    Width="120"/>
+                        </Grid>
+                        
+                        <!-- Copy OOTP Data Status -->
+                        <TextBlock Text="{Binding CopyOotpDataStatus}" 
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   IsVisible="{Binding CopyOotpDataStatus, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
                         
                         <!-- ODB Files Location -->
                         <Grid>
