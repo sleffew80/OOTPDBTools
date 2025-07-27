@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>OOTPDatabaseConverter.Core</AssemblyName>
+    <Version>4.0.5</Version>
+    <Authors>Steven Leffew</Authors>
+    <Company>Steven Leffew</Company>
+    <Product>OOTP Database Converter - Core Library</Product>
+    <Description>Core library for converting OOTP database files between ODB and CSV formats</Description>
+    <RootNamespace>OOTPDatabaseConverter.Core</RootNamespace>
+    <Copyright>Copyright © Steven Leffew 2021-2024</Copyright>
+  </PropertyGroup>
+
+</Project>

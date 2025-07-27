@@ -33,6 +33,7 @@ using OOTPCommon;
 
 namespace ODBtoCSV
 {
+    [Obsolete("This class has been deprecated. Use OOTPDatabaseConverter.Core.StatsConverter instead.")]
     public class StatsConverter
     {
         // Private Member Variables
@@ -65,6 +66,7 @@ namespace ODBtoCSV
             get { return odbFileSize; }
         }
 
+        [Obsolete("This constructor has been deprecated. Use OOTPDatabaseConverter.Core.StatsConverter instead.")]
         public StatsConverter(String odbFileLocation, String csvFileDestination)
         {
             this.odbFileLocation = odbFileLocation;
@@ -74,6 +76,7 @@ namespace ODBtoCSV
             this.odbTable = 0;
         }
 
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.StatsConverter.ToCsv() instead.")]
         public void ToCsv()
         {
             lock (this)

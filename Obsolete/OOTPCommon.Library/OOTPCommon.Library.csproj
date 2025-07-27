@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>OOTPCommon.Library</AssemblyName>
+    <Version>4.0.5</Version>
+    <Authors>Steven Leffew</Authors>
+    <Company>Steven Leffew</Company>
+    <Product>OOTP Database Converter - Common Library</Product>
+    <Description>Common types and utilities for OOTP Database Converter</Description>
+    <RootNamespace>OOTPCommon</RootNamespace>
+    <Copyright>Copyright © Steven Leffew 2021-2024</Copyright>
+  </PropertyGroup>
+
+</Project>

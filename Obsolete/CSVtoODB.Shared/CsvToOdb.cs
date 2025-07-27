@@ -39,6 +39,7 @@ namespace CSVtoODB
     /// <summary>
     /// Converts comma separated value(*.csv) files to OOTP Database(*.odb) files.
     /// </summary>
+    [Obsolete("This class has been deprecated. Use OOTPDatabaseConverter.Core.CsvToOdb instead.")]
     public class CsvToOdb
     {
         #region Members

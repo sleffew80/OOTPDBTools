@@ -40,6 +40,7 @@ namespace ODBtoCSV
     /// Converts OOTP Database(*.odb) files, in OOTP's historical database format, to 
     /// comma separated value(*.csv) files in a Lahman Database style format.
     /// </summary>
+    [Obsolete("This class has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalDatabaseConverter instead.")]
     public class HistoricalDatabaseConverter
     {
         #region Members

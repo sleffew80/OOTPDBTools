@@ -38,6 +38,7 @@ namespace OOTPCommon
     /// <summary>
     /// Contains all common OOTP Database related file names.
     /// </summary>
+    [Obsolete("This class has been deprecated. Use OOTPDatabaseConverter.Core.FileNames instead.")]
     public class FileNames
     {
         #region Members

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-using ODBtoCSV;
-using CSVtoODB;
+using OOTPDatabaseConverter.Core;
 
 namespace OOTPDatabaseConverter
 {

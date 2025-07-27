@@ -1,4 +1,10 @@
-﻿#region File Description
+﻿#region Using Statements
+using System;
+using System.IO;
+using System.Text;
+#endregion
+
+#region File Description
 //---------------------------------------------------------------------------
 //
 // File: Utilities.cs
@@ -27,20 +33,29 @@
 //---------------------------------------------------------------------------
 #endregion
 
-namespace Utilities
+namespace OOTPDatabaseConverter.Core
 {
     /// <summary>
     /// Class containing simple platform agnostic methods.
     /// </summary>
     public static class Utilities
     {
+        /// <summary>
+        /// Returns the appropriate file path delimiter for the current operating system.
+        /// </summary>
+        /// <returns>File path delimiter string.</returns>
         public static string FilePathDelimeter()
         {
-#if _WINDOWS_
-            return "\\";
-#else
-            return "/";
-#endif
+            return Path.DirectorySeparatorChar.ToString();
+        }
+
+        /// <summary>
+        /// Progress reporting structure for filename and percentage display
+        /// </summary>
+        public class ProgressInfo
+        {
+            public int Percentage { get; set; }
+            public string CurrentFile { get; set; }
         }
     }
 }

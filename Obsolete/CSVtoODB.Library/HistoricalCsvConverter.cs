@@ -41,6 +41,7 @@ namespace CSVtoODB
     /// Converts comma separated value(*.csv) files, in a Lahman Database style format, to OOTP Database(*.odb)
     /// files in OOTP's historical database format.
     /// </summary>
+    [Obsolete("This class has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter instead.")]
     public class HistoricalCsvConverter
     {
         #region Members
@@ -67,6 +68,7 @@ namespace CSVtoODB
         /// </summary>
         /// <param name="csvFileName"></param>
         /// <returns>The number of lines in a comma separated values(*.csv) file.</returns>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter instead.")]
         private int GetCsvLineCount(String csvFileName)
         {
             string csvLine;
@@ -92,6 +94,7 @@ namespace CSVtoODB
         /// </summary>
         /// <param name="csvFileName"></param>
         /// <returns>The total number of lines of all comma separated values(*.csv) files contained in an array.</returns>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter instead.")]
         private int GetCsvCombinedLineCount(String[] csvFileName)
         {
             int odbTable = 0;
@@ -112,6 +115,7 @@ namespace CSVtoODB
         /// Gets comma separated value(*.csv) files linecounts and sets the approprite line counts 
         /// for lines necessary for resulting OOTP Database(*.odb) files.
         /// </summary>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter instead.")]
         private void SetOdbLineCounts()
         {
             historicalDatabaseLineCount = GetCsvCombinedLineCount(fileNames.HistoricalDatabaseAllCsvFileNames);
@@ -128,6 +132,7 @@ namespace CSVtoODB
         /// <param name="csvFileName">Array of comma separated value(*.csv) file names to be converted.</param>
         /// <param name="odbFileName">Name of OOTP Database(*.odb) file to be created.</param>
         /// <param name="odbLineCount">Number of lines required for OOTP Database.</param>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter instead.")]
         private void ConvertToMultiTableOdb(String[] csvFileName, String odbFileName, int odbLineCount, IProgress<int> progress)
         {
             // Initialize local variables.
@@ -219,6 +224,7 @@ namespace CSVtoODB
         /// <param name="csvFileName">Comma separated value(*.csv) file name to be converted.</param>
         /// <param name="odbFileName">Name of OOTP Database(*.odb) file to be created.</param>
         /// <param name="odbLineCount">Number of lines required for OOTP Database.</param>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter instead.")]
         private void ConvertToSingleTableOdb(String csvFileName, String odbFileName, int odbLineCount, IProgress<int> progress)
         {
             string csvLine;
@@ -285,6 +291,7 @@ namespace CSVtoODB
         /// <param name="progress">Interface for progress updates.</param>
         /// <param name="currentProgress">Current progress (gets converted to a scale of 100).</param>
         /// <param name="maxProgress">Maximum progress required for completion (gets converted to a scale of 100).</param>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter instead.")]
         private void UpdateProgress(IProgress<int> progress, int currentProgress, int maxProgress)
         {
             if (progress != null)
@@ -303,6 +310,7 @@ namespace CSVtoODB
         /// </remarks>
         /// <param name="csvFolderLocation">Source folder for comma separated value(*.csv) files to be converted.</param>
         /// <param name="odbFolderDestination">Destination folder for new OOTP Database(*.odb) files to be saved.</param>
+        [Obsolete("This constructor has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter instead.")]
         public HistoricalCsvConverter(FileNames fileNames, String csvFolderLocation, String odbFolderDestination)
         {
             this.odbFolderDestination = odbFolderDestination + pathDelimiter;
@@ -317,6 +325,7 @@ namespace CSVtoODB
         /// Converts required comma separated value(*.csv) files to OOTP historical database files while reporting progress.
         /// </summary>
         /// <param name="progress">Interface for progress updates.</param>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter.ToOdb() instead.")]
         public void ToOdb(IProgress<int> progress)
         {
             lock (this)
@@ -333,6 +342,7 @@ namespace CSVtoODB
         /// Copy comma separated value(*.csv) files that exist outside of any OOTP Database(*.odb) files to the destination
         /// directory. 
         /// </summary>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.HistoricalCsvConverter.CopyRequiredFiles() instead.")]
         public void CopyRequiredFiles()
         {
             int currentCsvFile = 0;

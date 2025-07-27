@@ -28,6 +28,7 @@
 
 namespace OOTPCommon
 {
+    [Obsolete("This enum has been deprecated. Use OOTPDatabaseConverter.Core.OdbVersion instead.")]
     public enum OdbVersion
     {
         ODB_Err,

@@ -39,7 +39,8 @@ namespace ODBtoCSV
     /// <summary>
     /// Converts OOTP Database(*.odb) files to comma separated value(*.csv) files.
     /// </summary>
-    class OdbToCsv
+    [Obsolete("This class has been deprecated. Use OOTPDatabaseConverter.Core.OdbToCsv instead.")]
+    public class OdbToCsv
     {
         #region Members
         private static string pathDelimeter = Utilities.Utilities.FilePathDelimeter();
@@ -68,6 +69,7 @@ namespace ODBtoCSV
         /// </summary>
         /// <param name="odbFileLocation">Folder location of OOTP Database(*.odb) file.</param>
         /// <param name="odbFileName">OOTP Database(*.odb) file name.</param>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.OdbToCsv instead.")]
         private void VerifyOdbFile(String odbFileLocation, String odbFileName)
         {
             if (!File.Exists(odbFileLocation))
@@ -86,6 +88,7 @@ namespace ODBtoCSV
         /// <summary>
         /// Recursively verifies existence of all OOTP Database(*.odb) files.
         /// </summary>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.OdbToCsv instead.")]
         private bool VerifyAllFiles()
         {
             missingFileTextMessage = missingFileText;
@@ -105,6 +108,7 @@ namespace ODBtoCSV
             }
         }
 
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.OdbToCsv instead.")]
         private int GetTableCount(String odbFileLocation)
         {
             int odbBytePosition = 0;
@@ -179,6 +183,7 @@ namespace ODBtoCSV
         /// Quick and dirty way of determining the .odb file layout. 
         /// </summary>
         /// <param name="odbFileLocation">Folder location of OOTP Database(*.odb) file.</param>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.OdbToCsv instead.")]
         private OdbVersion GetDatabaseVersion(String odbFileLocation, String odbMinorFileLocation)
         {
             OdbVersion odbVersionNumber = OdbVersion.ODB_Err;
@@ -340,6 +345,7 @@ namespace ODBtoCSV
         /// comma separated value(*.csv) files.
         /// </summary>
         /// <param name="fileName">Name of and where to create configuration file.</param>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.OdbToCsv instead.")]
         private void WriteConfig(string fileName)
         {
             try 
@@ -378,6 +384,7 @@ namespace ODBtoCSV
         /// </summary>
         /// <param name="inputFolder">Source folder for OOTP Database(*.odb) files to be converted.</param>
         /// <param name="outputFolder">Destination folder for new comma separated value(*.csv) files to be saved.</param>
+        [Obsolete("This constructor has been deprecated. Use OOTPDatabaseConverter.Core.OdbToCsv instead.")]
         public OdbToCsv(String inputFolder, String outputFolder)
         {
             String historicalFileName = "historical_database.odb";
@@ -412,6 +419,7 @@ namespace ODBtoCSV
         /// Starts the database conversion process and reports completion progress.
         /// </summary>
         /// <param name="progress">Interface for progress updates.</param>
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.OdbToCsv.Start() instead.")]
         public void Start(IProgress<int> progress)
         {
             if (VerifyAllFiles() == true)
@@ -445,6 +453,7 @@ namespace ODBtoCSV
             }
         }
 
+        [Obsolete("This method has been deprecated. Use OOTPDatabaseConverter.Core.OdbToCsv instead.")]
         public void Close()
         {
             
