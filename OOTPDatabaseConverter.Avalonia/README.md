@@ -110,7 +110,7 @@ dotnet run --project OOTPDatabaseConverter.Avalonia
 │ │                                    [Convert CSV→ODB] │ │
 │ └─────────────────────────────────────────────────────┘ │
 │                                                         │
-│                                           Version: 4.0.5 │
+│                                           Version: 5.0 │
 └─────────────────────────────────────────────────────────┘
 ```
 

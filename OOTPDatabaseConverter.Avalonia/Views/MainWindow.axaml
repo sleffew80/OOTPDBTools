@@ -54,7 +54,7 @@
                                     Content="Copy OOTP Data" 
                                     Command="{Binding CopyOotpDataCommand}"
                                     IsEnabled="{Binding IsCopyingOotpData, Converter={x:Static BoolConverters.Not}}"
-                                    Width="120"/>
+                                    Width="135"/>
                         </Grid>
                         
                         <!-- Copy OOTP Data Status -->
@@ -118,9 +118,26 @@
                         CornerRadius="4" 
                         Padding="12">
                     <StackPanel Spacing="8">
-                        <TextBlock Text="Convert CSV to ODB" 
-                                   FontWeight="Bold" 
-                                   FontSize="14"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" 
+                                       Text="Convert CSV to ODB" 
+                                       FontWeight="Bold" 
+                                       FontSize="14"/>
+                            <Button Grid.Column="1" 
+                                    Content="Backup &amp; Copy ODB" 
+                                    Command="{Binding BackupAndCopyOdbCommand}"
+                                    IsEnabled="{Binding IsBackingUpAndCopyingOdb, Converter={x:Static BoolConverters.Not}}"
+                                    Width="160"/>
+                        </Grid>
+                        
+                        <!-- Backup & Copy ODB Status -->
+                        <TextBlock Text="{Binding BackupAndCopyOdbStatus}" 
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   IsVisible="{Binding BackupAndCopyOdbStatus, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
                         
                         <!-- CSV Files Location -->
                         <Grid>

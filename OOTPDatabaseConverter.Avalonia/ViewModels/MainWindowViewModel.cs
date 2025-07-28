@@ -38,6 +38,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OOTPDatabaseConverter.Core;
@@ -85,10 +86,22 @@ namespace OOTPDatabaseConverter.Avalonia.ViewModels
         [ObservableProperty]
         private bool _isCopyingOotpData = false;
 
+        [ObservableProperty]
+        private string _backupAndCopyOdbStatus = "";
+
+        [ObservableProperty]
+        private bool _isBackingUpAndCopyingOdb = false;
+
 
         public MainWindowViewModel()
         {
             Version = "Version: " + GetAssemblyFileVersion();
+        }
+
+        // Helper method to safely update UI properties from background threads
+        private async Task UpdateUIAsync(Action action)
+        {
+            await Dispatcher.UIThread.InvokeAsync(action);
         }
 
         // Method to set the storage provider (called from the view)
@@ -277,74 +290,106 @@ namespace OOTPDatabaseConverter.Avalonia.ViewModels
 
             try
             {
-                // Determine the script to run based on OS
-                string scriptName = OperatingSystem.IsWindows() ? "copy-ootp-data.bat" : "copy-ootp-data.sh";
-                string scriptPath = Path.Combine(AppContext.BaseDirectory, scriptName);
-
-                // If script not found in base directory, look in parent directory
-                if (!File.Exists(scriptPath))
+                await Task.Run(() =>
                 {
-                    scriptPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory)?.FullName ?? "", scriptName);
-                }
-
-                if (!File.Exists(scriptPath))
-                {
-                    CopyOotpDataStatus = "Error: Could not find copy-ootp-data script";
-                    return;
-                }
-
-                // Create process to run the script
-                var process = new Process();
-                process.StartInfo.FileName = OperatingSystem.IsWindows() ? "cmd.exe" : "/bin/bash";
-                process.StartInfo.Arguments = OperatingSystem.IsWindows() ? $"/c \"{scriptPath}\"" : scriptPath;
-                process.StartInfo.WorkingDirectory = AppContext.BaseDirectory;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.CreateNoWindow = true;
-
-                var output = new System.Text.StringBuilder();
-                var error = new System.Text.StringBuilder();
-
-                process.OutputDataReceived += (sender, e) => {
-                    if (e.Data != null)
-                    {
-                        output.AppendLine(e.Data);
-                        CopyOotpDataStatus = e.Data;
-                    }
-                };
-
-                process.ErrorDataReceived += (sender, e) => {
-                    if (e.Data != null)
-                    {
-                        error.AppendLine(e.Data);
-                    }
-                };
-
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-
-                await process.WaitForExitAsync();
-
-                if (process.ExitCode == 0)
-                {
-                    CopyOotpDataStatus = "OOTP data copied successfully!";
+                    // Common Steam OOTP installation paths
+                    var possiblePaths = new List<string>();
                     
-                    // Pre-fill the ODB to CSV fields
-                    OdbFileLocation = Path.Combine(AppContext.BaseDirectory, "test-data");
-                    CsvFileDestination = Path.Combine(AppContext.BaseDirectory, "test-csv-output");
-                    
-                    // Create output directory if it doesn't exist
-                    if (!Directory.Exists(CsvFileDestination))
+                    if (OperatingSystem.IsWindows())
                     {
-                        Directory.CreateDirectory(CsvFileDestination);
+                        possiblePaths.AddRange(new[]
+                        {
+                            @"C:\Program Files (x86)\Steam\steamapps\common\Out of the Park Baseball 26\data\stats",
+                            @"C:\Program Files\Steam\steamapps\common\Out of the Park Baseball 26\data\stats",
+                            @"D:\Program Files (x86)\Steam\steamapps\common\Out of the Park Baseball 26\data\stats",
+                            @"D:\Program Files\Steam\steamapps\common\Out of the Park Baseball 26\data\stats"
+                        });
                     }
-                }
-                else
-                {
-                    CopyOotpDataStatus = $"Error copying OOTP data: {error.ToString()}";
-                }
+                    else
+                    {
+                        possiblePaths.AddRange(new[]
+                        {
+                            "/media/all-the-things/Games/Steam/steamapps/common/Out of the Park Baseball 26/data/stats",
+                            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".steam/steam/steamapps/common/Out of the Park Baseball 26/data/stats"),
+                            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local/share/Steam/steamapps/common/Out of the Park Baseball 26/data/stats")
+                        });
+                    }
+
+                    // Find the first valid OOTP installation
+                    string ootpPath = null;
+                    foreach (var path in possiblePaths)
+                    {
+                        if (Directory.Exists(path))
+                        {
+                            ootpPath = path;
+                            break;
+                        }
+                    }
+
+                    if (ootpPath == null)
+                    {
+                        CopyOotpDataStatus = "Error: Could not find OOTP 26 installation. Please ensure it's installed via Steam.";
+                        return;
+                    }
+
+                    CopyOotpDataStatus = $"Found OOTP installation at: {ootpPath}";
+
+                    // Create target directory
+                    string targetDir = Path.Combine(AppContext.BaseDirectory, "test-data");
+                    if (!Directory.Exists(targetDir))
+                    {
+                        Directory.CreateDirectory(targetDir);
+                        CopyOotpDataStatus = "Created test-data directory";
+                    }
+
+                    // Find and copy all ODB files
+                    var odbFiles = Directory.GetFiles(ootpPath, "*.odb", SearchOption.AllDirectories);
+                    
+                    if (odbFiles.Length == 0)
+                    {
+                        CopyOotpDataStatus = "Error: No ODB files found in OOTP installation";
+                        return;
+                    }
+
+                    CopyOotpDataStatus = $"Found {odbFiles.Length} ODB files, copying...";
+
+                    int copiedCount = 0;
+                    foreach (string sourceFile in odbFiles)
+                    {
+                        string fileName = Path.GetFileName(sourceFile);
+                        string targetFile = Path.Combine(targetDir, fileName);
+                        
+                        try
+                        {
+                            File.Copy(sourceFile, targetFile, true);
+                            copiedCount++;
+                            CopyOotpDataStatus = $"Copied: {fileName} ({copiedCount}/{odbFiles.Length})";
+                        }
+                        catch (Exception ex)
+                        {
+                            CopyOotpDataStatus = $"Warning: Could not copy {fileName}: {ex.Message}";
+                        }
+                    }
+
+                    if (copiedCount > 0)
+                    {
+                        CopyOotpDataStatus = $"Successfully copied {copiedCount} ODB files to test-data directory!";
+                        
+                        // Pre-fill the ODB to CSV fields
+                        OdbFileLocation = targetDir;
+                        CsvFileDestination = Path.Combine(AppContext.BaseDirectory, "test-csv-output");
+                        
+                        // Create output directory if it doesn't exist
+                        if (!Directory.Exists(CsvFileDestination))
+                        {
+                            Directory.CreateDirectory(CsvFileDestination);
+                        }
+                    }
+                    else
+                    {
+                        CopyOotpDataStatus = "Error: No files were copied successfully";
+                    }
+                });
             }
             catch (Exception ex)
             {
@@ -356,11 +401,106 @@ namespace OOTPDatabaseConverter.Avalonia.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task BackupAndCopyOdb()
+        {
+            if (string.IsNullOrEmpty(OdbFileDestination))
+            {
+                BackupAndCopyOdbStatus = "Error: Please select ODB Files Destination first";
+                return;
+            }
+
+            if (string.IsNullOrEmpty(CsvFileLocation))
+            {
+                BackupAndCopyOdbStatus = "Error: Please run CSV to ODB conversion first";
+                return;
+            }
+
+            IsBackingUpAndCopyingOdb = true;
+            BackupAndCopyOdbStatus = "Backing up and copying ODB files...";
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    // Get the current date for backup filename
+                    string dateSuffix = DateTime.Now.ToString("yyyyMMdd");
+                    
+                    // Get the source directory (where the converted ODB files are)
+                    string sourceDir = OdbFileDestination;
+                    string targetDir = CsvFileLocation; // This should be the original ODB location
+                    
+                    BackupAndCopyOdbStatus = "Scanning for ODB files...";
+                    
+                    // Find all ODB files in the source directory
+                    var odbFiles = Directory.GetFiles(sourceDir, "*.odb");
+                    
+                    if (odbFiles.Length == 0)
+                    {
+                        BackupAndCopyOdbStatus = "Error: No ODB files found in destination directory";
+                        return;
+                    }
+
+                    int processedCount = 0;
+                    int backupCount = 0;
+                    int copyCount = 0;
+
+                    foreach (string sourceFile in odbFiles)
+                    {
+                        string fileName = Path.GetFileName(sourceFile);
+                        string targetFile = Path.Combine(targetDir, fileName);
+                        string backupFile = Path.Combine(targetDir, $"{fileName}.{dateSuffix}.backup");
+
+                        BackupAndCopyOdbStatus = $"Processing: {fileName}";
+
+                        // Check if target file exists and create backup
+                        if (File.Exists(targetFile))
+                        {
+                            try
+                            {
+                                File.Copy(targetFile, backupFile, true);
+                                backupCount++;
+                                BackupAndCopyOdbStatus = $"Backed up: {fileName}";
+                            }
+                            catch (Exception ex)
+                            {
+                                BackupAndCopyOdbStatus = $"Warning: Could not backup {fileName}: {ex.Message}";
+                            }
+                        }
+
+                        // Copy the new ODB file to replace the original
+                        try
+                        {
+                            File.Copy(sourceFile, targetFile, true);
+                            copyCount++;
+                            BackupAndCopyOdbStatus = $"Copied: {fileName}";
+                        }
+                        catch (Exception ex)
+                        {
+                            BackupAndCopyOdbStatus = $"Error: Could not copy {fileName}: {ex.Message}";
+                        }
+
+                        processedCount++;
+                    }
+
+                    BackupAndCopyOdbStatus = $"Completed! Processed {processedCount} files. Backed up {backupCount} files. Copied {copyCount} files.";
+                });
+            }
+            catch (Exception ex)
+            {
+                BackupAndCopyOdbStatus = $"Error: {ex.Message}";
+            }
+            finally
+            {
+                IsBackingUpAndCopyingOdb = false;
+            }
+        }
+
         private static string GetAssemblyFileVersion()
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var fileVersion = FileVersionInfo.GetVersionInfo(assembly.Location);
-            return fileVersion.FileVersion ?? "4.0.5";
+            return fileVersion.FileVersion ?? "5.0";
         }
     }
 }

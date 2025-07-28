@@ -1,21 +1,23 @@
-# OOTP Database Converter Tools
+# OOTP Database Converter
 
-A collection of tools for converting OOTP Baseball database files between ODB and CSV formats.
+A modern, cross-platform tool for converting OOTP Baseball database files between ODB and CSV formats.
 
 ## Features
 
-- Convert OOTP Database (*.odb) files to CSV format
-- Convert CSV files back to OOTP Database (*.odb) format
-- Cross-platform support (Windows, macOS, Linux)
-- Progress indicators with filename display
-- Multiple UI options (Avalonia, Windows Forms, Console)
+- **Convert OOTP Database (*.odb) files to CSV format** - Extract data for analysis in spreadsheet applications
+- **Convert CSV files back to OOTP Database (*.odb) format** - Import modified data back into OOTP
+- **Cross-platform support** - Windows, macOS, and Linux
+- **Multiple interfaces** - GUI (Avalonia) and Command-line options
+- **Progress tracking** - Real-time progress indicators with filename display
+- **Steam integration** - Automatic detection and copying of OOTP 26 data
+- **Backup functionality** - Safe backup and replacement of ODB files
 
 ## Quick Start
 
 ### Prerequisites
 
-- .NET 8.0 or later
-- OOTP Baseball 26 (for testing with real data)
+- **.NET 8.0** or later
+- **OOTP Baseball 17-26** (for testing with real data)
 
 ### Getting Test Data
 
@@ -38,15 +40,11 @@ These scripts will:
 
 ### Running the Application
 
-**Avalonia UI (Cross-platform):**
+**Avalonia GUI (Recommended - Cross-platform):**
 ```bash
+./run-avalonia.sh
+# or
 cd OOTPDatabaseConverter.Avalonia
-dotnet run
-```
-
-**Windows Forms:**
-```bash
-cd OOTPDatabaseConverter.Windows
 dotnet run
 ```
 
@@ -56,44 +54,120 @@ cd OOTPDatabaseConverter.Console
 dotnet run
 ```
 
+**Interactive Console Mode:**
+```bash
+cd OOTPDatabaseConverter.Console
+dotnet run
+# Then follow the menu prompts
+```
+
 ## Project Structure
 
-- `OOTPDatabaseConverter.Core/` - Main conversion library
-- `OOTPDatabaseConverter.Avalonia/` - Cross-platform UI
-- `OOTPDatabaseConverter.Windows/` - Windows Forms UI
-- `OOTPDatabaseConverter.Console/` - Command-line interface
-- `Obsolete/` - Deprecated libraries (see migration guide)
+```
+OOTPDBTools/
+├── OOTPDatabaseConverter.Core/          # Core conversion library
+├── OOTPDatabaseConverter.Console/       # Command-line interface
+├── OOTPDatabaseConverter.Avalonia/      # Cross-platform GUI
+├── build-portable.sh/.bat               # Deployment scripts
+├── copy-ootp-data.sh/.bat               # OOTP data copying
+└── run-avalonia.sh                      # Avalonia launcher
+```
 
 ## Usage
 
-1. **ODB to CSV Conversion:**
-   - Select the folder containing your ODB files
-   - Choose a destination folder for CSV output
+### GUI Application (Avalonia)
+
+1. **Convert ODB to CSV:**
+   - Click "Select ODB Directory" and choose folder with *.odb files
+   - Click "Select Output Directory" for CSV files
    - Click "Convert ODB to CSV"
 
-2. **CSV to ODB Conversion:**
-   - Select the folder containing your CSV files
-   - Choose a destination folder for ODB output
+2. **Convert CSV to ODB:**
+   - Click "Select CSV Directory" and choose folder with *.csv files
+   - Click "Select Output Directory" for ODB files
    - Click "Convert CSV to ODB"
+
+3. **Copy OOTP Data:**
+   - Click "Copy OOTP Data" to copy files from Steam installation
+
+4. **Backup & Copy ODB:**
+   - Click "Backup & Copy ODB" to safely replace ODB files with backups
+
+### Console Application
+
+**Command-line mode:**
+```bash
+# Convert ODB to CSV
+dotnet run -- odb2csv /path/to/odb/files /output/directory
+
+# Convert CSV to ODB
+dotnet run -- csv2odb /path/to/csv/files /output/directory
+```
+
+**Interactive mode:**
+```bash
+dotnet run
+# Then select from the menu:
+# 1. Convert ODB to CSV
+# 2. Convert CSV to ODB
+# 3. Copy OOTP Data (from Steam)
+# 4. Backup & Copy ODB Files
+# 5. Exit
+```
 
 ## Development
 
 ### Building
 
 ```bash
+# Build all projects
 dotnet build
+
+# Build specific project
+dotnet build OOTPDatabaseConverter.Avalonia
+dotnet build OOTPDatabaseConverter.Console
 ```
 
-### Testing
+### VS Code Development
 
-The application includes progress indicators that show which file is currently being processed, making it easy to monitor conversion progress.
+The project includes VS Code configuration:
+- Debug configurations for all projects
+- Build tasks
+- Recommended extensions
 
-## Migration from Old Libraries
+### Deployment
 
-If you're using the old separate libraries, they have been deprecated and moved to the `Obsolete/` directory. All classes are marked with `[Obsolete]` attributes that will guide you to the new consolidated `OOTPDatabaseConverter.Core` library.
+Create portable executables:
 
-See `Obsolete/README.md` for detailed migration instructions.
+**Linux/macOS:**
+```bash
+./build-portable.sh
+```
+
+**Windows:**
+```cmd
+build-portable.bat
+```
+
+This creates self-contained executables for all platforms in the `dist/` directory.
+
+## Version History
+
+- **v5.0** - Modernized architecture, removed obsolete projects, cross-platform Avalonia UI
+- **v4.x** - Legacy versions with multiple platform-specific implementations
 
 ## License
 
-This project is licensed under the GNU General Public License v2.0 or later.
+This project is licensed under the **GNU General Public License v2.0** or later.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## Support
+
+For issues and questions, please check the project documentation or create an issue in the repository.

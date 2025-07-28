@@ -19,7 +19,7 @@ the Free Software Foundation, either version 2 of the License, or
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <AssemblyName>OOTPDatabaseConverter.Avalonia</AssemblyName>
-    <Version>4.0.5</Version>
+    <Version>5.0</Version>
     <Authors>Steven Leffew</Authors>
     <Company>Steven Leffew</Company>
     <Product>OOTP Database Converter</Product>

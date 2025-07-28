@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>OOTPDatabaseConverter.Core</AssemblyName>
-    <Version>4.0.5</Version>
+    <Version>5.0</Version>
     <Authors>Steven Leffew</Authors>
     <Company>Steven Leffew</Company>
     <Product>OOTP Database Converter - Core Library</Product>
