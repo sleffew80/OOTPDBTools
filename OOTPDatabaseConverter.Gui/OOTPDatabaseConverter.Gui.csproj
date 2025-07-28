@@ -1,0 +1,50 @@
+﻿<!--
+OOTP Database Converter - Avalonia UI
+Copyright (C) 2021-2024 Steven Leffew
+
+This project uses Avalonia UI (MIT License) - https://github.com/AvaloniaUI/Avalonia
+This project uses CommunityToolkit.Mvvm (MIT License) - https://github.com/CommunityToolkit/dotnet
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <AssemblyName>OOTPDatabaseConverter.Gui</AssemblyName>
+    <Version>5.0</Version>
+    <Authors>Steven Leffew</Authors>
+    <Company>Steven Leffew</Company>
+    <Product>OOTP Database Converter</Product>
+    <Description>Cross-platform GUI for converting OOTP database files between ODB and CSV formats</Description>
+    <RootNamespace>OOTPDatabaseConverter.Gui</RootNamespace>
+    <Copyright>Copyright © Steven Leffew 2021-2024</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OOTPDatabaseConverter.Core\OOTPDatabaseConverter.Core.csproj" />
+  </ItemGroup>
+
+</Project>

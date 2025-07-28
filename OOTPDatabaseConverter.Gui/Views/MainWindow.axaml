@@ -1,0 +1,202 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:OOTPDatabaseConverter.Gui.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
+        x:Class="OOTPDatabaseConverter.Gui.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="OOTP Database Converter"
+        Width="500" Height="450"
+        CanResize="True"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Grid.Row="0" 
+                   Text="OOTP Database Converter" 
+                   FontSize="18" 
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,0,0,12"/>
+
+        <!-- Main Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="12">
+                
+                <!-- ODB to CSV Section -->
+                <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                        BorderThickness="1" 
+                        CornerRadius="4" 
+                        Padding="12">
+                    <StackPanel Spacing="8">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" 
+                                       Text="Convert ODB to CSV" 
+                                       FontWeight="Bold" 
+                                       FontSize="14"/>
+                            <Button Grid.Column="1" 
+                                    Content="Copy OOTP Data" 
+                                    Command="{Binding CopyOotpDataCommand}"
+                                    IsEnabled="{Binding IsCopyingOotpData, Converter={x:Static BoolConverters.Not}}"
+                                    Width="135"/>
+                        </Grid>
+                        
+                        <!-- Copy OOTP Data Status -->
+                        <TextBlock Text="{Binding CopyOotpDataStatus}" 
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   IsVisible="{Binding CopyOotpDataStatus, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                        
+                        <!-- ODB Files Location -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" 
+                                     Text="{Binding OdbFileLocation}" 
+                                     Watermark="ODB Files Location"
+                                     Margin="0,0,8,0"/>
+                            <Button Grid.Column="1" 
+                                    Content="Browse" 
+                                    Command="{Binding BrowseOdbLocationCommand}"
+                                    Width="80"/>
+                        </Grid>
+                        
+                        <!-- CSV Files Destination -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" 
+                                     Text="{Binding CsvFileDestination}" 
+                                     Watermark="CSV Files Destination"
+                                     Margin="0,0,8,0"/>
+                            <Button Grid.Column="1" 
+                                    Content="Browse" 
+                                    Command="{Binding BrowseCsvDestinationCommand}"
+                                    Width="80"/>
+                        </Grid>
+                        
+                        <!-- Progress and Status -->
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{Binding OdbToCsvStatus}" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                       IsVisible="{Binding OdbToCsvStatus, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                            <ProgressBar Value="{Binding OdbToCsvProgress}" 
+                                         Maximum="100" 
+                                         IsVisible="{Binding IsOdbToCsvConverting}"/>
+                        </StackPanel>
+                        
+                        <!-- Convert Button -->
+                        <Button Content="Convert ODB to CSV" 
+                                Command="{Binding ConvertOdbToCsvCommand}"
+                                IsEnabled="{Binding IsOdbToCsvConverting, Converter={x:Static BoolConverters.Not}}"
+                                HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- CSV to ODB Section -->
+                <Border BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}" 
+                        BorderThickness="1" 
+                        CornerRadius="4" 
+                        Padding="12">
+                    <StackPanel Spacing="8">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" 
+                                       Text="Convert CSV to ODB" 
+                                       FontWeight="Bold" 
+                                       FontSize="14"/>
+                            <Button Grid.Column="1" 
+                                    Content="Backup &amp; Copy ODB" 
+                                    Command="{Binding BackupAndCopyOdbCommand}"
+                                    IsEnabled="{Binding IsBackingUpAndCopyingOdb, Converter={x:Static BoolConverters.Not}}"
+                                    Width="160"/>
+                        </Grid>
+                        
+                        <!-- Backup & Copy ODB Status -->
+                        <TextBlock Text="{Binding BackupAndCopyOdbStatus}" 
+                                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                   IsVisible="{Binding BackupAndCopyOdbStatus, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                        
+                        <!-- CSV Files Location -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" 
+                                     Text="{Binding CsvFileLocation}" 
+                                     Watermark="CSV Files Location"
+                                     Margin="0,0,8,0"/>
+                            <Button Grid.Column="1" 
+                                    Content="Browse" 
+                                    Command="{Binding BrowseCsvLocationCommand}"
+                                    Width="80"/>
+                        </Grid>
+                        
+                        <!-- ODB Files Destination -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" 
+                                     Text="{Binding OdbFileDestination}" 
+                                     Watermark="ODB Files Destination"
+                                     Margin="0,0,8,0"/>
+                            <Button Grid.Column="1" 
+                                    Content="Browse" 
+                                    Command="{Binding BrowseOdbDestinationCommand}"
+                                    Width="80"/>
+                        </Grid>
+                        
+                        <!-- Progress and Status -->
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="{Binding CsvToOdbStatus}" 
+                                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                       IsVisible="{Binding CsvToOdbStatus, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                            <ProgressBar Value="{Binding CsvToOdbProgress}" 
+                                         Maximum="100" 
+                                         IsVisible="{Binding IsCsvToOdbConverting}"/>
+                        </StackPanel>
+                        
+                        <!-- Convert Button -->
+                        <Button Content="Convert CSV to ODB" 
+                                Command="{Binding ConvertCsvToOdbCommand}"
+                                IsEnabled="{Binding IsCsvToOdbConverting, Converter={x:Static BoolConverters.Not}}"
+                                HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Version Info -->
+        <TextBlock Grid.Row="2" 
+                   Text="{Binding Version}" 
+                   HorizontalAlignment="Right" 
+                   VerticalAlignment="Bottom" 
+                   Margin="0,8,0,0"
+                   Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+    </Grid>
+</Window>
