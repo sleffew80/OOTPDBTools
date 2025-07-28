@@ -1,9 +1,9 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using OOTPDatabaseConverter.Avalonia.ViewModels;
+using OOTPDatabaseConverter.Gui.ViewModels;
 
-namespace OOTPDatabaseConverter.Avalonia;
+namespace OOTPDatabaseConverter.Gui;
 
 public class ViewLocator : IDataTemplate
 {

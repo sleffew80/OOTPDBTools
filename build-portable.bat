@@ -16,7 +16,7 @@ dotnet publish OOTPDatabaseConverter.Avalonia\OOTPDatabaseConverter.Avalonia.csp
     --self-contained true ^
     -p:PublishSingleFile=true ^
     -p:PublishTrimmed=true ^
-    -o "%OUTPUT_DIR%\win-x64-avalonia"
+    -o "%OUTPUT_DIR%\win-x64-gui"
 
 REM Build Console app
 dotnet publish OOTPDatabaseConverter.Console\OOTPDatabaseConverter.Console.csproj ^
@@ -32,7 +32,7 @@ set PACKAGE_NAME=OOTPDatabaseConverter-win-x64-portable
 if not exist "%OUTPUT_DIR%\%PACKAGE_NAME%" mkdir "%OUTPUT_DIR%\%PACKAGE_NAME%"
 
 REM Copy executables
-copy "%OUTPUT_DIR%\win-x64-avalonia\OOTPDatabaseConverter.Avalonia.exe" "%OUTPUT_DIR%\%PACKAGE_NAME%\"
+copy "%OUTPUT_DIR%\win-x64-gui\OOTPDatabaseConverter.Gui.exe" "%OUTPUT_DIR%\%PACKAGE_NAME%\"
 copy "%OUTPUT_DIR%\win-x64-console\OOTPDatabaseConverter.exe" "%OUTPUT_DIR%\%PACKAGE_NAME%\"
 
 REM Copy scripts and documentation

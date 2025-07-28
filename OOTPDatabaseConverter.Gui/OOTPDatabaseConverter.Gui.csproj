@@ -18,13 +18,13 @@ the Free Software Foundation, either version 2 of the License, or
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    <AssemblyName>OOTPDatabaseConverter.Avalonia</AssemblyName>
+    <AssemblyName>OOTPDatabaseConverter.Gui</AssemblyName>
     <Version>5.0</Version>
     <Authors>Steven Leffew</Authors>
     <Company>Steven Leffew</Company>
     <Product>OOTP Database Converter</Product>
     <Description>Cross-platform GUI for converting OOTP database files between ODB and CSV formats</Description>
-    <RootNamespace>OOTPDatabaseConverter.Avalonia</RootNamespace>
+    <RootNamespace>OOTPDatabaseConverter.Gui</RootNamespace>
     <Copyright>Copyright © Steven Leffew 2021-2024</Copyright>
   </PropertyGroup>
 

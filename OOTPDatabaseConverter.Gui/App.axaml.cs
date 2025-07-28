@@ -4,10 +4,10 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
-using OOTPDatabaseConverter.Avalonia.ViewModels;
-using OOTPDatabaseConverter.Avalonia.Views;
+using OOTPDatabaseConverter.Gui.ViewModels;
+using OOTPDatabaseConverter.Gui.Views;
 
-namespace OOTPDatabaseConverter.Avalonia;
+namespace OOTPDatabaseConverter.Gui;
 
 public partial class App : Application
 {

@@ -43,7 +43,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OOTPDatabaseConverter.Core;
 
-namespace OOTPDatabaseConverter.Avalonia.ViewModels
+namespace OOTPDatabaseConverter.Gui.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {

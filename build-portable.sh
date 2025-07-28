@@ -20,7 +20,7 @@ for platform in "${PLATFORMS[@]}"; do
         --self-contained true \
         -p:PublishSingleFile=true \
         -p:PublishTrimmed=true \
-        -o "$OUTPUT_DIR/$platform-avalonia"
+        -o "$OUTPUT_DIR/$platform-gui"
     
     # Build Console app
     dotnet publish OOTPDatabaseConverter.Console/OOTPDatabaseConverter.Console.csproj \
@@ -36,7 +36,7 @@ for platform in "${PLATFORMS[@]}"; do
     mkdir -p "$OUTPUT_DIR/$PACKAGE_NAME"
     
     # Copy executables
-    cp "$OUTPUT_DIR/$platform-avalonia/OOTPDatabaseConverter.Avalonia"* "$OUTPUT_DIR/$PACKAGE_NAME/"
+    cp "$OUTPUT_DIR/$platform-gui/OOTPDatabaseConverter.Gui"* "$OUTPUT_DIR/$PACKAGE_NAME/"
     cp "$OUTPUT_DIR/$platform-console/OOTPDatabaseConverter"* "$OUTPUT_DIR/$PACKAGE_NAME/"
     
     # Copy scripts and documentation

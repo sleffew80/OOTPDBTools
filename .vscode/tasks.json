@@ -2,12 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-avalonia",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/OOTPDatabaseConverter.Avalonia/OOTPDatabaseConverter.Avalonia.csproj",
+                    "label": "build-gui",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/OOTPDatabaseConverter.Gui/OOTPDatabaseConverter.Gui.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -89,12 +89,12 @@
             }
         },
         {
-            "label": "clean-avalonia",
+            "label": "clean-gui",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "clean",
-                "${workspaceFolder}/OOTPDatabaseConverter.Avalonia/OOTPDatabaseConverter.Avalonia.csproj"
+                "${workspaceFolder}/OOTPDatabaseConverter.Gui/OOTPDatabaseConverter.Gui.csproj"
             ],
             "problemMatcher": "$msCompile",
             "group": "build",
@@ -108,13 +108,13 @@
             }
         },
         {
-            "label": "run-avalonia",
+            "label": "run-gui",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "run",
                 "--project",
-                "${workspaceFolder}/OOTPDatabaseConverter.Avalonia/OOTPDatabaseConverter.Avalonia.csproj"
+                "${workspaceFolder}/OOTPDatabaseConverter.Gui/OOTPDatabaseConverter.Gui.csproj"
             ],
             "problemMatcher": "$msCompile",
             "group": "test",

@@ -2,13 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Avalonia App",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build-avalonia",
-            "program": "${workspaceFolder}/OOTPDatabaseConverter.Avalonia/bin/Debug/net8.0/OOTPDatabaseConverter.Avalonia.dll",
+                    "name": "Debug GUI App",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build-gui",
+        "program": "${workspaceFolder}/OOTPDatabaseConverter.Gui/bin/Debug/net8.0/OOTPDatabaseConverter.Gui.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/OOTPDatabaseConverter.Avalonia",
+            "cwd": "${workspaceFolder}/OOTPDatabaseConverter.Gui",
             "console": "internalConsole",
             "stopAtEntry": false,
             "env": {

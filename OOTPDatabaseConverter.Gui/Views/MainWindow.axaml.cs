@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace OOTPDatabaseConverter.Avalonia.Views;
+namespace OOTPDatabaseConverter.Gui.Views;
 
 public partial class MainWindow : Window
 {

@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace OOTPDatabaseConverter.Avalonia.ViewModels;
+namespace OOTPDatabaseConverter.Gui.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {
