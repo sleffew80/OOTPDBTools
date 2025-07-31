@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+                    "name": "Debug GUI App",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build-gui",
+        "program": "${workspaceFolder}/OOTPDatabaseConverter.Gui/bin/Debug/net8.0/OOTPDatabaseConverter.Gui.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/OOTPDatabaseConverter.Gui",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "name": "Debug Console App",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-console",
+            "program": "${workspaceFolder}/OOTPDatabaseConverter.Console/bin/Debug/net8.0/OOTPDatabaseConverter.Console.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/OOTPDatabaseConverter.Console",
+            "console": "integratedTerminal",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "name": "Debug Core Library",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-core",
+            "program": "${workspaceFolder}/OOTPDatabaseConverter.Core/bin/Debug/net8.0/OOTPDatabaseConverter.Core.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/OOTPDatabaseConverter.Core",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+    ]
+} 
